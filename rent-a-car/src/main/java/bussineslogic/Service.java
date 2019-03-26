@@ -29,4 +29,24 @@ public class Service {
     this.childSeat = childSeat;
     this.ensurance = ensurance;
   }
+
+  public boolean getWifi() {
+    return wifi;
+  }
+  
+  public boolean getRouteAssistance() {
+    return routeAssistance;
+  }
+  
+  public boolean getGps() {
+    return gps;
+  }
+  
+  public boolean getChildSeat() {
+    return childSeat;
+  }
+  
+  public boolean getEnsurance() {
+    return ensurance;
+  }
 }

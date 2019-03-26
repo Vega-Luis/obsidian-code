@@ -41,4 +41,40 @@ public class Reserve {
 	this.collectionBranc = collectionBranch;
 	this.deliveryBranch = deliveryBranch;
   }
+
+  public Date getStartDate() {
+    return startDate;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public Date getRequestDate() {
+    return requestDate;
+  }
+
+  public Service getService() {
+    return service;
+  }
+
+  public Client getClient() {
+    return client;
+  }
+
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public Vehicle getVehicle() {
+    return vehicle;
+  }
+
+  public Branch getCollectionBranc() {
+    return collectionBranc;
+  }
+
+  public Branch getDeliveryBranch() {
+    return deliveryBranch;
+  }
 }

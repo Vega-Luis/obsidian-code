@@ -11,7 +11,7 @@ public class Bill {
   private static int consecutiveNumber;
   private Client client;
   private Vehicle vehicle;
-  
+
   /**
    * This is the constructor to create objects type Bill.
    * 
@@ -24,5 +24,17 @@ public class Bill {
     this.client = client;
     this.vehicle = vehicle;
     consecutiveNumber++;
+  }
+  
+  public float getTotalCost() {
+    return totalCost;
+  }
+
+  public Client getClient() {
+    return client;
+  }
+
+  public Vehicle getVehicle() {
+    return vehicle;
   }
 }

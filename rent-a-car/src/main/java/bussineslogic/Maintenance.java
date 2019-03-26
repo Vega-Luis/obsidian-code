@@ -36,4 +36,40 @@ public class Maintenance {
     this.price = price;
     this.detail = detail;
   }
+  
+  public Date getStartDate() {
+    return startDate;
+  }
+  
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+  
+  public Date getEndDate() {
+    return endDate;
+  }
+  
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+
+  public String getId() {
+    return id;
+  }
+  
+  public static int getAmount() {
+    return amount;
+  }
+  
+  public float getPrice() {
+    return price;
+  }
+  
+  public String getDetail() {
+    return detail;
+  }
+  
+  public Company getCompany() {
+    return company;
+  }
 }
