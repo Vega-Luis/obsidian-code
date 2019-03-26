@@ -2,6 +2,7 @@ package bussineslogic;
 
 import java.util.Date;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * Modela vehiculos.
@@ -22,7 +23,7 @@ public class Vehicle {
   private float price;
   private byte suitcaseCapacity;
   private boolean transmission;
-  private Set<Maintenance> maintenances;
+  private ArrayList<Maintenance> maintenances;
   private Branch branch;
   private VehicleStyle style;
   private VehicleState state;
@@ -54,7 +55,6 @@ public class Vehicle {
     this.price = price;
     this.suitcaseCapacity = suitcaseCapacity;
     this.transmission = transmission;
-    
   }
 
   public String getVehiclePlate() {
