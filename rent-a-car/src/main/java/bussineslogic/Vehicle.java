@@ -41,7 +41,7 @@ public class Vehicle {
    * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
    * @param transmission Tipo de transmicion.
    */
-  public void Vehicle(String vehiclePlate, Date fabricationDate, Color color, byte capacity,
+  public Vehicle(String vehiclePlate, Date fabricationDate, Color color, byte capacity,
       String brand, byte doors, String vinNumber, float mpg, float price, byte suitcaseCapacity,
           boolean transmission) {
     this.vehiclePlate = vehiclePlate;
@@ -153,11 +153,11 @@ public class Vehicle {
     this.transmission = transmission;
   }
 
-  public Set<Maintenance> getMaintenances() {
+  public ArrayList<Maintenance> getMaintenances() {
     return maintenances;
   }
 
-  public void setMaintenances(Set<Maintenance> maintenances) {
+  public void setMaintenances(ArrayList<Maintenance> maintenances) {
     this.maintenances = maintenances;
   }
 
