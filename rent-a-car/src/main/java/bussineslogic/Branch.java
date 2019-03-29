@@ -42,6 +42,22 @@ public class Branch {
     }
       return null;
   }
+  
+  /**
+   * Obtiene el nombre de la empresa.
+   * @return nombre de la empresa.
+   */
+  public String getName() {
+    return name;
+  }
+  
+  /**
+   * Asigna nombre a la empresa.
+   * @param name Nombre de la empresa.
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
    * Agrega vehiculo a la sede.
