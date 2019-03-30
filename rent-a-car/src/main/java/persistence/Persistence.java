@@ -51,10 +51,10 @@ public class Persistence {
     return clients;
   }
   public static void main(String[] args) throws Exception {
-    Address address = new Address("San Jose", "Perez Zeledon", "Platanares","800mts noroeste escue"
-        + "la Mollejones");
-    Client cliente = new Client("Licho", "117410580", "85116570","marcosmh0199@gmail.com", address);
-    saveClients("archivo.json", cliente);
+    //Address address = new Address("San Jose", "Cotobrus", "San Vito","800mts noroeste escue"
+    //    + "la Mollejones");
+    //Client cliente = new Client("Luis", "117410580", "85116570","marcosmh0199@gmail.com", address);
+    //saveClients("archivo.json", cliente);
     ArrayList<Client> clients = loadClients("archivo.json");
     for(int i = 0; i < clients.size(); i++) {
       System.out.print(clients.get(i));
