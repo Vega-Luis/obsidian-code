@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 public class Persistence {
-  public static void saveClients(String filename, Client client) throws Exception {  
+  public void saveClients(String filename, Client client) throws Exception {  
     ArrayList<String> clientData= new ArrayList<String>();
     clientData.add(client.getName());
     clientData.add(client.getId());
@@ -34,7 +34,7 @@ public class Persistence {
       }
   } 
   
-  public static ArrayList<Client> loadClients(String filename) throws Exception {  
+  public ArrayList<Client> loadClients(String filename) throws Exception {  
     JSONParser parser = new JSONParser();
     JSONArray clientsArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
         + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
@@ -49,15 +49,5 @@ public class Persistence {
       clients.add(client);
     }
     return clients;
-  }
-  public static void main(String[] args) throws Exception {
-    //Address address = new Address("San Jose", "Cotobrus", "San Vito","800mts noroeste escue"
-    //    + "la Mollejones");
-    //Client cliente = new Client("Luis", "117410580", "85116570","marcosmh0199@gmail.com", address);
-    //saveClients("archivo.json", cliente);
-    ArrayList<Client> clients = loadClients("archivo.json");
-    for(int i = 0; i < clients.size(); i++) {
-      System.out.print(clients.get(i));
-    }
   }
 }
