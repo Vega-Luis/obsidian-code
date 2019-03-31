@@ -1,5 +1,6 @@
 package bussineslogic;
 
+import java.awt.Image;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ public class License {
   private String id;
   private Date releaseDate;
   private Date expireDate;
-  //private Image image;
+  private Image image;
   
   /**
    * Constructor de la clase
@@ -19,10 +20,11 @@ public class License {
    * @param releaseDate fecha en la que fue emitida la cédula
    * @param expireDate fecha en la que expira la cédula
    */
-  public License(String id, Date releaseDate, Date expireDate) {
+  public License(String id, Date releaseDate, Date expireDate, Image image) {
     setId(id);
     setReleaseDate(releaseDate);
     setExpireDate(expireDate);
+    setImage(image);
   }
   public String getId() {
     return id;
@@ -43,4 +45,11 @@ public class License {
     this.expireDate = expireDate;
   }
   
+  public Image getImage() {
+    return image;
+  }
+  
+  public void setImage(Image image) {
+    this.image = image;
+  }
 }
