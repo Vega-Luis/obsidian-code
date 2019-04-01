@@ -1,5 +1,6 @@
 package bussineslogic;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,7 +43,20 @@ public class Client extends Person {
     licenses = new ArrayList<License>();
   }
   
-  public void addLicense(Date releaseDate, Date expireDate) {
-    licenses.add(new License(getId(),releaseDate, expireDate ));
+  public void addLicense(Date releaseDate, Date expireDate, Image image) {
+    licenses.add(new License(getId(),releaseDate, expireDate, image));
+  }
+  
+  @Override
+  /**
+   * Método para imprimir el cliente de manera legible
+   * @return String con algunos datos del cliente
+   */
+  public String toString() {
+    String msg = "Nombre:"+getName()+"\n";
+    for(int i = 0; i < getLicenses().size(); i++) {
+      msg+= "Foto:"+getLicenses().get(i).getImage().toString()+"\n";
+    }
+    return msg;
   }
 }
