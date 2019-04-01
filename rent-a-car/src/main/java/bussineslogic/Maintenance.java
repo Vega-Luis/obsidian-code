@@ -22,16 +22,16 @@ public class Maintenance {
    * Este es el constructor para crear objetos de tipo mantenimiento.
    * 
    * @param type  Es el tipo de mantenimiento si es true preventivo.
-   * @param id   Es el id  del mantenimiento.
+   * @param idVehiculo   Es el id del vehiculo del mantenimiento.
    * @param startDate   Es la fecha en la que se inicio el mantenimiento. 
    * @param endDate    Es la fecha en que finalizo el mantenimiento.
    * @param price    Es los que costo el mantenimiento.
    * @param detail   Son los detalles acerca del mantenimiento
    */
-  public Maintenance(boolean type,Date startDate, Date endDate, Float price, String detail) {
+  public Maintenance(boolean type, String idVehiculo, Date startDate, Date endDate, Float price, String detail) {
     this.type = type;
     amount++;
-    this.id = "MAIN-" + amount;
+    this.id = "MANT-"+ id + amount;
     this.startDate = startDate;
     this.endDate = endDate;
     this.price = price;
@@ -72,5 +72,13 @@ public class Maintenance {
   
   public Company getCompany() {
     return company;
+  }
+
+  public boolean getType() {
+    return type;
+  }
+
+  public void setType(boolean type) {
+    this.type = type;
   }
 }
