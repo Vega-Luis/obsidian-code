@@ -46,7 +46,12 @@ public class Client extends Person {
   public void addLicense(Date releaseDate, Date expireDate, Image image) {
     licenses.add(new License(getId(),releaseDate, expireDate, image));
   }
+  
   @Override
+  /**
+   * Método para imprimir el cliente de manera legible
+   * @return String con algunos datos del cliente
+   */
   public String toString() {
     String msg = "Nombre:"+getName()+"\n";
     for(int i = 0; i < getLicenses().size(); i++) {
