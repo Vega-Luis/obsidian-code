@@ -26,21 +26,27 @@ public class License {
     setExpireDate(expireDate);
     setImage(image);
   }
+  
   public String getId() {
     return id;
   }
+  
   public void setId(String id) {
     this.id = id;
   }
+  
   public Date getReleaseDate() {
     return releaseDate;
   }
+  
   public void setReleaseDate(Date releaseDate) {
     this.releaseDate = releaseDate;
   }
+  
   public Date getExpireDate() {
     return expireDate;
   }
+  
   public void setExpireDate(Date expireDate) {
     this.expireDate = expireDate;
   }
