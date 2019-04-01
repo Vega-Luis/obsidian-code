@@ -135,8 +135,9 @@ public class Persistence {
   /**
    * Método para guardar un vehículo en un archivo .json
    * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
+   * @throws IOException 
    */
-  public void saveVehicle(Vehicle vehicle) {
+  public void saveVehicle(Vehicle vehicle) throws IOException {
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<String> maintenanceData = new ArrayList<String>();
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
