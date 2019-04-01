@@ -11,6 +11,11 @@ import bussineslogic.Address;
 import bussineslogic.Client;
 import bussineslogic.License;
 
+/**
+ * Clase main pruebas persistenia, se va a remover en un futuro
+ * @author Marcosmh0199
+ *
+ */
 public class Main {
 
   public static void main(String[] args) throws Exception {
