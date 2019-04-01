@@ -1,7 +1,7 @@
 package bussineslogic;
 
 /**
- * This is a class for the bill that its generated when occur a reservation.
+ * Esta es una clase para la factura que se genera cuando se produce una reserva.
  * 
  * @author Antony Artavia Palma
  * @version 25/03/2019
@@ -13,11 +13,11 @@ public class Bill {
   private Vehicle vehicle;
 
   /**
-   * This is the constructor to create objects type Bill.
+   * Constructor para crear objetos de tipo Bill.
    * 
-   * @param totalCost
-   * @param client
-   * @param vehicle
+   * @param totalCost   Costo total de la factura.
+   * @param client   Cliente que realizo la reserva.
+   * @param vehicle   Vehiculo que solicito el cliente
    */
   public Bill(float totalCost, Client client, Vehicle vehicle) {
     this.totalCost = totalCost;
