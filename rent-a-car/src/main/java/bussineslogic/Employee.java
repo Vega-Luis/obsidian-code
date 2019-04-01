@@ -41,20 +41,31 @@ public class Employee extends Person {
   }
 
   public void setPassword() {
-    this.password = generatePassoword();
+    this.password = generatePassword();
   }
 
   /**
    * Método para generar una contraseña aleatoria
    * @return password Contraseña del usuario del empleado
    */
-  private String generatePassoword() {
-    CharacterRule digits = new CharacterRule(EnglishCharacterData.UpperCase.LowerCase.Digit.Special);
+  private String generatePassword() {
+    EnglishCharacterData lowerCaseChars = EnglishCharacterData.LowerCase;
+    CharacterRule lowerCaseRule = new CharacterRule(lowerCaseChars);
+    EnglishCharacterData upperCaseChars = EnglishCharacterData.UpperCase;
+    CharacterRule upperCaseRule = new CharacterRule(upperCaseChars);
+    EnglishCharacterData digitChars = EnglishCharacterData.Digit;
+    CharacterRule digitCharsRule = new CharacterRule(digitChars);
+    EnglishCharacterData specialChars = EnglishCharacterData.Special;
+    CharacterRule specialCharsRule = new CharacterRule(specialChars);
     Random rand = new Random(); 
-    
     PasswordGenerator passwordGenerator = new PasswordGenerator();
-    String password = passwordGenerator.generatePassword(rand.nextInt(5)+8, digits);
+    String simbols= "!#$?@^~";
+    String password = passwordGenerator.generatePassword(1,lowerCaseRule);
+    password += simbols.charAt((rand.nextInt(8)));
+    password += passwordGenerator.generatePassword(1,upperCaseRule);
+    password += passwordGenerator.generatePassword(1,digitCharsRule);
+    password += passwordGenerator.generatePassword(rand.nextInt(5)+4, lowerCaseRule,
+        upperCaseRule, digitCharsRule, specialCharsRule);
     return password;
   }
-  
 }
