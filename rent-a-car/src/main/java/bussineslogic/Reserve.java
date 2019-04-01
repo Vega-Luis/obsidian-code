@@ -3,10 +3,10 @@ package bussineslogic;
 import java.util.Date;
 
 /**
- * This is a class for the reserves of of the client service of "ren a car".
+ * Esta es una clase para reservas del servicio al cliente del "rent a car".
  * 
  * @author Antony Artavia Palma
- * @version 25/03/2019
+ * @version 01/04/2019
  */
 public class Reserve {
   private Date startDate;
@@ -20,15 +20,17 @@ public class Reserve {
   private Branch deliveryBranch;
   
   /**
-   * @param collectionBranch 
-   * @param deliveryBranch 
-   * @param service 
-   * @param client Client 
-   * @param employee 
-   * @param vehicle 
-   * @param starDate 
-   * @param endDate 
-   * @param requesDate
+   * Constructor para crear objetos de tipo reserve.
+   * 
+   * @param collectionBranch  Es la sede de la que se reservara el vehiculo.
+   * @param deliveryBranch   Es la sede en la que se entregara el vehiculo.
+   * @param service     Es una objeto de servicio que incluye cuales servicios rigen en la reserva.
+   * @param client Client  Es el cliente que solicita la reserva.
+   * @param employee    Es el empleado que realiza la reserva.
+   * @param vehicle   Es el vehiculo que se solicito.
+   * @param starDate  Es la fecha en la que se le entrega el vehiculo al cliente.
+   * @param endDate   Es la fecha en la que concluye la reserva.
+   * @param requesDate   Es la fecha en la que se solicito la reserva.
    */
   public void Reserve(Branch collectionBranch, Branch deliveryBranch, Service service, Client client, Employee employee, Vehicle vehicle, Date starDate, Date endDate, Date requesDate) {
     this.startDate = starDate;

@@ -3,15 +3,15 @@ package bussineslogic;
 import java.util.Date;
 
 /**
- * This is a class for the maintenances that are applicable to Vehicle.
+ * Esta es una clase para mantenimientos que son aplicables a los vehiculos.
  * 
  * @author Antony Artavia Palma
- * @version 25/03/2019
+ * @version 01/04/2019
  */
 public class Maintenance {
   private boolean type;  //if true, the type of the maintenance is preventive
   private String id;
-  private static int amount;
+  private static int amount = 0;
   private Date startDate;
   private Date endDate;
   private float price;
@@ -19,18 +19,19 @@ public class Maintenance {
   private Company company;
   
   /**
-   * This is the constructor to create objects type Maintenance.
+   * Este es el constructor para crear objetos de tipo mantenimiento.
    * 
-   * @param type  is the type of the Maintenance if its true the maintenance is preventive
-   * @param id
-   * @param startDate 
-   * @param endDate 
-   * @param price 
-   * @param detail
+   * @param type  Es el tipo de mantenimiento si es true preventivo.
+   * @param id   Es el id  del mantenimiento.
+   * @param startDate   Es la fecha en la que se inicio el mantenimiento. 
+   * @param endDate    Es la fecha en que finalizo el mantenimiento.
+   * @param price    Es los que costo el mantenimiento.
+   * @param detail   Son los detalles acerca del mantenimiento
    */
-  public void Maintenance(boolean type, String id, Date startDate, Date endDate, Float price, String detail) {
+  public Maintenance(boolean type,Date startDate, Date endDate, Float price, String detail) {
     this.type = type;
-    this.id = id;
+    amount++;
+    this.id = "MAIN-" + amount;
     this.startDate = startDate;
     this.endDate = endDate;
     this.price = price;

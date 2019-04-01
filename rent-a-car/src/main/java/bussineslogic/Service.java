@@ -1,7 +1,7 @@
 package bussineslogic;
 
 /**
- * This is a class for the services that offer the client service to "Rent a car".
+ * Esta es una clase para los servicios que ofrecen el servicio al cliente para "rent a car".
  * 
  * @author Antony Artavia Palma
  * @version 25/03/2019
@@ -14,13 +14,13 @@ public class Service {
   private boolean ensurance;
   
   /**
-   * This is the constructor to create objects type Service.
+   * Constructor para objetos de tipo servicio.
    * 
-   * @param wifi
-   * @param routeAssitance
-   * @param gps
-   * @param childSeat
-   * @param ensurance
+   * @param wifi   Si es verdadero el servico de wifi esta incluido.
+   * @param routeAssitance   Si es verdadero el servico de asistente de ruta esta incluido.
+   * @param gps   Si es verdadero el servico de GPS esta incluido.
+   * @param childSeat   Si es verdadero el servico de asiento para niños esta incluido.
+   * @param ensurance   Si es verdadero el servico de garantia esta incluido.
    */
   public Service(boolean wifi, boolean routeAssistance, boolean gps, boolean childSeat, boolean ensurance) {
     this.wifi = wifi;
