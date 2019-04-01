@@ -119,7 +119,6 @@ public class Persistence {
       final String CANTON = clientData.get(5);
       final String DISTRICT = clientData.get(6);
       final String SINGS = clientData.get(7);
-      clientData = (ArrayList<String>) clientsArray.get(i);
       Address address = new Address(PROVINCE,CANTON,DISTRICT,SINGS);
       Client client = new Client(NAME,ID,TELEPHONE,MAIL,address);
       for(int j = 8; j < (clientData.size()-2); j = j+4) {
@@ -133,6 +132,10 @@ public class Persistence {
     return clients;
   }
   
+  /**
+   * Método para guardar un vehículo en un archivo .json
+   * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
+   */
   public void saveVehicle(Vehicle vehicle) {
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<String> maintenanceData = new ArrayList<String>();
@@ -173,6 +176,18 @@ public class Persistence {
       }
   }
   
+  /**
+   * Método para cargar los vehículos previamente añadidos
+   * @return ArrayList con todos los vehículos registrados hasta la fecha
+   * @throws IOException
+   * @throws ParseException
+   * @throws java.text.ParseException
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   * @throws NoSuchFieldException
+   * @throws SecurityException
+   * @throws ClassNotFoundException
+   */
   public ArrayList<Vehicle> loadVehicles() throws IOException, ParseException, 
   java.text.ParseException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
   SecurityException, ClassNotFoundException {
