@@ -1,6 +1,7 @@
 package persistence;
 
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
 import bussineslogic.Address;
@@ -132,6 +133,59 @@ public class Persistence {
     return clients;
   }
   
+  /**
+   * Método para guardar datos de un empleado en un archivo .json
+   * @param employee Empleado el cual sus datos serán guardados
+   * @throws IOException
+   */
+  public void saveEmployee(Employee employee) throws IOException {
+    ArrayList<String> employeeData = new ArrayList<String>();
+    employeeData.add(employee.getId());
+    employeeData.add(employee.getName());
+    employeeData.add(employee.getTelephone());
+    employeeData.add(employee.getMail());
+    employeeData.add(employee.getPassword());
+    employeeData.add(employee.getUserName());
+    try {
+      JSONParser parser = new JSONParser();
+      JSONArray employees = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
+          + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
+          + "rent-a-car\\employees.json"));
+      employees.add(employeeData);
+      Files.write(Paths.get("employees.json"), employees.toJSONString().getBytes());
+    }catch(Exception d) {
+      JSONArray employees = new JSONArray();
+      employees.add(employeeData);
+      Files.write(Paths.get("employees.json"), employees.toJSONString().getBytes());
+      }
+  }
+  
+  /**
+   * Método para cargar los datos de los empleados registrados en el sistema
+   * @throws ParseException 
+   * @throws IOException 
+   * @throws FileNotFoundException 
+   */
+  public ArrayList<Employee> loadEmployees() throws FileNotFoundException, IOException, ParseException {
+    JSONParser parser = new JSONParser();
+    JSONArray employeesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Doc"
+        + "uments\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code"
+        + "\\rent-a-car\\employees.json"));
+    ArrayList<String> employeeData= new ArrayList<String>();
+    ArrayList<Employee> employees = new ArrayList<Employee>();
+    for(int i = 0; i < employeesArray.size(); i++) {
+      employeeData = (ArrayList<String>) employeesArray.get(i);
+      final String ID = employeeData.get(0);
+      final String NAME = employeeData.get(1);
+      final String TELEPHONE = employeeData.get(2);
+      final String MAIL = employeeData.get(3);
+      final String PASSWORD = employeeData.get(4);
+      final String USERNAME = employeeData.get(5);
+      Employee employee = new Employee(NAME,ID,TELEPHONE,MAIL, USERNAME, PASSWORD);
+      employees.add(employee);
+    }
+    return employees;
+  }
   /**
    * Método para guardar un vehículo en un archivo .json
    * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
