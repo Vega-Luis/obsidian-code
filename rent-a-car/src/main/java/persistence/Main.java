@@ -56,17 +56,18 @@ public class Main {
       System.out.println(employees.get(i)+"\n\n");
     }
     
-    Color color = new Color(3);
+    Color color = new Color(89);
     Vehicle vehicle = new Vehicle("12345", date1, color, (byte)4, "Nissan", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
     Vehicle vehicle2 = new Vehicle("12345", date1, color, (byte)4, "Toyota", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
     
-    persistence.saveVehicle(vehicle);
-    persistence.saveVehicle(vehicle2);
+    //persistence.saveVehicle(vehicle);
+    //persistence.saveVehicle(vehicle2);
     
     ArrayList<Vehicle> vehicles = persistence.loadVehicles();
     for(int i = 0; i < vehicles.size(); i++) {
       System.out.println(vehicles.get(i).getBrand()+"\n\n");
     }
+    
   }
 
 }

@@ -197,7 +197,12 @@ public class Persistence {
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
     vehicleData.add(vehicle.getVehiclePlate());
     vehicleData.add(formatDate.format(vehicle.getFabricationDate()));
-    vehicleData.add(vehicle.getColor().toString());
+    final String RED = String.valueOf(vehicle.getColor().getRed());
+    final String GREEN = String.valueOf(vehicle.getColor().getGreen());
+    final String BLUE = String.valueOf(vehicle.getColor().getBlue());
+    vehicleData.add(RED);
+    vehicleData.add(GREEN);
+    vehicleData.add(BLUE);
     vehicleData.add(Byte.toString(vehicle.getCapacity()));
     vehicleData.add(vehicle.getBrand());
     vehicleData.add(Byte.toString(vehicle.getDoors()));
@@ -249,27 +254,30 @@ public class Persistence {
     JSONParser parser = new JSONParser();
     JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
         + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
-        + "rent-a-car\\clients.json"));
+        + "rent-a-car\\Vehicles.json"));
     ArrayList<String> vehicleData= new ArrayList<String>();
     ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     for(int i = 0; i < vehiclesArray.size(); i++) {
       vehicleData = (ArrayList<String>) vehiclesArray.get(i);
-      final java.lang.reflect.Field field = Class.forName("java.awt.Color").getField(vehicleData.
-          get(2));
+      
+      String colorData = vehicleData.get(2);
       final String VEHICLEPLATE = vehicleData.get(0);
       final Date FABRICATIONDATE = new SimpleDateFormat("dd/MM/yyyy").parse(vehicleData.get(1));
-      final Color COLOR = (Color)field.get(null);
-      final byte CAPACITY = Byte.parseByte(vehicleData.get(3));
-      final String BRAND = vehicleData.get(4);
-      final byte DOORS = Byte.parseByte(vehicleData.get(5));
-      final String VINNUMBER = vehicleData.get(6);
-      final float MPG = Float.parseFloat(vehicleData.get(7));
-      final float PRICE = Float.parseFloat(vehicleData.get(8));
-      final byte SUITCAPACITY = Byte.parseByte(vehicleData.get(9));
-      final boolean TRANSMISION = Boolean.parseBoolean(vehicleData.get(10));
+      final int RED = Integer.parseInt(vehicleData.get(2));
+      final int GREEN = Integer.parseInt(vehicleData.get(3));
+      final int BLUE = Integer.parseInt(vehicleData.get(4));
+      final Color COLOR = new Color(RED, GREEN, BLUE);
+      final byte CAPACITY = Byte.parseByte(vehicleData.get(5));
+      final String BRAND = vehicleData.get(6);
+      final byte DOORS = Byte.parseByte(vehicleData.get(7));
+      final String VINNUMBER = vehicleData.get(8);
+      final float MPG = Float.parseFloat(vehicleData.get(9));
+      final float PRICE = Float.parseFloat(vehicleData.get(10));
+      final byte SUITCAPACITY = Byte.parseByte(vehicleData.get(11));
+      final boolean TRANSMISION = Boolean.parseBoolean(vehicleData.get(12));
       Vehicle vehicle = new Vehicle(VEHICLEPLATE, FABRICATIONDATE, COLOR, CAPACITY, BRAND, DOORS, 
           VINNUMBER, MPG, PRICE, SUITCAPACITY, TRANSMISION);
-      for(int j = 11; j < vehicleData.size(); j = j+6) {
+      for(int j = 13; j < vehicleData.size(); j = j+6) {
         final boolean TYPE = Boolean.parseBoolean(vehicleData.get(j));
         final String ID = vehicleData.get(j+1);
         final Date STARTDATE = new SimpleDateFormat("dd/MM/yyyy").parse(vehicleData.get(j+2));
