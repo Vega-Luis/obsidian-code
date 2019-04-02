@@ -2,6 +2,7 @@ package bussineslogic;
 
 import java.util.Date;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +28,7 @@ public class Vehicle {
   private Branch branch;
   private VehicleStyle style;
   private VehicleState state;
+  private Image vehicleImage;
 
   /**
    * @param vehiclePlate Placa del vehiculo.
@@ -55,6 +57,7 @@ public class Vehicle {
     this.price = price;
     this.suitcaseCapacity = suitcaseCapacity;
     this.transmission = transmission;
+    this.maintenances = new ArrayList<Maintenance>();
   }
 
   public String getVehiclePlate() {
@@ -183,6 +186,14 @@ public class Vehicle {
 
   public void setState(VehicleState state) {
     this.state = state;
+  }
+  
+    public Image getVehicleImage() {
+    return vehicleImage;
+  }
+
+  public void setVehicleImage(Image vehicleImage) {
+    this.vehicleImage = vehicleImage;
   }
   
   
