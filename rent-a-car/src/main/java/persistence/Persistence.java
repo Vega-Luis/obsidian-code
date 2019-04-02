@@ -15,16 +15,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import javax.imageio.ImageIO;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import util.Chyperer;
 
 /**
  * Clase para la persistencia de datos
@@ -32,6 +31,8 @@ import org.json.simple.parser.ParseException;
  * @version 30/03/2019
  */
 public class Persistence {
+  
+  Chyperer encriptador = new Chyperer("123456789ABCDEFG");
   /**
    * Método para convertir una imagen a un string codificado en base64
    * @param image imagen que será convertida
@@ -84,6 +85,12 @@ public class Persistence {
     for(int i = 0; i < clientLicenses.size(); i++) {
       clientData.add(clientLicenses.get(i));
     }
+    for(int i = 0; i < clientData.size(); i++) {
+      clientData.set(i, encriptador.encrypt(clientData.get(i)));
+    }
+    for(int i = 0; i < clientLicenses.size(); i++) {
+      clientLicenses.set(i, encriptador.encrypt(clientLicenses.get(i)));
+    }
     try {
       JSONParser parser = new JSONParser();
       JSONArray clients = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
@@ -112,20 +119,20 @@ public class Persistence {
     ArrayList<Client> clients = new ArrayList<Client>();
     for(int i = 0; i < clientsArray.size(); i++) {
       clientData = (ArrayList<String>) clientsArray.get(i);
-      final String NAME = clientData.get(0);
-      final String ID = clientData.get(1);
-      final String TELEPHONE = clientData.get(2);
-      final String MAIL = clientData.get(3);
-      final String PROVINCE = clientData.get(4);
-      final String CANTON = clientData.get(5);
-      final String DISTRICT = clientData.get(6);
-      final String SINGS = clientData.get(7);
+      final String NAME = encriptador.decrypt(clientData.get(0));
+      final String ID = encriptador.decrypt(clientData.get(1));
+      final String TELEPHONE = encriptador.decrypt(clientData.get(2));
+      final String MAIL = encriptador.decrypt(clientData.get(3));
+      final String PROVINCE = encriptador.decrypt(clientData.get(4));
+      final String CANTON = encriptador.decrypt(clientData.get(5));
+      final String DISTRICT = encriptador.decrypt(clientData.get(6));
+      final String SINGS = encriptador.decrypt(clientData.get(7));
       Address address = new Address(PROVINCE,CANTON,DISTRICT,SINGS);
       Client client = new Client(NAME,ID,TELEPHONE,MAIL,address);
       for(int j = 8; j < (clientData.size()-2); j = j+4) {
-        final Date RELEASEDATE = new SimpleDateFormat("dd/MM/yyyy").parse(clientData.get(j+1));
-        final Date EXPIREDATE = new SimpleDateFormat("dd/MM/yyyy").parse(clientData.get(j+2));
-        final Image IMAGE = convertStringToImage(clientData.get(j+3));
+        final Date RELEASEDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(clientData.get(j+1)));
+        final Date EXPIREDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(clientData.get(j+2)));
+        final Image IMAGE = convertStringToImage(encriptador.decrypt(clientData.get(j+3)));
         client.addLicense(RELEASEDATE, EXPIREDATE, IMAGE);
       }
       clients.add(client);
@@ -136,9 +143,9 @@ public class Persistence {
   /**
    * Método para guardar datos de un empleado en un archivo .json
    * @param employee Empleado el cual sus datos serán guardados
-   * @throws IOException
+   * @throws Exception 
    */
-  public void saveEmployee(Employee employee) throws IOException {
+  public void saveEmployee(Employee employee) throws Exception {
     ArrayList<String> employeeData = new ArrayList<String>();
     employeeData.add(employee.getId());
     employeeData.add(employee.getName());
@@ -146,6 +153,9 @@ public class Persistence {
     employeeData.add(employee.getMail());
     employeeData.add(employee.getPassword());
     employeeData.add(employee.getUserName());
+    for(int i = 0; i < employeeData.size(); i++) {
+      employeeData.set(i, encriptador.encrypt(employeeData.get(i)));
+    }
     try {
       JSONParser parser = new JSONParser();
       JSONArray employees = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
@@ -162,11 +172,9 @@ public class Persistence {
   
   /**
    * Método para cargar los datos de los empleados registrados en el sistema
-   * @throws ParseException 
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @throws Exception 
    */
-  public ArrayList<Employee> loadEmployees() throws FileNotFoundException, IOException, ParseException {
+  public ArrayList<Employee> loadEmployees() throws Exception {
     JSONParser parser = new JSONParser();
     JSONArray employeesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Doc"
         + "uments\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code"
@@ -175,12 +183,12 @@ public class Persistence {
     ArrayList<Employee> employees = new ArrayList<Employee>();
     for(int i = 0; i < employeesArray.size(); i++) {
       employeeData = (ArrayList<String>) employeesArray.get(i);
-      final String ID = employeeData.get(0);
-      final String NAME = employeeData.get(1);
-      final String TELEPHONE = employeeData.get(2);
-      final String MAIL = employeeData.get(3);
-      final String PASSWORD = employeeData.get(4);
-      final String USERNAME = employeeData.get(5);
+      final String ID = encriptador.decrypt(employeeData.get(0));
+      final String NAME = encriptador.decrypt(employeeData.get(1));
+      final String TELEPHONE = encriptador.decrypt(employeeData.get(2));
+      final String MAIL = encriptador.decrypt(employeeData.get(3));
+      final String PASSWORD = encriptador.decrypt(employeeData.get(4));
+      final String USERNAME = encriptador.decrypt(employeeData.get(5));
       Employee employee = new Employee(NAME,ID,TELEPHONE,MAIL, USERNAME, PASSWORD);
       employees.add(employee);
     }
@@ -189,9 +197,9 @@ public class Persistence {
   /**
    * Método para guardar un vehículo en un archivo .json
    * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
-   * @throws IOException 
+   * @throws Exception 
    */
-  public void saveVehicle(Vehicle vehicle) throws IOException {
+  public void saveVehicle(Vehicle vehicle) throws Exception {
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<String> maintenanceData = new ArrayList<String>();
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
@@ -211,6 +219,7 @@ public class Persistence {
     vehicleData.add(Float.toString(vehicle.getPrice()));
     vehicleData.add(Byte.toString(vehicle.getSuitcaseCapacity()));
     vehicleData.add(Boolean.toString(vehicle.isTransmission()));
+    vehicleData.add(convertImgToString(vehicle.getVehicleImage()));
     for(int i = 0; i < vehicle.getMaintenances().size(); i++) {
       maintenanceData.add(Boolean.toString(vehicle.getMaintenances().get(i).getType()));
       maintenanceData.add(vehicle.getMaintenances().get(i).getId());
@@ -221,6 +230,12 @@ public class Persistence {
     }
     for(int i = 0; i < maintenanceData.size(); i++) {
       vehicleData.add(maintenanceData.get(i));
+    }
+    for(int i = 0; i < vehicleData.size(); i++) {
+      vehicleData.set(i, encriptador.encrypt(vehicleData.get(i)));
+    }
+    for(int i = 0; i < maintenanceData.size(); i++) {
+      vehicleData.set(i, encriptador.encrypt(maintenanceData.get(i)));
     }
     try {
       JSONParser parser = new JSONParser();
@@ -239,18 +254,10 @@ public class Persistence {
   /**
    * Método para cargar los vehículos previamente añadidos
    * @return ArrayList con todos los vehículos registrados hasta la fecha
-   * @throws IOException
-   * @throws ParseException
    * @throws java.text.ParseException
-   * @throws IllegalArgumentException
-   * @throws IllegalAccessException
-   * @throws NoSuchFieldException
-   * @throws SecurityException
-   * @throws ClassNotFoundException
+   * @throws Exception 
    */
-  public ArrayList<Vehicle> loadVehicles() throws IOException, ParseException, 
-  java.text.ParseException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-  SecurityException, ClassNotFoundException {
+  public ArrayList<Vehicle> loadVehicles() throws Exception {
     JSONParser parser = new JSONParser();
     JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
         + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
@@ -261,29 +268,32 @@ public class Persistence {
       vehicleData = (ArrayList<String>) vehiclesArray.get(i);
       
       String colorData = vehicleData.get(2);
-      final String VEHICLEPLATE = vehicleData.get(0);
-      final Date FABRICATIONDATE = new SimpleDateFormat("dd/MM/yyyy").parse(vehicleData.get(1));
-      final int RED = Integer.parseInt(vehicleData.get(2));
-      final int GREEN = Integer.parseInt(vehicleData.get(3));
-      final int BLUE = Integer.parseInt(vehicleData.get(4));
+      final String VEHICLEPLATE = encriptador.decrypt(vehicleData.get(0));
+      final Date FABRICATIONDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(vehicleData.get(1)));
+      final int RED = Integer.parseInt(encriptador.decrypt(vehicleData.get(2)));
+      final int GREEN = Integer.parseInt(encriptador.decrypt(vehicleData.get(3)));
+      final int BLUE = Integer.parseInt(encriptador.decrypt(vehicleData.get(4)));
       final Color COLOR = new Color(RED, GREEN, BLUE);
-      final byte CAPACITY = Byte.parseByte(vehicleData.get(5));
-      final String BRAND = vehicleData.get(6);
-      final byte DOORS = Byte.parseByte(vehicleData.get(7));
-      final String VINNUMBER = vehicleData.get(8);
-      final float MPG = Float.parseFloat(vehicleData.get(9));
-      final float PRICE = Float.parseFloat(vehicleData.get(10));
-      final byte SUITCAPACITY = Byte.parseByte(vehicleData.get(11));
-      final boolean TRANSMISION = Boolean.parseBoolean(vehicleData.get(12));
+      final byte CAPACITY = Byte.parseByte(encriptador.decrypt(vehicleData.get(5)));
+      final String BRAND = encriptador.decrypt(vehicleData.get(6));
+      final byte DOORS = Byte.parseByte(encriptador.decrypt(vehicleData.get(7)));
+      final String VINNUMBER = encriptador.decrypt(vehicleData.get(8));
+      final float MPG = Float.parseFloat(encriptador.decrypt(vehicleData.get(9)));
+      final float PRICE = Float.parseFloat(encriptador.decrypt(vehicleData.get(10)));
+      final byte SUITCAPACITY = Byte.parseByte(encriptador.decrypt(vehicleData.get(11)));
+      final boolean TRANSMISION = Boolean.parseBoolean(encriptador.decrypt(vehicleData.get(12)));
       Vehicle vehicle = new Vehicle(VEHICLEPLATE, FABRICATIONDATE, COLOR, CAPACITY, BRAND, DOORS, 
           VINNUMBER, MPG, PRICE, SUITCAPACITY, TRANSMISION);
-      for(int j = 13; j < vehicleData.size(); j = j+6) {
-        final boolean TYPE = Boolean.parseBoolean(vehicleData.get(j));
-        final String ID = vehicleData.get(j+1);
-        final Date STARTDATE = new SimpleDateFormat("dd/MM/yyyy").parse(vehicleData.get(j+2));
-        final Date ENDDATE = new SimpleDateFormat("dd/MM/yyyy").parse(vehicleData.get(j+3));
-        final float MAITENANCEPRICE = Float.parseFloat(vehicleData.get(j+4));
-        final String DETAIL = vehicleData.get(j+5);
+      vehicle.setVehicleImage(convertStringToImage(encriptador.decrypt(vehicleData.get(13))));
+      for(int j = 14; j < vehicleData.size(); j = j+6) {
+        final boolean TYPE = Boolean.parseBoolean(encriptador.decrypt(vehicleData.get(j)));
+        final String ID = encriptador.decrypt(vehicleData.get(j+1));
+        final Date STARTDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
+            vehicleData.get(j+2)));
+        final Date ENDDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
+            vehicleData.get(j+3)));
+        final float MAITENANCEPRICE = Float.parseFloat(encriptador.decrypt(vehicleData.get(j+4)));
+        final String DETAIL = encriptador.decrypt(vehicleData.get(j+5));
         vehicle.getMaintenances().add(new Maintenance(TYPE, ID, STARTDATE, ENDDATE, MAITENANCEPRICE,
             DETAIL));
       }
