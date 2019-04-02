@@ -81,6 +81,4 @@ public class PrintService {
       } catch (PrintException pe) {}
    }
   }
-  
-  
 }
