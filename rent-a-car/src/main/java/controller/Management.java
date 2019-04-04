@@ -209,7 +209,17 @@ public class Management {
   public void modifyDoors(String vehiclePlate,byte doors) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).setDoors(doors);
-    
+    }
+  }
+  
+  /**
+   * Modifica el numero de vin del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param vinNumber Numero de vin del vehiculo.
+   */
+  public void modifyVinNumber(String vehiclePlate,String vinNumber) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setVinNumber(vinNumber);
     }
   }
 }
