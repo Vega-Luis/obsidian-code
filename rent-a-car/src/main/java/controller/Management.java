@@ -1,5 +1,6 @@
 package controller;
 
+import bussineslogic.Address;
 import bussineslogic.Client;
 import bussineslogic.Employee;
 import bussineslogic.Vehicle;
@@ -63,5 +64,44 @@ public class Management {
       }
     }
     return NOT_ADDED;
+  }
+  
+  /**
+   * Busca un vehiculo y retorna la posiscion donde se encuentra dentro del Array de vehiculos.
+   * Si el vehiculo no existe retorna -1.
+   * @param plate Placa del vehiculo.
+   * @return Posicion del arreglo de vehiculos donde se encuentra el vehiculo.
+   */
+  private int searchVehicle(String plate) {
+    for (int vehicle = 0; vehicle < vehicles.size(); vehicle++) {
+      if (vehicles.get(vehicle).getVehiclePlate().equals(plate)) {
+        return vehicle;
+      }
+    }
+    return NOT_ADDED;
+  }
+  
+  /**
+   * Crea una nueva direccion.
+   * @param province Provincia relacionada a la direccion.
+   * @param canton Canton de la direccion.
+   * @param district Distrito de la direccion.
+   * @param sings Senas que indetifican la direccion.
+   */
+  public Address addAddress(String province, String canton, String district, String sings) {
+    return new Address(province, canton, district, sings);
+  }
+  /**
+   * Agrega un nuevo cliente a la lista de clientes.
+   * @param name nombre del cliente
+   * @param id id del cliente
+   * @param telephone número telefónico del cliente
+   * @param mail correo-electrónico del cliente
+   * @param clientAddress dirreción del cliente
+   */
+  public void addClient(String name, String id, String telephone, String mail, Address clientAddress) {
+    if (searchClient(id) == NOT_ADDED) {
+      clients.add(new Client(name, id, telephone, mail, clientAddress));
+    }
   }
 }
