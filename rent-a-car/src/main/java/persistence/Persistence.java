@@ -33,16 +33,8 @@ import util.Chyperer;
 public class Persistence {
   
   Chyperer encriptador = new Chyperer("123456789ABCDEFG");
-  /**
-   * Método para convertir una imagen a un string codificado en base64
-   * @param image imagen que será convertida
-   * @return imageToBase64 string formado a partir de la imagen
-   * @throws Exception 
-   * @throws IOException
-   */
   
   public void updateData(ArrayList<Vehicle> vehicles) throws Exception {
-    JSONParser parser = new JSONParser();
     JSONArray jsonVehicles = new JSONArray();
     for(int i = 0; i < vehicles.size(); i++) {
       ArrayList<String> vehicleData = getVehicleData(vehicles.get(i));
@@ -50,6 +42,15 @@ public class Persistence {
     }
     Files.write(Paths.get("vehicles.json"), jsonVehicles.toJSONString().getBytes());
   }
+  
+  /**
+   * Método para convertir una imagen a un string codificado en base64
+   * @param image imagen que será convertida
+   * @return imageToBase64 string formado a partir de la imagen
+   * @throws Exception 
+   * @throws IOException
+   */
+
   private String convertImgToString(Image image) throws IOException {
     byte[] imageBytes;
     ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -281,8 +282,6 @@ public class Persistence {
     ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     for(int i = 0; i < vehiclesArray.size(); i++) {
       vehicleData = (ArrayList<String>) vehiclesArray.get(i);
-      
-      String colorData = vehicleData.get(2);
       final String VEHICLEPLATE = encriptador.decrypt(vehicleData.get(0));
       final Date FABRICATIONDATE = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(vehicleData.get(1)));
       final int RED = Integer.parseInt(encriptador.decrypt(vehicleData.get(2)));
