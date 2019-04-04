@@ -156,4 +156,15 @@ public class Management {
       vehicles.get(searchVehicle(vehiclePlate)).setVehicleImage(vehicleImage);
     }
   }
+  
+  /**
+   * Modifica la fecha de fabricacion del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param fabricationDate Fecha de fabricacion del vehiculo.
+   */
+  public void modifyFabricationDate(String vehiclePlate, Date fabricationDate) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setFabricationDate(fabricationDate);
+    }
+  }
 }
