@@ -200,4 +200,16 @@ public class Management {
     vehicles.get(searchVehicle(vehiclePlate)).setBrand(brand);
     }
   }
+  
+  /**
+   * Modifica la cantidad de puertas del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param doors Cantidad de puertas del vehiculo.
+   */
+  public void modifyDoors(String vehiclePlate,byte doors) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setDoors(doors);
+    
+    }
+  }
 }
