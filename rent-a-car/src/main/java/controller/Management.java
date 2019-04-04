@@ -179,4 +179,15 @@ public class Management {
     }
   }
   
+  /**
+   * Modifica la capacidad del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param capacity Capacidad del vehiculo.
+   */
+  public void modifyCapacity(String vehiclePlate, byte capacity) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setCapacity(capacity);;
+    }
+  }
+  
 }
