@@ -167,4 +167,16 @@ public class Management {
     vehicles.get(searchVehicle(vehiclePlate)).setFabricationDate(fabricationDate);
     }
   }
+  
+  /**
+   * Modifica el color de vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param color Color del vehiculo.
+   */
+  public void modifyColor(String vehiclePlate, Color color) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setColor(color);;
+    }
+  }
+  
 }
