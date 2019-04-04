@@ -228,7 +228,7 @@ public class Management {
    * @param vehiclePlate Placa del vehiculo.
    * @param mpg Cantidad de millas por galon.
    */
-  public void modifyMpg(String vehiclePlate,float mpg ) {
+  public void modifyMpg(String vehiclePlate,float mpg) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).setMpg(mpg);
     }
@@ -239,11 +239,20 @@ public class Management {
    * @param vehiclePlate Placa del vehiculo.
    * @param price Precio del vehiculo.
    */
-  public void modifyPrice(String vehiclePlate,float price ) {
+  public void modifyPrice(String vehiclePlate,float price) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).setPrice(price);
     }
   }
   
-  
+  /**
+   * Modifica la capacidad de maletas que soporta el vehiculo.
+   * @param vehiclePlate Placa del vechiculo.
+   * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
+   */
+  public void modifySuitcaseCapacity(String vehiclePlate,byte suitcaseCapacity) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setSuitcaseCapacity(suitcaseCapacity);
+    }
+  }
 }
