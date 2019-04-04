@@ -37,8 +37,19 @@ public class Persistence {
    * Método para convertir una imagen a un string codificado en base64
    * @param image imagen que será convertida
    * @return imageToBase64 string formado a partir de la imagen
+   * @throws Exception 
    * @throws IOException
    */
+  
+  public void updateData(ArrayList<Vehicle> vehicles) throws Exception {
+    JSONParser parser = new JSONParser();
+    JSONArray jsonVehicles = new JSONArray();
+    for(int i = 0; i < vehicles.size(); i++) {
+      ArrayList<String> vehicleData = getVehicleData(vehicles.get(i));
+      jsonVehicles.add(vehicleData);
+    }
+    Files.write(Paths.get("vehicles.json"), jsonVehicles.toJSONString().getBytes());
+  }
   private String convertImgToString(Image image) throws IOException {
     byte[] imageBytes;
     ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -199,7 +210,7 @@ public class Persistence {
    * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
    * @throws Exception 
    */
-  public void saveVehicle(Vehicle vehicle) throws Exception {
+  private ArrayList<String> getVehicleData(Vehicle vehicle) throws Exception{
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<String> maintenanceData = new ArrayList<String>();
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
@@ -237,6 +248,10 @@ public class Persistence {
     for(int i = 0; i < maintenanceData.size(); i++) {
       vehicleData.set(i, encriptador.encrypt(maintenanceData.get(i)));
     }
+    return vehicleData;
+  }
+  public void saveVehicle(Vehicle vehicle) throws Exception {
+    ArrayList<String> vehicleData = getVehicleData(vehicle);
     try {
       JSONParser parser = new JSONParser();
       JSONArray vehicles = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
@@ -245,9 +260,9 @@ public class Persistence {
       vehicles.add(vehicleData);
       Files.write(Paths.get("vehicles.json"), vehicles.toJSONString().getBytes());
     }catch(Exception d) {
-      JSONArray clients = new JSONArray();
-      clients.add(vehicleData);
-      Files.write(Paths.get("vehicles.json"), clients.toJSONString().getBytes());
+      JSONArray vehicles = new JSONArray();
+      vehicles.add(vehicleData);
+      Files.write(Paths.get("vehicles.json"), vehicles.toJSONString().getBytes());
       }
   }
   
