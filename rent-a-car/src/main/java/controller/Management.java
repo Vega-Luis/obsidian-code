@@ -3,6 +3,7 @@ package controller;
 import bussineslogic.Address;
 import bussineslogic.Client;
 import bussineslogic.Employee;
+import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
 import java.awt.Color;
 import java.awt.Image;
@@ -264,6 +265,27 @@ public class Management {
   public void modifyTransmission(String vehiclePlate, boolean transmission) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).setTransmission(transmission);
+    }
+  }
+  
+  /**
+   * 
+   * @param type
+   * @param idVehiculo
+   * @param startDate
+   * @param endDate
+   * @param price
+   * @param detail
+   * @return Un nuevo mantenimiento para un vehiculo
+   */
+  public Maintenance addMaintenance(boolean type, String idVehiculo, Date startDate, Date endDate,
+      Float price, String detail) {
+    return new Maintenance(type,idVehiculo,startDate,endDate, price, detail);
+  }
+  
+  public void modifyMaintenances(String vehiclePlate,Maintenance manintenance ) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).getMaintenances().add(manintenance);
     }
   }
 }
