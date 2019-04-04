@@ -4,7 +4,9 @@ import bussineslogic.Address;
 import bussineslogic.Client;
 import bussineslogic.Employee;
 import bussineslogic.Vehicle;
+import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Date;
 import persistence.Persistence;
 
 /**
@@ -91,6 +93,7 @@ public class Management {
   public Address addAddress(String province, String canton, String district, String sings) {
     return new Address(province, canton, district, sings);
   }
+  
   /**
    * Agrega un nuevo cliente a la lista de clientes.
    * @param name nombre del cliente
@@ -103,5 +106,20 @@ public class Management {
     if (searchClient(id) == NOT_ADDED) {
       clients.add(new Client(name, id, telephone, mail, clientAddress));
     }
+  }
+  
+  /**
+   * Agrega una licencia al cliente.
+   * @param clientId Cedula del cliente dueño de la cédula.
+   * @param licenceId Identificador de la licencia.
+   * @param releaseDate fecha en la que fue emitida la cédula.
+   * @param expireDate fecha en la que expira la cédula.
+   * @param image
+   */
+  public void addLicence(String clientId, String licenceId, Date releaseDate, Date expireDate, Image image) {
+    if (searchClient(clientId) == NOT_ADDED) {
+      clients.get(searchClient(clientId)).addLicense(licenceId, releaseDate, expireDate, image);
+    }
+    
   }
 }
