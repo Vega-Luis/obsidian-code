@@ -233,4 +233,17 @@ public class Management {
     vehicles.get(searchVehicle(vehiclePlate)).setMpg(mpg);
     }
   }
+  
+  /**
+   * Modifica el precion del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param price Precio del vehiculo.
+   */
+  public void modifyPrice(String vehiclePlate,float price ) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setPrice(price);
+    }
+  }
+  
+  
 }
