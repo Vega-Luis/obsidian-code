@@ -255,4 +255,15 @@ public class Management {
     vehicles.get(searchVehicle(vehiclePlate)).setSuitcaseCapacity(suitcaseCapacity);
     }
   }
+  
+  /**
+   * Modifica el tipo de transmision del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param transmission Tipo de transmission.
+   */
+  public void modifyTransmission(String vehiclePlate, boolean transmission) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setTransmission(transmission);
+    }
+  }
 }
