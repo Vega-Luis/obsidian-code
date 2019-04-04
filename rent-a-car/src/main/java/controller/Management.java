@@ -144,6 +144,16 @@ public class Management {
       vehicles.add(new Vehicle(vehiclePlate,fabricationDate, color, capacity, brand, doors,
           vinNumber, mpg, price, suitcaseCapacity, transmission));
     }
-    
+  }
+  
+  /**
+   * Modifica la imagen del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param vehicleImage Imagen del vehiculo.
+   */
+  public void modifyImage(String vehiclePlate, Image vehicleImage) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+      vehicles.get(searchVehicle(vehiclePlate)).setVehicleImage(vehicleImage);
+    }
   }
 }
