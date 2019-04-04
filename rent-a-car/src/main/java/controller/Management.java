@@ -4,6 +4,7 @@ import bussineslogic.Address;
 import bussineslogic.Client;
 import bussineslogic.Employee;
 import bussineslogic.Vehicle;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,6 +120,29 @@ public class Management {
   public void addLicence(String clientId, String licenceId, Date releaseDate, Date expireDate, Image image) {
     if (searchClient(clientId) == NOT_ADDED) {
       clients.get(searchClient(clientId)).addLicense(licenceId, releaseDate, expireDate, image);
+    }
+  }
+  
+  /**
+   * Agrega un vehiculo a la flotilla de vehiculos.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param fabricationDate Fecha en que fue fabricado el vehiculo.
+   * @param color Color del vehiculo.
+   * @param capacity Capacidad de pasajeros del vehiculo.
+   * @param brand Marca del vehiculo.
+   * @param doors Cantidad de puertas del vehiculo.
+   * @param vinNumber Numero de vin asociado al vehiculo.
+   * @param mpg Cantidad de millas que es capaz de recorrer con un galon de combustible.
+   * @param price Costo por alquiler.
+   * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
+   * @param transmission Tipo de transmicion.
+   */
+  public void addVehicle(String vehiclePlate, Date fabricationDate, Color color, byte capacity,
+      String brand, byte doors, String vinNumber, float mpg, float price, byte suitcaseCapacity,
+          boolean transmission) {
+    if (searchVehicle(vehiclePlate) == NOT_ADDED) {
+      vehicles.add(new Vehicle(vehiclePlate,fabricationDate, color, capacity, brand, doors,
+          vinNumber, mpg, price, suitcaseCapacity, transmission));
     }
     
   }
