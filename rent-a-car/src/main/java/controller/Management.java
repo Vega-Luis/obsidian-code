@@ -17,6 +17,7 @@ public class Management {
   private ArrayList<Client> clients;
   private ArrayList<Employee> employees;
   private Persistence persistence;
+  private final int NOT_ADDED = 0;
   
   public Management() {
     this.persistence = new Persistence();
@@ -47,5 +48,20 @@ public class Management {
       this.employees = new ArrayList<Employee>();
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Busca un cliente y retorna la posicion donde se encuentra.
+   * Sin no existe retona un -1.
+   * @param id Identificador del cliente.
+   * @return Posicion  que se encuentra el cliente dentro del clients
+   */
+  private int searchClient(String id) {
+    for (int client = 0; client < vehicles.size(); client++) {
+      if (clients.get(client).getId().equals(id)) {
+        return client;
+      }
+    }
+    return NOT_ADDED;
   }
 }
