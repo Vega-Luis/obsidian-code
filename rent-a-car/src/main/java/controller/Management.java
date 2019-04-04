@@ -222,4 +222,15 @@ public class Management {
     vehicles.get(searchVehicle(vehiclePlate)).setVinNumber(vinNumber);
     }
   }
+  
+  /**
+   * Modifica las millas por galon que soporta el vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param mpg Cantidad de millas por galon.
+   */
+  public void modifyMpg(String vehiclePlate,float mpg ) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setMpg(mpg);
+    }
+  }
 }
