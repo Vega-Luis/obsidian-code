@@ -43,8 +43,8 @@ public class Client extends Person {
     licenses = new ArrayList<License>();
   }
   
-  public void addLicense(Date releaseDate, Date expireDate, Image image) {
-    licenses.add(new License(getId(),releaseDate, expireDate, image));
+  public void addLicense(String licenceId, Date releaseDate, Date expireDate, Image image) {
+    licenses.add(new License(licenceId, releaseDate, expireDate, image));
   }
   
   @Override
