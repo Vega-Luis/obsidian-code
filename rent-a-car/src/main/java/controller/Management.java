@@ -21,5 +21,31 @@ public class Management {
   public Management() {
     this.persistence = new Persistence();
   }
+  
+  private void setVehicles() {
+    try {
+      this.vehicles = this.persistence.loadVehicles();
+    } catch (Exception e) {
+      this.vehicles = new ArrayList<Vehicle>();
+      e.printStackTrace();
+    }
+  }
+  
+  private void setClients() {
+    try {
+      this.clients = this.persistence.loadClients();
+    } catch (Exception e) {
+      this.clients = new ArrayList<Client>();
+      e.printStackTrace();
+    }
+  }
 
+  private void setEmployees() {
+    try {
+      this.employees = this.persistence.loadEmployees();
+    } catch (Exception e) {
+      this.employees = new ArrayList<Employee>();
+      e.printStackTrace();
+    }
+  }
 }
