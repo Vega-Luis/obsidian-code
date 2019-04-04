@@ -190,4 +190,14 @@ public class Management {
     }
   }
   
+  /**
+   * Modifica la marca del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param brand Marca del vehiculo.
+   */
+  public void modifyBrand(String vehiclePlate,String brand ) {
+    if (searchVehicle(vehiclePlate) != NOT_ADDED) {
+    vehicles.get(searchVehicle(vehiclePlate)).setBrand(brand);
+    }
+  }
 }
