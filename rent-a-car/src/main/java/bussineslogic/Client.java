@@ -13,6 +13,7 @@ public class Client extends Person {
 
   Address clientAddress;
   ArrayList<License> licenses;
+  
   /**
    * Constructor de la clase
    * @param name nombre del cliente
