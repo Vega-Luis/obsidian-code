@@ -79,6 +79,9 @@ public class Menu extends JFrame {
 		btnNuevoMantenimiento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de agregar nuevo mantenimiento.
 			  //Se deberia abrir una ventana para registrar un nuevo mantenimiento.
+			  
+			  MaintenanceRegister registroMantenimiento = new MaintenanceRegister();
+			  registroMantenimiento.setVisible(true);
 			}
 		});
 		btnNuevoMantenimiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
