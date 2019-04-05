@@ -31,7 +31,7 @@ public class Maintenance {
   public Maintenance(boolean type, String idVehiculo, Date startDate, Date endDate, Float price, String detail) {
     this.type = type;
     amount++;
-    this.id = "MANT-"+ id + amount;
+    this.id = "MANT-"+ idVehiculo + amount;
     this.startDate = startDate;
     this.endDate = endDate;
     this.price = price;
