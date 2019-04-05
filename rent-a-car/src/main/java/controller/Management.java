@@ -18,9 +18,10 @@ import persistence.Persistence;
  * @version v1.0
  */
 public class Management {
-  private ArrayList<Vehicle> vehicles;
   private ArrayList<Client> clients;
+  private ArrayList<Company> companies;
   private ArrayList<Employee> employees;
+  private ArrayList<Vehicle> vehicles;
   private Persistence persistence;
   private final int NOT_ADDED = 0;
   
@@ -269,23 +270,29 @@ public class Management {
   }
   
   /**
-   * 
-   * @param type
-   * @param idVehiculo
-   * @param startDate
-   * @param endDate
-   * @param price
-   * @param detail
-   * @return Un nuevo mantenimiento para un vehiculo
+   * Crea un nuevo mantenimiento.
+   * @param type  Es el tipo de mantenimiento si es true preventivo.
+   * @param idVehiculo   Es el id del vehiculo del mantenimiento.
+   * @param startDate   Es la fecha en la que se inicio el mantenimiento. 
+   * @param endDate    Es la fecha en que finalizo el mantenimiento.
+   * @param price    Es los que costo el mantenimiento.
+   * @param detail   Son los detalles acerca del mantenimiento.
+   * @return Un nuevo mantenimiento para un vehiculo.
    */
   public Maintenance addMaintenance(boolean type, String idVehiculo, Date startDate, Date endDate,
       Float price, String detail) {
     return new Maintenance(type,idVehiculo,startDate,endDate, price, detail);
   }
   
+  /**
+   * Agrega un mantenimiento al vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param manintenance Nuevo mantenimiento.
+   */
   public void modifyMaintenances(String vehiclePlate,Maintenance manintenance ) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).getMaintenances().add(manintenance);
     }
   }
+
 }
