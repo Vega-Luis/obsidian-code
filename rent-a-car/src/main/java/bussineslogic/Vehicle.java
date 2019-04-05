@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Vehicle {
   private String vehiclePlate;
   private Date fabricationDate;
-  private Color color;
+  private String color;
   private byte capacity;
   private String brand;
   private float kilometers;
@@ -43,7 +43,7 @@ public class Vehicle {
    * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
    * @param transmission Tipo de transmicion.
    */
-  public Vehicle(String vehiclePlate, Date fabricationDate, Color color, byte capacity,
+  public Vehicle(String vehiclePlate, Date fabricationDate, String color, byte capacity,
       String brand, byte doors, String vinNumber, float mpg, float price, byte suitcaseCapacity,
           boolean transmission) {
     this.vehiclePlate = vehiclePlate;
@@ -76,11 +76,11 @@ public class Vehicle {
     this.fabricationDate = fabricationDate;
   }
 
-  public Color getColor() {
+  public String getColor() {
     return color;
   }
 
-  public void setColor(Color color) {
+  public void setColor(String color) {
     this.color = color;
   }
 
