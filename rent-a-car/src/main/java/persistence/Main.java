@@ -21,11 +21,12 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     Address address = new Address("Chepe","PZ","Platanares","Cerca escuela molle");
-    Client client = new Client("Marcos","117","8511","gmail",address);
     Calendar calendar = Calendar.getInstance();
     Date date1 = calendar.getTime();
     Image picture = ImageIO.read(new File("C:\\Users\\Marcosmh0199\\Documents\\AS ESPADAS.png"));
     ArrayList<Client> clients;
+    
+    Client client = new Client("Marcos","117","8511","gmail",address);
     client.addLicense(date1,date1, picture);
     client.addLicense(date1,date1, picture);
     
@@ -53,14 +54,13 @@ public class Main {
       System.out.println(employees.get(i)+"\n\n");
     }
     
-    Color color = new Color(89);
-    Vehicle vehicle = new Vehicle("12345", date1, color, (byte)4, "Nissan", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
-    Vehicle vehicle2 = new Vehicle("12345", date1, color, (byte)4, "Toyota", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
+    Vehicle vehicle = new Vehicle("12345", date1, "ROJO", (byte)4, "Nissan", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
+    Vehicle vehicle2 = new Vehicle("12345", date1, "VERDE", (byte)4, "Toyota", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
     vehicle.setVehicleImage(picture);
     vehicle2.setVehicleImage(picture);
     
-    //persistence.saveVehicle(vehicle);
-    //persistence.saveVehicle(vehicle2);
+    persistence.saveVehicle(vehicle);
+    persistence.saveVehicle(vehicle2);
     
     ArrayList<Vehicle> vehicles = persistence.loadVehicles();
     for(int i = 0; i < vehicles.size(); i++) {
