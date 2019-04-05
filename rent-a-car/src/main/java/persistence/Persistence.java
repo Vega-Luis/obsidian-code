@@ -70,15 +70,7 @@ public class Persistence implements Constants{
     Image image = ImageIO.read(new ByteArrayInputStream(imageBytes));
     return image;
   }
-  public ArrayList<String> getClientData(Client client){
-    
-  }
-  /**
-   * Método para guardar un cliente en un archivo .json
-   * @param client cliente que será guardado
-   * @throws Exception
-   */
-  public void saveClient(Client client) throws Exception {  
+  public ArrayList<String> getClientData(Client client) throws Exception{
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<String> clientLicenses = new ArrayList<String>();
     clientData.add(client.getName());
@@ -97,14 +89,24 @@ public class Persistence implements Constants{
       clientLicenses.add(convertImgToString(client.getLicenses().get(i).getImage()));
     }
     for(int i = 0; i < clientLicenses.size(); i++) {
+      clientLicenses.set(i, encriptador.encrypt(clientLicenses.get(i)));
+    }
+    for(int i = 0; i < clientLicenses.size(); i++) {
       clientData.add(clientLicenses.get(i));
     }
     for(int i = 0; i < clientData.size(); i++) {
       clientData.set(i, encriptador.encrypt(clientData.get(i)));
     }
-    for(int i = 0; i < clientLicenses.size(); i++) {
-      clientLicenses.set(i, encriptador.encrypt(clientLicenses.get(i)));
-    }
+
+    return clientData;
+  }
+  /**
+   * Método para guardar un cliente en un archivo .json
+   * @param client cliente que será guardado
+   * @throws Exception
+   */
+  public void saveClient(Client client) throws Exception {  
+    
     try {
       JSONParser parser = new JSONParser();
       JSONArray clients = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
