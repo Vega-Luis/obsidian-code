@@ -319,5 +319,20 @@ public class Management {
     }
     return filterVehicles;
   }
+  
+  /**
+   * Filtra los vehiculos por capacidad
+   * @param capacity Cantidad de personas que soporta.
+   * @return Todos lo vehiculos que cumplen con el parametro del filtro.
+   */
+  public ArrayList<Vehicle> vehicleCapacityFilter(byte capacity) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < vehicles.size(); vehicle++) {
+      if (vehicles.get(vehicle).getCapacity() == capacity) {
+        filterVehicles.add(vehicles.get(vehicle));
+      }
+    }
+    return filterVehicles;
+  }
 
 }
