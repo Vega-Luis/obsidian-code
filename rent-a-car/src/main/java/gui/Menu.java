@@ -59,6 +59,8 @@ public class Menu extends JFrame {
 		btnAgregarVehiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton agregar vehiculo a flotilla.
 			  //Deberia abrir una ventana para agregar vehiculos.
+			  RegisterVehicle registroVehiculo = new RegisterVehicle();
+			  registroVehiculo.setVisible(true);
 			}
 		});
 		btnAgregarVehiculo.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -67,6 +69,8 @@ public class Menu extends JFrame {
 		btnRegistrarEmpresaNueva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de agregar una nueva empresa de servicios.
 			  //Deberia abrir una ventana para agregar nuevas empresas de servicio.
+			  RegisterCompany registroEmpresa = new RegisterCompany();
+	          registroEmpresa.setVisible(true);
 			}
 		});
 		btnRegistrarEmpresaNueva.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -106,8 +110,8 @@ public class Menu extends JFrame {
 		JButton btnRegistrarCliente = new JButton("Registrar nuevo cliente");
 		btnRegistrarCliente.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {                //Evento del boton de registro de cliente
-		    RegisterCompany registroEmpresa = new RegisterCompany();
-		    registroEmpresa.setVisible(true);
+		    ClientRegister registroCliente = new ClientRegister();
+		    registroCliente.setVisible(true);
 		  }
 		});
 		btnRegistrarCliente.setFont(new Font("Tahoma", Font.PLAIN, 15));
