@@ -172,12 +172,13 @@ public class RegisterVehicle extends JFrame {
 		          txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(), Float.parseFloat(txtMillasPorGalon.getText()),
 		          Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()), false);
 		      
-		       System.out.println();
 		    }
 		    else {
 		      Vehicle vehiculo = new Vehicle(txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(), Byte.parseByte(txtCapacidad.getText()),
                   txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(), Float.parseFloat(txtMillasPorGalon.getText()),
-                  Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()), false);
+                  Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()), true);
+		      
+		      
 		    }
 		  }
 		});
