@@ -10,6 +10,8 @@ import bussineslogic.VehicleStyle;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import persistence.Persistence;
 
@@ -335,4 +337,25 @@ public class Management {
     return filterVehicles;
   }
 
+  /**
+   * Filtra los vehiculos por precio.
+   * @param max Precion maximo solicitado.
+   * @param min Precion minimo solicitado.
+   * @return Todos los vehiculos que se encuentran dentro del rango.
+   */
+  public ArrayList<Vehicle> vehiclePriceFilter(float max, float min) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < vehicles.size(); vehicle++) {
+      if (min <= vehicles.get(vehicle).getPrice() || vehicles.get(vehicle).getPrice( ) <= max) {
+        filterVehicles.add(vehicles.get(vehicle));
+      }
+    }
+    //Requires revision
+    Collections.sort(filterVehicles, new Comparator<Vehicle>() {
+      public int compare(Vehicle o1, Vehicle o2) {
+      return Float.compare(o1.getPrice(), o2.getPrice());
+      }
+    });
+    return filterVehicles;
+  }
 }
