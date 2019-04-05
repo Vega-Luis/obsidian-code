@@ -2,9 +2,11 @@ package controller;
 
 import bussineslogic.Address;
 import bussineslogic.Client;
+import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleStyle;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ import persistence.Persistence;
  */
 public class Management {
   private ArrayList<Client> clients;
-  private ArrayList<Company> companies;
   private ArrayList<Employee> employees;
   private ArrayList<Vehicle> vehicles;
   private Persistence persistence;
@@ -293,6 +294,30 @@ public class Management {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).getMaintenances().add(manintenance);
     }
+  }
+  
+  /**
+   * Retorna el cliente que se encuentra en una posicion del array de clientes.
+   * @param client Posicion en que se encuentra el cliente.
+   * @return Cliente consultado.
+   */
+  public Client getClient(int client) {
+    return clients.get(client);
+  }
+  
+  /**
+   * Filtra los vehiculos por el estilo.
+   * @param vehicleStyle Estilo del vehiculo.
+   * @return Lista con los vehiculos que tiene el mismo estilo.
+   */
+  public ArrayList<Vehicle> vehicleStyleFilter(VehicleStyle vehicleStyle) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < vehicles.size(); vehicle++) {
+      if (vehicles.get(vehicle).getStyle().equals(vehicleStyle)) {
+        filterVehicles.add(vehicles.get(vehicle));
+      }
+    }
+    return filterVehicles;
   }
 
 }
