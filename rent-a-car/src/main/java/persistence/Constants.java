@@ -26,16 +26,15 @@ public interface Constants {
   //Vehicle constants
   final byte VEHICLEPLATE = 0;
   final byte FABRICATIONDATE = 1;
-  final byte RED = 2;
-  final byte GREEN = 3;
-  final byte BLUE = 4;
-  final byte CAPACITY = 5;
-  final byte BRAND = 6;
-  final byte DOORS = 7;
-  final byte VINNUMBER = 8;
-  final byte MPG = 9;
-  final byte PRICE = 10;
-  final byte SUITCAPACITY = 11;
-  final byte TRANSMISION = 12;
+  final byte COLOR = 2;
+  final byte CAPACITY = 3;
+  final byte BRAND = 4;
+  final byte DOORS = 5;
+  final byte VINNUMBER = 6;
+  final byte MPG = 7;
+  final byte PRICE = 8;
+  final byte SUITCAPACITY = 9;
+  final byte TRANSMISION = 10;
+  final byte IMAGE = 11;
   
 }

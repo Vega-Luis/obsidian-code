@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +32,7 @@ import util.Chyperer;
  */
 public class Persistence implements Constants{
   
-  Chyperer encriptador = new Chyperer("123456789ABCDEFG");
+  Chyperer encrypt = new Chyperer("123456789ABCDEFG");
   
   public void updateData(ArrayList<Vehicle> vehicles) throws Exception {
     JSONArray jsonVehicles = new JSONArray();
@@ -89,13 +90,10 @@ public class Persistence implements Constants{
       clientLicenses.add(convertImgToString(client.getLicenses().get(i).getImage()));
     }
     for(int i = 0; i < clientLicenses.size(); i++) {
-      clientLicenses.set(i, encriptador.encrypt(clientLicenses.get(i)));
-    }
-    for(int i = 0; i < clientLicenses.size(); i++) {
       clientData.add(clientLicenses.get(i));
     }
     for(int i = 0; i < clientData.size(); i++) {
-      clientData.set(i, encriptador.encrypt(clientData.get(i)));
+      clientData.set(i, encrypt.encrypt(clientData.get(i)));
     }
 
     return clientData;
@@ -106,18 +104,18 @@ public class Persistence implements Constants{
    * @throws Exception
    */
   public void saveClient(Client client) throws Exception {  
-    
+    ArrayList<String> clientData = getClientData(client); 
     try {
       JSONParser parser = new JSONParser();
-      JSONArray clients = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
-          + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
-          + "rent-a-car\\clients.json"));
+      JSONArray clients = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
       clients.add(clientData);
-      Files.write(Paths.get("clients.json"), clients.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
     }catch(Exception d) {
+      File dir = new File("C:\\JSONFiles");
+      dir.mkdir();
       JSONArray clients = new JSONArray();
       clients.add(clientData);
-      Files.write(Paths.get("clients.json"), clients.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
       }
   } 
   
@@ -128,29 +126,27 @@ public class Persistence implements Constants{
    */
   public ArrayList<Client> loadClients() throws Exception {  
     JSONParser parser = new JSONParser();
-    JSONArray clientsArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Doc"
-        + "uments\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code"
-        + "\\rent-a-car\\clients.json"));
+    JSONArray clientsArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<Client> clients = new ArrayList<Client>();
     for(int i = 0; i < clientsArray.size(); i++) {
       clientData = (ArrayList<String>) clientsArray.get(i);
-      String name = encriptador.decrypt(clientData.get(CLIENTNAME));
-      String id = encriptador.decrypt(clientData.get(CLIENTID));
-      String telephone = encriptador.decrypt(clientData.get(CLIENTTELEPHONE));
-      String mail = encriptador.decrypt(clientData.get(CLIENTMAIL));
-      String province = encriptador.decrypt(clientData.get(PROVINCE));
-      String canton = encriptador.decrypt(clientData.get(CANTON));
-      String district = encriptador.decrypt(clientData.get(DISTRICT));
-      String sings = encriptador.decrypt(clientData.get(SINGS));
+      String name = encrypt.decrypt(clientData.get(CLIENTNAME));
+      String id = encrypt.decrypt(clientData.get(CLIENTID));
+      String telephone = encrypt.decrypt(clientData.get(CLIENTTELEPHONE));
+      String mail = encrypt.decrypt(clientData.get(CLIENTMAIL));
+      String province = encrypt.decrypt(clientData.get(PROVINCE));
+      String canton = encrypt.decrypt(clientData.get(CANTON));
+      String district = encrypt.decrypt(clientData.get(DISTRICT));
+      String sings = encrypt.decrypt(clientData.get(SINGS));
       Address address = new Address(province,canton,district,sings);
       Client client = new Client(name,id,telephone,mail,address);
       for(int j = 8; j < (clientData.size()-2); j = j+4) {
-        Date releaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
-            clientData.get(j+1)));
-        Date expireDate = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
-            clientData.get(j+2)));
-        final Image IMAGE = convertStringToImage(encriptador.decrypt(clientData.get(j+3)));
+        String releaseDateString = encrypt.decrypt(clientData.get(j+1));
+        String expireDateString = encrypt.decrypt(clientData.get(j+2));
+        Date releaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(releaseDateString);
+        Date expireDate = new SimpleDateFormat("dd/MM/yyyy").parse(expireDateString);
+        final Image IMAGE = convertStringToImage(encrypt.decrypt(clientData.get(j+3)));
         client.addLicense(releaseDate, expireDate, IMAGE);
       }
       clients.add(client);
@@ -172,7 +168,7 @@ public class Persistence implements Constants{
     employeeData.add(employee.getPassword());
     employeeData.add(employee.getUserName());
     for(int i = 0; i < employeeData.size(); i++) {
-      employeeData.set(i, encriptador.encrypt(employeeData.get(i)));
+      employeeData.set(i, encrypt.encrypt(employeeData.get(i)));
     }
     return employeeData;
   }
@@ -185,15 +181,15 @@ public class Persistence implements Constants{
     ArrayList<String> employeeData = getEmployeeData(employee);
     try {
       JSONParser parser = new JSONParser();
-      JSONArray employees = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
-          + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
-          + "rent-a-car\\employees.json"));
+      JSONArray employees = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
       employees.add(employeeData);
-      Files.write(Paths.get("employees.json"), employees.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
     }catch(Exception d) {
+      File dir = new File("C:\\JSONFiles");
+      dir.mkdir();
       JSONArray employees = new JSONArray();
       employees.add(employeeData);
-      Files.write(Paths.get("employees.json"), employees.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
       }
   }
   
@@ -203,19 +199,17 @@ public class Persistence implements Constants{
    */
   public ArrayList<Employee> loadEmployees() throws Exception {
     JSONParser parser = new JSONParser();
-    JSONArray employeesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Doc"
-        + "uments\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code"
-        + "\\rent-a-car\\employees.json"));
+    JSONArray employeesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
     ArrayList<String> employeeData= new ArrayList<String>();
     ArrayList<Employee> employees = new ArrayList<Employee>();
     for(int i = 0; i < employeesArray.size(); i++) {
       employeeData = (ArrayList<String>) employeesArray.get(i);
-      final String id = encriptador.decrypt(employeeData.get(EMPLOYEEID));
-      final String name = encriptador.decrypt(employeeData.get(EMPLOYEENAME));
-      final String telephone = encriptador.decrypt(employeeData.get(EMPLOYEETELEPHONE));
-      final String mail = encriptador.decrypt(employeeData.get(EMPLOYEEMAIL));
-      final String password = encriptador.decrypt(employeeData.get(PASSWORD));
-      final String username = encriptador.decrypt(employeeData.get(USERNAME));
+      final String id = encrypt.decrypt(employeeData.get(EMPLOYEEID));
+      final String name = encrypt.decrypt(employeeData.get(EMPLOYEENAME));
+      final String telephone = encrypt.decrypt(employeeData.get(EMPLOYEETELEPHONE));
+      final String mail = encrypt.decrypt(employeeData.get(EMPLOYEEMAIL));
+      final String password = encrypt.decrypt(employeeData.get(PASSWORD));
+      final String username = encrypt.decrypt(employeeData.get(USERNAME));
       Employee employee = new Employee(name,id,telephone,mail, username, password);
       employees.add(employee);
     }
@@ -234,12 +228,7 @@ public class Persistence implements Constants{
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
     vehicleData.add(vehicle.getVehiclePlate());
     vehicleData.add(formatDate.format(vehicle.getFabricationDate()));
-    String red = String.valueOf(vehicle.getColor().getRed());
-    String green = String.valueOf(vehicle.getColor().getGreen());
-    String blue = String.valueOf(vehicle.getColor().getBlue());
-    vehicleData.add(red);
-    vehicleData.add(green);
-    vehicleData.add(blue);
+    vehicleData.add(vehicle.getColor());
     vehicleData.add(Byte.toString(vehicle.getCapacity()));
     vehicleData.add(vehicle.getBrand());
     vehicleData.add(Byte.toString(vehicle.getDoors()));
@@ -261,10 +250,10 @@ public class Persistence implements Constants{
       vehicleData.add(maintenanceData.get(i));
     }
     for(int i = 0; i < vehicleData.size(); i++) {
-      vehicleData.set(i, encriptador.encrypt(vehicleData.get(i)));
+      vehicleData.set(i, encrypt.encrypt(vehicleData.get(i)));
     }
     for(int i = 0; i < maintenanceData.size(); i++) {
-      vehicleData.set(i, encriptador.encrypt(maintenanceData.get(i)));
+      vehicleData.set(i, encrypt.encrypt(maintenanceData.get(i)));
     }
     return vehicleData;
   }
@@ -278,15 +267,13 @@ public class Persistence implements Constants{
     ArrayList<String> vehicleData = getVehicleData(vehicle);
     try {
       JSONParser parser = new JSONParser();
-      JSONArray vehicles = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
-          + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
-          + "rent-a-car\\vehicles.json"));
+      JSONArray vehicles = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\vehicles.json"));
       vehicles.add(vehicleData);
-      Files.write(Paths.get("vehicles.json"), vehicles.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), vehicles.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray vehicles = new JSONArray();
       vehicles.add(vehicleData);
-      Files.write(Paths.get("vehicles.json"), vehicles.toJSONString().getBytes());
+      Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), vehicles.toJSONString().getBytes());
       }
   }
   
@@ -298,40 +285,35 @@ public class Persistence implements Constants{
    */
   public ArrayList<Vehicle> loadVehicles() throws Exception {
     JSONParser parser = new JSONParser();
-    JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\Users\\Marcosmh0199\\Docume"
-        + "nts\\TEC\\2019\\PrimerSemestre\\POO\\Proyectos\\Proyecto1-Rent a Car\\obsidian-code\\"
-        + "rent-a-car\\Vehicles.json"));
+    JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Vehicles.json"));
     ArrayList<String> vehicleData= new ArrayList<String>();
     ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     for(int i = 0; i < vehiclesArray.size(); i++) {
       vehicleData = (ArrayList<String>) vehiclesArray.get(i);
-      final String vehiclePlate = encriptador.decrypt(vehicleData.get(VEHICLEPLATE));
-      final Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
+      final String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
+      final Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
           vehicleData.get(FABRICATIONDATE)));
-      int red = Integer.parseInt(encriptador.decrypt(vehicleData.get(RED)));
-      int green = Integer.parseInt(encriptador.decrypt(vehicleData.get(GREEN)));
-      int blue = Integer.parseInt(encriptador.decrypt(vehicleData.get(BLUE)));
-      Color color = new Color(red, green, blue);
-      byte capacity = Byte.parseByte(encriptador.decrypt(vehicleData.get(CAPACITY)));
-      String brand = encriptador.decrypt(vehicleData.get(BRAND));
-      byte doors = Byte.parseByte(encriptador.decrypt(vehicleData.get(DOORS)));
-      String vinNumber = encriptador.decrypt(vehicleData.get(VINNUMBER));
-      float mpg = Float.parseFloat(encriptador.decrypt(vehicleData.get(MPG)));
-      float price = Float.parseFloat(encriptador.decrypt(vehicleData.get(PRICE)));
-      byte suitCapacity = Byte.parseByte(encriptador.decrypt(vehicleData.get(SUITCAPACITY)));
-      boolean transmision = Boolean.parseBoolean(encriptador.decrypt(vehicleData.get(TRANSMISION)));
+      String color = encrypt.decrypt(vehicleData.get(COLOR));
+      byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
+      String brand = encrypt.decrypt(vehicleData.get(BRAND));
+      byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
+      String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
+      float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
+      float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
+      byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
+      boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
       Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
           vinNumber, mpg, price, suitCapacity, transmision);
-      vehicle.setVehicleImage(convertStringToImage(encriptador.decrypt(vehicleData.get(13))));
-      for(int j = 14; j < vehicleData.size(); j = j+6) {
-        boolean type = Boolean.parseBoolean(encriptador.decrypt(vehicleData.get(j)));
-        String id = encriptador.decrypt(vehicleData.get(j+1));
-        Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
+      vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
+      for(int j = 12; j < vehicleData.size(); j = j+6) {
+        boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(j)));
+        String id = encrypt.decrypt(vehicleData.get(j+1));
+        Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
             vehicleData.get(j+2)));
-        Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encriptador.decrypt(
+        Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
             vehicleData.get(j+3)));
-        float maintenancePrice = Float.parseFloat(encriptador.decrypt(vehicleData.get(j+4)));
-        String detail = encriptador.decrypt(vehicleData.get(j+5));
+        float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(j+4)));
+        String detail = encrypt.decrypt(vehicleData.get(j+5));
         vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
             detail));
       }
