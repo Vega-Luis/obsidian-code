@@ -73,6 +73,10 @@ public class Maintenance {
   public Company getCompany() {
     return company;
   }
+  
+  public void setCompany(Company pCompany) {
+    this.company = pCompany;
+  }
 
   public boolean getType() {
     return type;
