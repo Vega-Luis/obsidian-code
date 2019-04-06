@@ -37,4 +37,10 @@ public interface Constants {
   final byte TRANSMISION = 10;
   final byte IMAGE = 11;
   
+  //Branch constants
+  final byte BRANCHNAME = 0;
+  final byte BRANCHPROVINCE = 1;
+  final byte BRANCHCANTON = 2;
+  final byte BRANCHDISTRICT = 3;
+  final byte BRANCHSINGS = 4;
 }
