@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import bussineslogic.Address;
+import bussineslogic.Branch;
 import bussineslogic.Client;
 import bussineslogic.Employee;
 import bussineslogic.Vehicle;
@@ -59,14 +60,26 @@ public class Main {
     vehicle.setVehicleImage(picture);
     vehicle2.setVehicleImage(picture);
     
-    persistence.saveVehicle(vehicle);
-    persistence.saveVehicle(vehicle2);
+    //persistence.saveVehicle(vehicle);
+    //persistence.saveVehicle(vehicle2);
     
     ArrayList<Vehicle> vehicles = persistence.loadVehicles();
     for(int i = 0; i < vehicles.size(); i++) {
       System.out.println(vehicles.get(i).getVehicleImage().toString()+"\n\n");
     }
     
+    Branch branch1 = new Branch("Cartago",address);
+    Branch branch2 = new Branch("PEREZ",address);
+    branch1.setVehicles(vehicles);
+    branch2.setVehicles(vehicles);
+    
+    //persistence.saveBranch(branch1);
+    //persistence.saveBranch(branch2);
+    ArrayList<Branch> branches = persistence.loadBranches();
+    
+    for(int i = 0; i < branches.size(); i++) {
+      System.out.println(branches.get(i).getVehicles().get(i).getColor());
+    }
   }
 
 }
