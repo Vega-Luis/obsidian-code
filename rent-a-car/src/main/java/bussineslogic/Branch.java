@@ -10,15 +10,16 @@ import java.util.ArrayList;
 public class Branch {
   private ArrayList<Vehicle> vehicles;
   private String name;
+  private Address address;
 
   /**
    * Constructor de objetos de clase Branch.
    * @param name Nombre de sede de la compania que brinda el servicio.
    */
-  public Branch(String name) {
+  public Branch(String name, Address address) {
     this.vehicles = new ArrayList<Vehicle>();
     this.name = name;
-    
+    this.address = address;
   }
   
   /**
@@ -29,6 +30,9 @@ public class Branch {
     return vehicles;
   }
   
+  public void setVehicles(ArrayList<Vehicle> vehicles) {
+    this.vehicles = vehicles;
+  }
   /**
    * Consulta por placa un vehiculo a la sede.
    * @param vehiclePlate Placa del vehiculo.
@@ -57,6 +61,14 @@ public class Branch {
    */
   public void setName(String name) {
     this.name = name;
+  }
+  
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
   }
 
   /**
