@@ -1,12 +1,12 @@
 package persistence;
 
 import bussineslogic.Client;
+import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
 import bussineslogic.Address;
 import bussineslogic.Branch;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
@@ -37,13 +37,23 @@ public class Persistence implements Constants{
   
   Chyperer encrypt = new Chyperer("123456789ABCDEFG");
   
-  public void updateData(ArrayList<Vehicle> vehicles) throws Exception {
+  public Persistence() {
+    createDirectory();
+  }
+  
+  private void createDirectory() {
+    if(Files.exists(Paths.get("C:\\JSONFiles"))){
+      File dir = new File("C:\\JSONFiles");
+      dir.mkdir();
+    }
+  }
+  public void updateVehicleData(ArrayList<Vehicle> vehicles) throws Exception {
     JSONArray jsonVehicles = new JSONArray();
     for(int i = 0; i < vehicles.size(); i++) {
       ArrayList<String> vehicleData = getVehicleData(vehicles.get(i));
       jsonVehicles.add(vehicleData);
     }
-    Files.write(Paths.get("vehicles.json"), jsonVehicles.toJSONString().getBytes());
+    Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), jsonVehicles.toJSONString().getBytes());
   }
   
   /**
@@ -114,8 +124,6 @@ public class Persistence implements Constants{
       clients.add(clientData);
       Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
     }catch(Exception d) {
-      File dir = new File("C:\\JSONFiles");
-      dir.mkdir();
       JSONArray clients = new JSONArray();
       clients.add(clientData);
       Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
@@ -188,8 +196,6 @@ public class Persistence implements Constants{
       employees.add(employeeData);
       Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
     }catch(Exception d) {
-      File dir = new File("C:\\JSONFiles");
-      dir.mkdir();
       JSONArray employees = new JSONArray();
       employees.add(employeeData);
       Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
@@ -241,6 +247,11 @@ public class Persistence implements Constants{
     vehicleData.add(Byte.toString(vehicle.getSuitcaseCapacity()));
     vehicleData.add(Boolean.toString(vehicle.isTransmission()));
     vehicleData.add(convertImgToString(vehicle.getVehicleImage()));
+    vehicleData.add(vehicle.getBranch().getName());
+    vehicleData.add(vehicle.getBranch().getAddress().getProvince());
+    vehicleData.add(vehicle.getBranch().getAddress().getCanton());
+    vehicleData.add(vehicle.getBranch().getAddress().getDistrict());
+    vehicleData.add(vehicle.getBranch().getAddress().getSings());
     for(int i = 0; i < vehicle.getMaintenances().size(); i++) {
       maintenanceData.add(Boolean.toString(vehicle.getMaintenances().get(i).getType()));
       maintenanceData.add(vehicle.getMaintenances().get(i).getId());
@@ -248,15 +259,15 @@ public class Persistence implements Constants{
       maintenanceData.add(formatDate.format(vehicle.getMaintenances().get(i).getEndDate()));
       maintenanceData.add(Float.toString(vehicle.getMaintenances().get(i).getPrice()));
       maintenanceData.add(vehicle.getMaintenances().get(i).getDetail());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getBussinesName());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getLegalNumber());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getTelephone());      
     }
     for(int i = 0; i < maintenanceData.size(); i++) {
       vehicleData.add(maintenanceData.get(i));
     }
     for(int i = 0; i < vehicleData.size(); i++) {
       vehicleData.set(i, encrypt.encrypt(vehicleData.get(i)));
-    }
-    for(int i = 0; i < maintenanceData.size(); i++) {
-      vehicleData.set(i, encrypt.encrypt(maintenanceData.get(i)));
     }
     return vehicleData;
   }
@@ -308,7 +319,14 @@ public class Persistence implements Constants{
       Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
           vinNumber, mpg, price, suitCapacity, transmision);
       vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-      for(int j = 12; j < vehicleData.size(); j = j+6) {
+      String branchName = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHNAME));
+      String branchProvince = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHPROVINCE));
+      String branchCanton = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHCANTON));
+      String branchDistrict = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHDISTRICT));
+      String branchSings = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHSINGS));
+      vehicle.setBranch(new Branch(branchName,new Address(branchProvince, branchCanton,
+          branchDistrict, branchSings)));
+      for(int j = 17; j < vehicleData.size(); j = j+9) {
         boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(j)));
         String id = encrypt.decrypt(vehicleData.get(j+1));
         Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
@@ -317,30 +335,40 @@ public class Persistence implements Constants{
             vehicleData.get(j+3)));
         float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(j+4)));
         String detail = encrypt.decrypt(vehicleData.get(j+5));
+        String businessName = encrypt.decrypt(vehicleData.get(j+6));
+        String legalNumber = encrypt.decrypt(vehicleData.get(j+7));
+        String telephone = encrypt.decrypt(vehicleData.get(j+8));
+        Company company = new Company(businessName, legalNumber, telephone);
         vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
-            detail));
+            detail, company));
       }
       vehicles.add(vehicle);
     }
     return vehicles;
   }
   
+  public void updateBranchVehicles(ArrayList<Branch> branches) throws Exception {
+    JSONArray branchesVehicles = new JSONArray();
+    for(int i = 0; i < branches.size(); i++) {
+      ArrayList<ArrayList<String>> vehicles= getBranchVehicles(branches.get(i).getVehicles());
+      branchesVehicles.add(vehicles);
+    }
+    Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
+  }
+  
+  public ArrayList<ArrayList<String>> getBranchVehicles(ArrayList<Vehicle> vehicles) throws Exception {
+    ArrayList<String> vehicleData = new ArrayList<String>();
+    ArrayList<ArrayList<String>> branchVehicles = new ArrayList<ArrayList<String>>();
+    for(int i = 0; i < vehicles.size(); i++) {
+      vehicleData = getVehicleData(vehicles.get(i));
+      branchVehicles.add(vehicleData);
+    }
+    return branchVehicles;
+  }
+  
   public ArrayList<String> getBranchData(Branch branch) throws Exception{
     ArrayList<String> branchData = new ArrayList<String>();
-    ArrayList<String> vehicleData = new ArrayList<String>();
-    ArrayList<ArrayList<String>> vehiclesData = new ArrayList<ArrayList<String>>();
-    ArrayList<ArrayList<ArrayList<String>>> branchVehicles = new ArrayList<ArrayList<ArrayList
-        <String>>>();
-    branchData.add(branch.getName());
-    branchData.add(branch.getAddress().getProvince());
-    branchData.add(branch.getAddress().getCanton());
-    branchData.add(branch.getAddress().getDistrict());
-    branchData.add(branch.getAddress().getSings());
-    for(int i = 0; i < branch.getVehicles().size(); i++) {
-      vehicleData = getVehicleData(branch.getVehicles().get(i));
-      vehiclesData.add(vehicleData);
-    }
-    branchVehicles.add(vehiclesData);
+    ArrayList<ArrayList<String>> branchVehicles = getBranchVehicles(branch.getVehicles());
     try {
       JSONParser parser = new JSONParser();
       JSONArray branchesVehicles = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
@@ -351,6 +379,11 @@ public class Persistence implements Constants{
       branchesVehicles.add(branchVehicles);
       Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
       }
+    branchData.add(branch.getName());
+    branchData.add(branch.getAddress().getProvince());
+    branchData.add(branch.getAddress().getCanton());
+    branchData.add(branch.getAddress().getDistrict());
+    branchData.add(branch.getAddress().getSings());
     for(int i = 0; i < branchData.size(); i++) {
       branchData.set(i, encrypt.encrypt((branchData.get(i))));
     }
@@ -376,10 +409,8 @@ public class Persistence implements Constants{
     JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
     ArrayList<Branch> branches = new ArrayList<Branch>();
     ArrayList<String> branchData = new ArrayList<String>();
-    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<ArrayList<String>> vehiclesData = new ArrayList<ArrayList<String>> ();
-    ArrayList<ArrayList<ArrayList<String>>> vehicleArray = new ArrayList<ArrayList<ArrayList<String>>>();
     for(int i = 0; i < branchesArray.size(); i++) {
       branchData = (ArrayList<String>) branchesArray.get(i);
       String branchName = encrypt.decrypt(branchData.get(BRANCHNAME));
@@ -390,43 +421,83 @@ public class Persistence implements Constants{
       branches.add(new Branch(branchName,new Address(province,canton,district,sings)));
     }
     for(int i = 0; i < vehiclesArray.size(); i++) {
-      vehicleArray = (ArrayList<ArrayList<ArrayList<String>>>) vehiclesArray.get(i);
-      for(int j = 0; j < vehicleArray.size(); j++) {
-        vehiclesData = vehicleArray.get(j);
-        for(int vehiculo = 0; vehiculo < vehiclesData.size(); vehiculo++) {
-          vehicleData = vehiclesData.get(vehiculo);
-          String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
-          Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-              vehicleData.get(FABRICATIONDATE)));
-          String color = encrypt.decrypt(vehicleData.get(COLOR));
-          byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
-          String brand = encrypt.decrypt(vehicleData.get(BRAND));
-          byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
-          String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
-          float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
-          float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
-          byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
-          boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
-          Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
-              vinNumber, mpg, price, suitCapacity, transmision);
-          vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-          for(int k = 12; k < vehicleData.size(); k = k+6) {
-            boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
-            String id = encrypt.decrypt(vehicleData.get(k+1));
-            Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-                vehicleData.get(k+2)));
-            Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-                vehicleData.get(k+3)));
-            float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(k+4)));
-            String detail = encrypt.decrypt(vehicleData.get(k+5));
-            vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
-                detail));
-          }
-          vehicles.add(vehicle);
+      vehiclesData = (ArrayList<ArrayList<String>>) vehiclesArray.get(i);
+      for(int j = 0; j < vehiclesData.size(); j++) {
+        vehicleData = vehiclesData.get(j);
+        String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
+        Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+            vehicleData.get(FABRICATIONDATE)));
+        String color = encrypt.decrypt(vehicleData.get(COLOR));
+        byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
+        String brand = encrypt.decrypt(vehicleData.get(BRAND));
+        byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
+        String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
+        float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
+        float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
+        byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
+        boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
+        Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
+            vinNumber, mpg, price, suitCapacity, transmision);
+        vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
+        String branchName = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHNAME));
+        String branchProvince = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHPROVINCE));
+        String branchCanton = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHCANTON));
+        String branchDistrict = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHDISTRICT));
+        String branchSings = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHSINGS));
+        vehicle.setBranch(new Branch(branchName,new Address(branchProvince, branchCanton,
+            branchDistrict, branchSings)));
+        for(int k = 17; k < vehicleData.size(); k = k+9) {
+          boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
+          String id = encrypt.decrypt(vehicleData.get(k+1));
+          Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+              vehicleData.get(k+2)));
+          Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+              vehicleData.get(k+3)));
+          float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(k+4)));
+          String detail = encrypt.decrypt(vehicleData.get(k+5));
+          String businessName = encrypt.decrypt(vehicleData.get(k+6));
+          String legalNumber = encrypt.decrypt(vehicleData.get(k+7));
+          String telephone = encrypt.decrypt(vehicleData.get(k+8));
+          Company company = new Company(businessName, legalNumber, telephone);
+          vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
+              detail,company));
         }
+        branches.get(i).add(vehicle);
       }
-      branches.get(i).setVehicles(vehicles);
     }
     return branches;
+  }
+  
+  public void saveCompany(Company company) throws Exception {
+    ArrayList<String> companyData = new ArrayList<String>();
+    companyData.add(company.getBussinesName());
+    companyData.add(company.getLegalNumber());
+    companyData.add(company.getTelephone());
+    try {
+      JSONParser parser = new JSONParser();
+      JSONArray companies = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+      companies.add(companyData);
+      Files.write(Paths.get("C:\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
+    }catch(Exception d) {
+      JSONArray companies = new JSONArray();
+      companies.add(companyData);
+      Files.write(Paths.get("C:\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
+      }
+  }
+  
+  public ArrayList<Company> loadCompanies() throws FileNotFoundException, IOException, ParseException {
+    ArrayList<Company> companies = new ArrayList<Company>();
+    ArrayList<String> companyData = new ArrayList<String>();
+    JSONParser parser = new JSONParser();
+    JSONArray companiesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+    for(int i = 0; i < companiesArray.size(); i++) {
+      companyData = (ArrayList<String>) companiesArray.get(i);
+      String businessName = companyData.get(BUSINESSNAME);
+      String legalNumber = companyData.get(LEGALNUMBER);
+      String telephone = companyData.get(TELEPHONE);
+      Company company = new Company(businessName, legalNumber, telephone);
+      companies.add(company);
+    }
+    return companies;
   }
 }

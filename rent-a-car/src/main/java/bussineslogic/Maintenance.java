@@ -28,7 +28,8 @@ public class Maintenance {
    * @param price    Es los que costo el mantenimiento.
    * @param detail   Son los detalles acerca del mantenimiento
    */
-  public Maintenance(boolean type, String idVehiculo, Date startDate, Date endDate, Float price, String detail) {
+  public Maintenance(boolean type, String idVehiculo, Date startDate, Date endDate, Float price, 
+      String detail, Company company) {
     this.type = type;
     amount++;
     this.id = "MANT-"+ idVehiculo + amount;
@@ -36,6 +37,7 @@ public class Maintenance {
     this.endDate = endDate;
     this.price = price;
     this.detail = detail;
+    this.company = company;
   }
   
   public Date getStartDate() {
