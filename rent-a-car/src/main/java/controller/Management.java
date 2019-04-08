@@ -26,7 +26,7 @@ public class Management {
   private ArrayList<Client> clients;
   private ArrayList<Employee> employees;
   private ArrayList<Branch> branches;
-  private ArrayList<Company> Companies;
+  private ArrayList<Company> companies;
   private Persistence persistence;
   private final int NOT_ADDED = 0;
 
@@ -67,9 +67,9 @@ public class Management {
   
   private void setCompanies() {
     try {
-      this.Companies = this.persistence.loadCompanies();
+      this.companies = this.persistence.loadCompanies();
     } catch (FileNotFoundException e) {
-      this.Companies = new ArrayList<Company>();
+      this.companies = new ArrayList<Company>();
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
@@ -215,4 +215,45 @@ public class Management {
     return true;
   }
   
+  /**
+   * Permite agregar una nueva empresa de mantenimiento.
+   * @param bussinesName Nombre de la empresa.
+   * @param legalNumber Razon social.
+   * @param telephone Telefono.
+   * @return Booleano que indica el resultado de la operacion.
+   */
+  public boolean addCompany(String bussinesName, String legalNumber, String telephone) {
+    for (int company = 0; company < this.companies.size(); company++) {
+      if (this.companies.get(company).getBussinesName().equals(bussinesName)) {
+        return false;
+      }
+    }
+    this.companies.add(new Company(bussinesName, legalNumber, telephone));
+    return true;
+  }
+  
+  /**
+   * Agrega un nuevo mantenimiento a la empresa de servicios.
+   * @param branch
+   * @param type
+   * @param vehiclePlate
+   * @param startDate
+   * @param endDate
+   * @param price
+   * @param detail
+   * @param company
+   * @return
+   */
+  public boolean addMaintenance(Branch branch, boolean type, String vehiclePlate, Date startDate,
+      Date endDate, Float price, String detail, Company company) {
+    
+    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
+      if (branch.getVehicles().get(vehicle).getVehiclePlate().equals(vehiclePlate)) {
+        Maintenance newMaintenance = new Maintenance(type, detail, endDate, endDate, price, detail, company);
+        branch.getVehicle(vehiclePlate).getMaintenances().add(newMaintenance);
+        return true;
+      }
+    }
+    return false;
+  }
 }
