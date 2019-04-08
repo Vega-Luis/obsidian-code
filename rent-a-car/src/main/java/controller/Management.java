@@ -30,6 +30,9 @@ public class Management {
   
   public Management() {
     this.persistence = new Persistence();
+    this.setClients();
+    this.setEmployees();
+    this.setVehicles();
   }
   
   private void setVehicles() {
