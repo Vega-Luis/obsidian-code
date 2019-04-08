@@ -234,14 +234,14 @@ public class Management {
   
   /**
    * Agrega un nuevo mantenimiento a la empresa de servicios.
-   * @param branch
-   * @param type
-   * @param vehiclePlate
-   * @param startDate
-   * @param endDate
-   * @param price
-   * @param detail
-   * @param company
+   * @param branch Sede a la que pertence le vehiculo.
+   * @param type tipo de mantenimeinto.
+   * @param vehiclePlate Placa del vehiculo. 
+   * @param startDate Fecha en que inicia el mantenimiento.
+   * @param endDate Fecha en que termina el mantenimiento.
+   * @param price Costo del mantenimeinto.
+   * @param detail Detalle del mantenimiento.
+   * @param company Empresa que lo realiza.
    * @return
    */
   public boolean addMaintenance(Branch branch, boolean type, String vehiclePlate, Date startDate,
