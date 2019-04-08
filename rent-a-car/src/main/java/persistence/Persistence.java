@@ -31,7 +31,7 @@ import util.Chyperer;
  * Clase para la persistencia de datos, implementa una interfaz con constantes para mejorar la
  * comprensión de la misma
  * @author Marcosmh0199
- * @version 30/03/2019
+ * @version v19.4.8
  */
 public class Persistence implements Constants{
   
@@ -47,6 +47,7 @@ public class Persistence implements Constants{
       dir.mkdir();
     }
   }
+  
   public void updateVehicleData(ArrayList<Vehicle> vehicles) throws Exception {
     JSONArray jsonVehicles = new JSONArray();
     for(int i = 0; i < vehicles.size(); i++) {
@@ -84,7 +85,8 @@ public class Persistence implements Constants{
     Image image = ImageIO.read(new ByteArrayInputStream(imageBytes));
     return image;
   }
-  public ArrayList<String> getClientData(Client client) throws Exception{
+  
+  private ArrayList<String> getClientData(Client client) throws Exception{
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<String> clientLicenses = new ArrayList<String>();
     clientData.add(client.getName());
@@ -170,7 +172,7 @@ public class Persistence implements Constants{
    * @return ArrayList que contiene los datos del empleado en strings
    * @throws Exception
    */
-  public ArrayList<String> getEmployeeData(Employee employee) throws Exception{
+  private ArrayList<String> getEmployeeData(Employee employee) throws Exception{
     ArrayList<String> employeeData = new ArrayList<String>();
     employeeData.add(employee.getId());
     employeeData.add(employee.getName());
@@ -276,7 +278,7 @@ public class Persistence implements Constants{
     Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
   }
   
-  public ArrayList<ArrayList<String>> getBranchVehicles(ArrayList<Vehicle> vehicles) throws Exception {
+  private ArrayList<ArrayList<String>> getBranchVehicles(ArrayList<Vehicle> vehicles) throws Exception {
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<ArrayList<String>> branchVehicles = new ArrayList<ArrayList<String>>();
     for(int i = 0; i < vehicles.size(); i++) {
@@ -286,7 +288,7 @@ public class Persistence implements Constants{
     return branchVehicles;
   }
   
-  public ArrayList<String> getBranchData(Branch branch) throws Exception{
+  private ArrayList<String> getBranchData(Branch branch) throws Exception{
     ArrayList<String> branchData = new ArrayList<String>();
     ArrayList<ArrayList<String>> branchVehicles = getBranchVehicles(branch.getVehicles());
     try {
@@ -360,6 +362,7 @@ public class Persistence implements Constants{
             vinNumber, mpg, price, suitCapacity, transmision);
         vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
         for(int k = 12; k < vehicleData.size(); k = k+9) {
+          //System.out.println(encrypt.decrypt(vehicleData.get(i)));
           boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
           String id = encrypt.decrypt(vehicleData.get(k+1));
           Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
