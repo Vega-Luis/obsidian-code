@@ -9,8 +9,11 @@ import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
 import bussineslogic.VehicleStyle;
 import java.awt.Image;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import org.json.simple.parser.ParseException;
 import persistence.Persistence;
 
 /**
@@ -23,6 +26,7 @@ public class Management {
   private ArrayList<Client> clients;
   private ArrayList<Employee> employees;
   private ArrayList<Branch> branches;
+  private ArrayList<Company> Companies;
   private Persistence persistence;
   private final int NOT_ADDED = 0;
 
@@ -31,6 +35,7 @@ public class Management {
     this.setClients();
     this.setEmployees();
     this.setBranches();
+    this.setCompanies();
   }
   
   private void setClients() {
@@ -53,9 +58,22 @@ public class Management {
   
   private void setBranches() {
     try {
-      this.persistence.loadBranches();
+      this.branches = this.persistence.loadBranches();
     } catch (Exception e) {
       this.branches = new ArrayList<Branch>();
+      e.printStackTrace();
+    }
+  }
+  
+  private void setCompanies() {
+    try {
+      this.Companies = this.persistence.loadCompanies();
+    } catch (FileNotFoundException e) {
+      this.Companies = new ArrayList<Company>();
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
       e.printStackTrace();
     }
   }
