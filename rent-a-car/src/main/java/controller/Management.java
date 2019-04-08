@@ -142,7 +142,7 @@ public class Management {
    * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
    * @param transmission Tipo de transmicion.
    */
-  public void addVehicle(String vehiclePlate, Date fabricationDate, Color color, byte capacity,
+  public void addVehicle(String vehiclePlate, Date fabricationDate, String color, byte capacity,
       String brand, byte doors, String vinNumber, float mpg, float price, byte suitcaseCapacity,
           boolean transmission) {
     if (searchVehicle(vehiclePlate) == NOT_ADDED) {
@@ -178,7 +178,7 @@ public class Management {
    * @param vehiclePlate Placa del vehiculo.
    * @param color Color del vehiculo.
    */
-  public void modifyColor(String vehiclePlate, Color color) {
+  public void modifyColor(String vehiclePlate, String color) {
     if (searchVehicle(vehiclePlate) != NOT_ADDED) {
     vehicles.get(searchVehicle(vehiclePlate)).setColor(color);;
     }
@@ -283,8 +283,8 @@ public class Management {
    * @return Un nuevo mantenimiento para un vehiculo.
    */
   public Maintenance addMaintenance(boolean type, String idVehiculo, Date startDate, Date endDate,
-      Float price, String detail) {
-    return new Maintenance(type,idVehiculo,startDate,endDate, price, detail);
+      Float price, String detail, Company company) {
+    return new Maintenance(type,idVehiculo,startDate,endDate, price, detail, company);
   }
   
   /**

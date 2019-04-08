@@ -46,5 +46,8 @@ public class Company {
     this.telephone = telephone;
   }
   
-  
+  public String toString() {
+    String msg = getBussinesName();
+    return msg;
+  }
 }
