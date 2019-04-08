@@ -19,6 +19,7 @@ public class License {
    * @param id cedula del cliente dueño de la cédula
    * @param releaseDate fecha en la que fue emitida la cédula
    * @param expireDate fecha en la que expira la cédula
+   * @param Image Imagen de la licencia.
    */
   public License(String id, Date releaseDate, Date expireDate, Image image) {
     setId(id);
