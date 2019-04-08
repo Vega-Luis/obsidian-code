@@ -158,7 +158,7 @@ public class Persistence implements Constants{
         Date releaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(releaseDateString);
         Date expireDate = new SimpleDateFormat("dd/MM/yyyy").parse(expireDateString);
         final Image IMAGE = convertStringToImage(encrypt.decrypt(clientData.get(j+3)));
-        client.addLicense(releaseDate, expireDate, IMAGE);
+        client.addLicense(id,releaseDate, expireDate, IMAGE);
       }
       clients.add(client);
     }
@@ -247,11 +247,6 @@ public class Persistence implements Constants{
     vehicleData.add(Byte.toString(vehicle.getSuitcaseCapacity()));
     vehicleData.add(Boolean.toString(vehicle.isTransmission()));
     vehicleData.add(convertImgToString(vehicle.getVehicleImage()));
-    vehicleData.add(vehicle.getBranch().getName());
-    vehicleData.add(vehicle.getBranch().getAddress().getProvince());
-    vehicleData.add(vehicle.getBranch().getAddress().getCanton());
-    vehicleData.add(vehicle.getBranch().getAddress().getDistrict());
-    vehicleData.add(vehicle.getBranch().getAddress().getSings());
     for(int i = 0; i < vehicle.getMaintenances().size(); i++) {
       maintenanceData.add(Boolean.toString(vehicle.getMaintenances().get(i).getType()));
       maintenanceData.add(vehicle.getMaintenances().get(i).getId());
@@ -270,81 +265,6 @@ public class Persistence implements Constants{
       vehicleData.set(i, encrypt.encrypt(vehicleData.get(i)));
     }
     return vehicleData;
-  }
-  
-  /**
-   * Método para guardar un vehículo en un archivo .json
-   * @param vehicle objeto tipo Vehiculo que será guardado luego de haber sido registrado
-   * @throws Exception 
-   */
-  public void saveVehicle(Vehicle vehicle) throws Exception {
-    ArrayList<String> vehicleData = getVehicleData(vehicle);
-    try {
-      JSONParser parser = new JSONParser();
-      JSONArray vehicles = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\vehicles.json"));
-      vehicles.add(vehicleData);
-      Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), vehicles.toJSONString().getBytes());
-    }catch(Exception d) {
-      JSONArray vehicles = new JSONArray();
-      vehicles.add(vehicleData);
-      Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), vehicles.toJSONString().getBytes());
-      }
-  }
-  
-  /**
-   * Método para cargar los vehículos previamente añadidos
-   * @return ArrayList con todos los vehículos registrados hasta la fecha
-   * @throws java.text.ParseException
-   * @throws Exception 
-   */
-  public ArrayList<Vehicle> loadVehicles() throws Exception {
-    JSONParser parser = new JSONParser();
-    JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Vehicles.json"));
-    ArrayList<String> vehicleData= new ArrayList<String>();
-    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-    for(int i = 0; i < vehiclesArray.size(); i++) {
-      vehicleData = (ArrayList<String>) vehiclesArray.get(i);
-      String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
-      Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-          vehicleData.get(FABRICATIONDATE)));
-      String color = encrypt.decrypt(vehicleData.get(COLOR));
-      byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
-      String brand = encrypt.decrypt(vehicleData.get(BRAND));
-      byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
-      String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
-      float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
-      float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
-      byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
-      boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
-      Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
-          vinNumber, mpg, price, suitCapacity, transmision);
-      vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-      String branchName = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHNAME));
-      String branchProvince = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHPROVINCE));
-      String branchCanton = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHCANTON));
-      String branchDistrict = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHDISTRICT));
-      String branchSings = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHSINGS));
-      vehicle.setBranch(new Branch(branchName,new Address(branchProvince, branchCanton,
-          branchDistrict, branchSings)));
-      for(int j = 17; j < vehicleData.size(); j = j+9) {
-        boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(j)));
-        String id = encrypt.decrypt(vehicleData.get(j+1));
-        Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-            vehicleData.get(j+2)));
-        Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-            vehicleData.get(j+3)));
-        float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(j+4)));
-        String detail = encrypt.decrypt(vehicleData.get(j+5));
-        String businessName = encrypt.decrypt(vehicleData.get(j+6));
-        String legalNumber = encrypt.decrypt(vehicleData.get(j+7));
-        String telephone = encrypt.decrypt(vehicleData.get(j+8));
-        Company company = new Company(businessName, legalNumber, telephone);
-        vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
-            detail, company));
-      }
-      vehicles.add(vehicle);
-    }
-    return vehicles;
   }
   
   public void updateBranchVehicles(ArrayList<Branch> branches) throws Exception {
@@ -439,14 +359,7 @@ public class Persistence implements Constants{
         Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
             vinNumber, mpg, price, suitCapacity, transmision);
         vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-        String branchName = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHNAME));
-        String branchProvince = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHPROVINCE));
-        String branchCanton = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHCANTON));
-        String branchDistrict = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHDISTRICT));
-        String branchSings = encrypt.decrypt(vehicleData.get(VEHICLEBRANCHSINGS));
-        vehicle.setBranch(new Branch(branchName,new Address(branchProvince, branchCanton,
-            branchDistrict, branchSings)));
-        for(int k = 17; k < vehicleData.size(); k = k+9) {
+        for(int k = 12; k < vehicleData.size(); k = k+9) {
           boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
           String id = encrypt.decrypt(vehicleData.get(k+1));
           Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
