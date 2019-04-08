@@ -31,12 +31,12 @@ public class Main {
     ArrayList<Client> clients;
     
     Client client = new Client("Marcos","117","8511","gmail",address);
-    client.addLicense(date1,date1, picture);
-    client.addLicense(date1,date1, picture);
+    client.addLicense(client.getId(),date1,date1, picture);
+    client.addLicense(client.getId(),date1,date1, picture);
     
     Client client2 = new Client("Pepe","117","8511","gmail",address);
-    client2.addLicense(date1,date1, picture);
-    client2.addLicense(date1,date1, picture);
+    client2.addLicense(client.getId(),date1,date1, picture);
+    client2.addLicense(client.getId(),date1,date1, picture);
     Persistence persistence = new Persistence();
     
     //persistence.saveClient(client);
@@ -62,21 +62,12 @@ public class Main {
     Company company = new Company("HOLA", "COMO","ESTA");
     Vehicle vehicle = new Vehicle("12345", date1, "ROJO", (byte)4, "Nissan", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
     Vehicle vehicle2 = new Vehicle("12345", date1, "VERDE", (byte)4, "Toyota", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
-    vehicle.setBranch(branch1);
     vehicle.setVehicleImage(picture);
     vehicle2.setVehicleImage(picture);
-    vehicle2.setBranch(branch2);
     vehicle.getMaintenances().add(new Maintenance(true,vehicle.getVehiclePlate(),date1,date1, (float)5000, "Test", company));
     //persistence.saveVehicle(vehicle);
     //persistence.saveVehicle(vehicle2);
     
-    ArrayList<Vehicle> vehicles = persistence.loadVehicles();
-    persistence.updateVehicleData(vehicles);
-    vehicles = persistence.loadVehicles();
-    for(int i = 0; i < vehicles.size(); i++) {
-      System.out.println(vehicles.get(i).getBranch().getName()+"\n\n");
-    }
-    //System.out.println(vehicles.get(0).getMaintenances().get(0).getCompany().getBussinesName());
     branch1.add(vehicle);
     branch2.add(vehicle2);
     
@@ -87,7 +78,7 @@ public class Main {
 
     branches = persistence.loadBranches();
     for(int i = 0; i < branches.size(); i++) {
-      System.out.println(branches.get(i).getVehicles().get(0).getBranch().getName());
+      System.out.println(branches.get(i).getVehicles().get(0).getBrand());
     }
     
     //persistence.saveCompany(company);

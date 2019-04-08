@@ -25,7 +25,6 @@ public class Vehicle {
   private byte suitcaseCapacity;
   private boolean transmission;
   private ArrayList<Maintenance> maintenances;
-  private Branch branch;
   private VehicleStyle style;
   private VehicleState state;
   private Image vehicleImage;
@@ -162,14 +161,6 @@ public class Vehicle {
 
   public void setMaintenances(ArrayList<Maintenance> maintenances) {
     this.maintenances = maintenances;
-  }
-
-  public Branch getBranch() {
-    return branch;
-  }
-
-  public void setBranch(Branch branch) {
-    this.branch = branch;
   }
 
   public VehicleStyle getStyle() {
