@@ -118,6 +118,15 @@ public class Menu extends JFrame {
 		  }
 		});
 		btnRegistrarCliente.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JButton btnRegistrarEmpleado = new JButton("Registrar empleado");
+		btnRegistrarEmpleado.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent arg0) {
+		    EmployeetRegister registroEmpleado = new EmployeetRegister();
+		    registroEmpleado.setVisible(true);
+		  }
+		});
+		btnRegistrarEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -135,6 +144,7 @@ public class Menu extends JFrame {
 		            .addComponent(btnRegistrarCliente))
 		          .addPreferredGap(ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		            .addComponent(btnRegistrarEmpleado)
 		            .addComponent(btnDetalleDeReserva)
 		            .addComponent(btnEditarVehiculo)
 		            .addComponent(btnRegistrarEmpresaNueva))))
@@ -156,11 +166,12 @@ public class Menu extends JFrame {
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		        .addComponent(btnRealizarReserva)
 		        .addComponent(btnDetalleDeReserva))
-		      .addGap(27)
-		      .addComponent(btnRegistrarCliente)
-		      .addContainerGap(131, Short.MAX_VALUE))
+		      .addGap(42)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		        .addComponent(btnRegistrarCliente)
+		        .addComponent(btnRegistrarEmpleado))
+		      .addContainerGap(112, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-
 }

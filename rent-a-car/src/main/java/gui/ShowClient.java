@@ -19,10 +19,10 @@ import javax.swing.ImageIcon;
 public class ShowClient extends JFrame {
 
   private JPanel contentPane;
-  private JTextField txtEassa;
-  private JTextField txtCambiarConLos_1;
-  private JTextField txtCambiarConLos;
-  private JTextField txtCambiarConLos_2;
+  private JTextField txtNombre;
+  private JTextField txtTelefono;
+  private JTextField txtCedula;
+  private JTextField txtCorreo;
 
   /**
    * Launch the application.
@@ -43,7 +43,7 @@ public class ShowClient extends JFrame {
   /**
    * Create the frame.
    */
-  public ShowClient() {
+  public ShowClient() {                                 //Adaptarlo a que reciba un cliente
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 447, 361);
     contentPane = new JPanel();
@@ -69,25 +69,27 @@ public class ShowClient extends JFrame {
     JLabel lblLicencia = new JLabel("Licencia:");
     lblLicencia.setFont(new Font("Tahoma", Font.PLAIN, 18));
     
-    txtEassa = new JTextField();
-    txtEassa.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
-    txtEassa.setEditable(false);
-    txtEassa.setColumns(10);
     
-    txtCambiarConLos_1 = new JTextField();
-    txtCambiarConLos_1.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
-    txtCambiarConLos_1.setEditable(false);
-    txtCambiarConLos_1.setColumns(10);
     
-    txtCambiarConLos = new JTextField();
-    txtCambiarConLos.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
-    txtCambiarConLos.setEditable(false);
-    txtCambiarConLos.setColumns(10);
+    txtNombre = new JTextField();
+    txtNombre.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtNombre.setEditable(false);
+    txtNombre.setColumns(10);
     
-    txtCambiarConLos_2 = new JTextField();
-    txtCambiarConLos_2.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
-    txtCambiarConLos_2.setEditable(false);
-    txtCambiarConLos_2.setColumns(10);
+    txtTelefono = new JTextField();
+    txtTelefono.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtTelefono.setEditable(false);
+    txtTelefono.setColumns(10);
+    
+    txtCedula = new JTextField();
+    txtCedula.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtCedula.setEditable(false);
+    txtCedula.setColumns(10);
+    
+    txtCorreo = new JTextField();
+    txtCorreo.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtCorreo.setEditable(false);
+    txtCorreo.setColumns(10);
     
     JLabel lblImagen = new JLabel("");
     lblImagen.setHorizontalTextPosition(SwingConstants.LEADING);
@@ -117,19 +119,19 @@ public class ShowClient extends JFrame {
                 .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
                   .addComponent(lblCorreo)
                   .addGap(18)
-                  .addComponent(txtCambiarConLos_2, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                  .addComponent(txtCorreo, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
                 .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
                   .addComponent(lblCedula)
                   .addGap(18)
-                  .addComponent(txtCambiarConLos, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+                  .addComponent(txtCedula, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
                 .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
                   .addComponent(lblTelefono)
                   .addPreferredGap(ComponentPlacement.RELATED)
-                  .addComponent(txtCambiarConLos_1, 184, 184, 184))
+                  .addComponent(txtTelefono, 184, 184, 184))
                 .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
                   .addComponent(lblNombre)
                   .addPreferredGap(ComponentPlacement.UNRELATED)
-                  .addComponent(txtEassa, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
+                  .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
               .addContainerGap(324, GroupLayout.PREFERRED_SIZE))))
     );
     gl_contentPane.setVerticalGroup(
@@ -139,19 +141,19 @@ public class ShowClient extends JFrame {
           .addGap(18)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblNombre)
-            .addComponent(txtEassa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
           .addPreferredGap(ComponentPlacement.UNRELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addComponent(lblCedula)
-            .addComponent(txtCambiarConLos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(txtCedula, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
           .addPreferredGap(ComponentPlacement.UNRELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblTelefono)
-            .addComponent(txtCambiarConLos_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(txtTelefono, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
           .addPreferredGap(ComponentPlacement.UNRELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblCorreo)
-            .addComponent(txtCambiarConLos_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(txtCorreo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
           .addGap(18)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblLicencia)

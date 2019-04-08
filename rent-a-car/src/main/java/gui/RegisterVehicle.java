@@ -161,11 +161,12 @@ public class RegisterVehicle extends JFrame {
 		JLabel lblSede = new JLabel("Sede:");
 		lblSede.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBoxSede = new JComboBox();
+		DefaultComboBoxModel<Branch> modelSede = new DefaultComboBoxModel<Branch>();    //Agregar las sedes a la jugada
 		
 		JButton btnRegistrarVehiculo = new JButton("Registrar vehiculo");
 		btnRegistrarVehiculo.addActionListener(new ActionListener() {
-		  public void actionPerformed(ActionEvent arg0) {             //Evento boton
+		  public void actionPerformed(ActionEvent arg0) {             //Evento boton  FALTA EL ESTILO Y EL ESTADO Y LA SEDE
 		    
 		    if(comboBoxTrasmision.getSelectedItem() == "Manual") {
 		      Vehicle vehiculo = new Vehicle(txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(), Byte.parseByte(txtCapacidad.getText()),
@@ -216,13 +217,14 @@ public class RegisterVehicle extends JFrame {
 		              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 		                .addComponent(txtColor)
 		                .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-		                .addComponent(txtMarca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                .addComponent(txtPuertas)
+		                .addComponent(txtMarca)
+		                .addComponent(txtPlaca)
+		                .addComponent(txtNumeroVin)
 		                .addComponent(txtKilometraje)
-		                .addComponent(txtNumeroVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                .addComponent(txtMillasPorGalon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                .addComponent(txtPlaca))))
+		                .addComponent(txtPuertas)
+		                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+		                  .addComponent(txtMillasPorGalon, Alignment.LEADING)
+		                  .addComponent(txtPrecio, Alignment.LEADING)))))
 		          .addGroup(gl_contentPane.createSequentialGroup()
 		            .addComponent(lblTransmision)
 		            .addGap(79)
@@ -235,7 +237,7 @@ public class RegisterVehicle extends JFrame {
 		      .addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		        .addComponent(lblSede)
-		        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
+		        .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
 		        .addComponent(btnRegistrarVehiculo))
 		      .addContainerGap())
 		    .addComponent(lblRegistroDeVehiculo, GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
@@ -253,7 +255,7 @@ public class RegisterVehicle extends JFrame {
 		            .addComponent(txtPlaca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		          .addPreferredGap(ComponentPlacement.RELATED)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-		            .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		            .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		            .addComponent(lblFechaDeFabricacion)))
 		        .addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)

@@ -91,50 +91,46 @@ public class Login extends JFrame {
 			}
 		});
 		btnIniciarSecin.setFont(new Font("Tahoma", Font.PLAIN, 15));
-
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { // Evento de registro
-				// Deberia abrir la ventana de registro.
-
-				EmployeetRegister registro = new EmployeetRegister();
-				registro.setVisible(true);
-			}
-		});
-		btnRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup().addGap(105).addComponent(lblNewLabel,
-										GroupLayout.PREFERRED_SIZE, 405, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup().addGap(74)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblNombreDeUsuario).addComponent(lblContrasena))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(txtContrasena).addComponent(txtNombreUsuario,
-														GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)))
-								.addGroup(gl_contentPane.createSequentialGroup().addGap(129)
-										.addComponent(btnRegistrarse, GroupLayout.PREFERRED_SIZE, 129,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(45)
-										.addComponent(btnIniciarSecin, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)))
-						.addContainerGap(120, Short.MAX_VALUE)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup().addGap(78).addComponent(lblNewLabel).addGap(48)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE).addComponent(lblNombreDeUsuario)
-						.addComponent(txtNombreUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(29)
-				.addGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING).addComponent(lblContrasena).addComponent(txtContrasena,
-								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGap(66)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnRegistrarse, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-						.addComponent(btnIniciarSecin, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-				.addContainerGap()));
+		gl_contentPane.setHorizontalGroup(
+		  gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		    .addGroup(gl_contentPane.createSequentialGroup()
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(105)
+		          .addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 405, GroupLayout.PREFERRED_SIZE))
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(74)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		            .addComponent(lblNombreDeUsuario)
+		            .addComponent(lblContrasena))
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+		            .addComponent(txtContrasena)
+		            .addComponent(txtNombreUsuario, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))))
+		      .addContainerGap(120, Short.MAX_VALUE))
+		    .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+		      .addGap(206)
+		      .addComponent(btnIniciarSecin, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+		      .addGap(217))
+		);
+		gl_contentPane.setVerticalGroup(
+		  gl_contentPane.createParallelGroup(Alignment.LEADING)
+		    .addGroup(gl_contentPane.createSequentialGroup()
+		      .addGap(78)
+		      .addComponent(lblNewLabel)
+		      .addGap(48)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		        .addComponent(lblNombreDeUsuario)
+		        .addComponent(txtNombreUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		      .addGap(29)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		        .addComponent(lblContrasena)
+		        .addComponent(txtContrasena, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		      .addGap(51)
+		      .addComponent(btnIniciarSecin, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+		      .addGap(26))
+		);
 		contentPane.setLayout(gl_contentPane);
 	}
 }

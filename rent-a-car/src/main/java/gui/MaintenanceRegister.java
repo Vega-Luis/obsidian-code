@@ -92,8 +92,12 @@ public class MaintenanceRegister extends JFrame {
     
     JScrollPane scrollPane = new JScrollPane();
     
-    JComboBox comboBoxCompanys = new JComboBox();
-    DefaultComboBoxModel<String> modelCompanys = new DefaultComboBoxModel<String>();    ///CREAR EL MODEL DE COMPANYS
+    
+    
+    final JComboBox comboBoxCompanys = new JComboBox();
+    DefaultComboBoxModel<Company> modelCompany = new DefaultComboBoxModel<Company>();    ///CREAR EL MODEL DE COMPANYS
+    comboBoxCompanys.setModel(modelCompany);
+    
     
     final JTextArea textAreaDetalle = new JTextArea();
     scrollPane.setViewportView(textAreaDetalle);
@@ -103,16 +107,16 @@ public class MaintenanceRegister extends JFrame {
     
     JButton btnRegistrarMantenimiento = new JButton("Registrar mantenimiento");
     btnRegistrarMantenimiento.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {               //Evento del boton  AGREGAR A UN VEHICULO Y ASIGANR COMPANY
+      public void actionPerformed(ActionEvent arg0) {               //Evento del boton  AGREGAR A UN VEHICULO Y ASIGANR COMPANYS
         
         if(comboBoxTipo.getSelectedItem() == "Preventivo") {
           Maintenance mantenimiento = new Maintenance(true, txtIDVehiculo.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate(),
-              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText());
+              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(), (Company)comboBoxCompanys.getSelectedItem());
           
         }
         else {
           Maintenance mantenimiento = new Maintenance(true, txtIDVehiculo.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate(),
-              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText());
+              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(), (Company)comboBoxCompanys.getSelectedItem());
           
           
         }

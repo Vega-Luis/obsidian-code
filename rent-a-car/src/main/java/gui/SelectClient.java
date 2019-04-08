@@ -61,7 +61,7 @@ public class SelectClient extends JFrame {
     
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {           //Evento del boton   hay que verificar el cliente
+      public void actionPerformed(ActionEvent arg0) {           //Evento del boton   hay que verificarp el cliente
         if(false) {
           ShowClient verCliente = new ShowClient();
           verCliente.setVisible(true);

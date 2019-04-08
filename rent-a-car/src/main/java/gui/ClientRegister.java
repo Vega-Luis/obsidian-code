@@ -122,6 +122,7 @@ public class ClientRegister extends JFrame {
     btnRegistrar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {    //Evento del boton de registrar cliente
         //Deberia usar la info de los campos de texto para crear un nuevo cliente y meterlo en controller
+        
       }
     });
     btnRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
