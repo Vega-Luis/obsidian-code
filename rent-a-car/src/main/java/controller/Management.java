@@ -246,14 +246,133 @@ public class Management {
    */
   public boolean addMaintenance(Branch branch, boolean type, String vehiclePlate, Date startDate,
       Date endDate, Float price, String detail, Company company) {
-    
-    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
-      if (branch.getVehicles().get(vehicle).getVehiclePlate().equals(vehiclePlate)) {
-        Maintenance newMaintenance = new Maintenance(type, detail, endDate, endDate, price, detail, company);
-        branch.getVehicle(vehiclePlate).getMaintenances().add(newMaintenance);
-        return true;
-      }
+
+    if (branch.getVehicle(vehiclePlate) != null ) {
+      Maintenance newMaintenance = new Maintenance(type, detail, endDate, endDate, price, detail, company);
+      branch.getVehicle(vehiclePlate).getMaintenances().add(newMaintenance);
+      return true;
     }
     return false;
   }
+  
+  /**
+   * Modifica la imagen del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param vehicleImage Imagen del vehiculo.
+   */
+  public void modifyImage(Branch branch, String vehiclePlate, Image vehicleImage) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setVehicleImage(vehicleImage);
+    }
+  }
+  
+  /**
+   * Modifica la fecha de fabricacion del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param fabricationDate Fecha de fabricacion del vehiculo.
+   */
+  public void modifyFabricationDate(Branch branch, String vehiclePlate, Date fabricationDate) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setFabricationDate(fabricationDate);
+    }
+  }
+  
+  /**
+   * Modifica el color de vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param color Color del vehiculo.
+   */
+  public void modifyColor(Branch branch, String vehiclePlate, String color) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setColor(color);
+    }
+  }
+  
+  /**
+   * Modifica la capacidad del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param capacity Capacidad del vehiculo.
+   */
+  public void modifyCapacity(Branch branch, String vehiclePlate, byte capacity) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setCapacity(capacity);
+    }
+  }
+  
+  /**
+   * Modifica la marca del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param brand Marca del vehiculo.
+   */
+  public void modifyBrand(Branch branch, String vehiclePlate,String brand ) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setBrand(brand);
+    }
+  }
+  
+  /**
+   * Modifica la cantidad de puertas del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param doors Cantidad de puertas del vehiculo.
+   */
+  public void modifyDoors(Branch branch, String vehiclePlate,byte doors) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setDoors(doors);
+    }
+  }
+  
+  /**
+   * Modifica el numero de vin del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param vinNumber Numero de vin del vehiculo.
+   */
+  public void modifyVinNumber(Branch branch, String vehiclePlate,String vinNumber) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setVinNumber(vinNumber);
+    }
+  }
+  
+  /**
+   * Modifica las millas por galon que soporta el vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param mpg Cantidad de millas por galon.
+   */
+  public void modifyMpg(Branch branch, String vehiclePlate,float mpg) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setMpg(mpg);
+    }
+  }
+  
+  /**
+   * Modifica el precion del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param price Precio del vehiculo.
+   */
+  public void modifyPrice(Branch branch, String vehiclePlate,float price) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setPrice(price);
+    }
+  }
+  
+  /**
+   * Modifica la capacidad de maletas que soporta el vehiculo.
+   * @param vehiclePlate Placa del vechiculo.
+   * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
+   */
+  public void modifySuitcaseCapacity(Branch branch, String vehiclePlate,byte suitcaseCapacity) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setSuitcaseCapacity(suitcaseCapacity);
+    }
+  }
+  
+  /**
+   * Modifica el tipo de transmision del vehiculo.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param transmission Tipo de transmission.
+   */
+  public void modifyTransmission(Branch branch, String vehiclePlate, boolean transmission) {
+    if (branch.getVehicle(vehiclePlate) != null) {
+      branch.getVehicle(vehiclePlate).setTransmission(transmission);
+    }
+  } 
 }
