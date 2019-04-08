@@ -58,7 +58,23 @@ public class Management {
       e.printStackTrace();
     }
   }
-
+  
+  /**
+   * Permite que un empleado inicie seccion.
+   * @param pasword Contrasenia del empleado.
+   * @param userName Nombre del usuario.
+   * @return booleano que indica el resultado de la operacion.
+   */
+  public boolean login(String pasword, String userName) {
+    for (int employee = 0; employee < employees.size(); employee++) {
+      if (employees.get(employee).getUserName().equals(userName) 
+          && employees.get(employee).getPassword().equals(pasword)) {
+      return true;
+      }
+    }
+    return false;
+  }
+  
   /**
    * Busca un cliente y retorna la posicion donde se encuentra.
    * Sin no existe retona un -1.
