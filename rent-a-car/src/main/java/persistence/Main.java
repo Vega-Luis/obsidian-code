@@ -15,15 +15,18 @@ import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
 import bussineslogic.Vehicle;
+import util.Chyperer;
 
 /**
  * Clase main pruebas persistenia, se va a remover en un futuro
  * @author Marcosmh0199
- *
+ * 
  */
 public class Main {
 
   public static void main(String[] args) throws Exception {
+    
+    Chyperer encrypt = new Chyperer("123456789ABCDEFG");
     Address address = new Address("Chepe","PZ","Platanares","Cerca escuela molle");
     Calendar calendar = Calendar.getInstance();
     Date date1 = calendar.getTime();
@@ -65,8 +68,7 @@ public class Main {
     vehicle.setVehicleImage(picture);
     vehicle2.setVehicleImage(picture);
     vehicle.getMaintenances().add(new Maintenance(true,vehicle.getVehiclePlate(),date1,date1, (float)5000, "Test", company));
-    //persistence.saveVehicle(vehicle);
-    //persistence.saveVehicle(vehicle2);
+    vehicle2.getMaintenances().add(new Maintenance(true,vehicle.getVehiclePlate(),date1,date1, (float)5000, "Test", company));
     
     branch1.add(vehicle);
     branch2.add(vehicle2);
@@ -77,9 +79,8 @@ public class Main {
     persistence.updateBranchVehicles(branches);
 
     branches = persistence.loadBranches();
-    for(int i = 0; i < branches.size(); i++) {
-      System.out.println(branches.get(i).getVehicles().get(0).getBrand());
-    }
+    System.out.println(branches.get(1).getVehicles().size());
+    System.out.println(branches.get(1).getVehicles().get(0).getMaintenances().get(0).getCompany().getBussinesName());
     
     //persistence.saveCompany(company);
     //persistence.saveCompany(company);
@@ -87,8 +88,10 @@ public class Main {
     
     ArrayList<Company> companies = persistence.loadCompanies();
     for(int i = 0; i < companies.size(); i++) {
-      System.out.println(companies.get(i).getBussinesName());
+      //System.out.println(companies.get(i).getBussinesName());
     }
+    
+    System.out.println(encrypt.decrypt("sxI4PHSamfwGCAZo0P9ieHKfCq02T7D1DWAZkLxis3c="));
   }
 
 }
