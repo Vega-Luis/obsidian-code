@@ -6,6 +6,8 @@ import bussineslogic.Client;
 import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
+import bussineslogic.Vehicle;
+import bussineslogic.VehicleStyle;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +17,7 @@ import persistence.Persistence;
  * Esta clase esta encargada de controlar la interaccon entre la logica de negocios
  * y la interfaz grafica.
  * @author Luis
- * @version v1.0
+ * @version v19.4.8
  */
 public class Management {
   private ArrayList<Client> clients;
@@ -23,7 +25,7 @@ public class Management {
   private ArrayList<Branch> branches;
   private Persistence persistence;
   private final int NOT_ADDED = 0;
-  
+
   public Management() {
     this.persistence = new Persistence();
     this.setClients();
@@ -88,30 +90,38 @@ public class Management {
     }
     return NOT_ADDED;
   }
-  
   /**
-   * Crea una nueva direccion.
+   * Permite registrar un  nuevo cliente.
+   * @param name Nombre del cliente.
+   * @param id Cedula del cliente.
+   * @param telephone Telefono del cliente.
+   * @param mail Correo del cliente.
    * @param province Provincia relacionada a la direccion.
    * @param canton Canton de la direccion.
    * @param district Distrito de la direccion.
    * @param sings Senas que indetifican la direccion.
+   * @param licenceId Identificador de la licencia.
+   * @param releaseDate Fecha de emision.
+   * @param expireDate Fecha de expiracion.
+   * @param image Imagen de la licencia.
+   * @return Booleano que indica si la operacion ha sido exitosa.
    */
-  public Address addAddress(String province, String canton, String district, String sings) {
-    return new Address(province, canton, district, sings);
-  }
-  
-  /**
-   * Agrega un nuevo cliente a la lista de clientes.
-   * @param name nombre del cliente
-   * @param id id del cliente
-   * @param telephone número telefónico del cliente
-   * @param mail correo-electrónico del cliente
-   * @param clientAddress dirreción del cliente
-   */
-  public void addClient(String name, String id, String telephone, String mail, Address clientAddress) {
+  public boolean addClient(String name, String id, String telephone, String mail, 
+      String province, String canton, String district, String sings, 
+          String licenceId, Date releaseDate, Date expireDate, Image image ) {
+    
     if (searchClient(id) == NOT_ADDED) {
-      clients.add(new Client(name, id, telephone, mail, clientAddress));
+      Client newClient = new Client(name, id, telephone, mail, new Address(province, canton, district, sings));
+      newClient.addLicense(licenceId, releaseDate, expireDate, image);
+      clients.add(newClient);
+      try {
+        persistence.saveClient(newClient);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return true;
     }
+    return false;
   }
   
   /**
@@ -127,6 +137,8 @@ public class Management {
       clients.get(searchClient(clientId)).addLicense(licenceId, releaseDate, expireDate, image);
     }
   }
+  
+  
   
   /**
    * Crea un nuevo mantenimiento.
@@ -151,4 +163,38 @@ public class Management {
   public Client getClient(int client) {
     return clients.get(client);
   }
+
+  /**
+   * Permite agregar un vehiculo a una sede.
+   * @param vehiclePlate Placa del vehiculo.
+   * @param fabricationDate Fecha en que fue fabricado el vehiculo.
+   * @param color Color del vehiculo.
+   * @param capacity Capacidad de pasajeros del vehiculo.
+   * @param brand Marca del vehiculo.
+   * @param doors Cantidad de puertas del vehiculo.
+   * @param vinNumber Numero de vin asociado al vehiculo.
+   * @param mpg Cantidad de millas que es capaz de recorrer con un galon de combustible.
+   * @param price Costo por alquiler.
+   * @param suitcaseCapacity Cantidad de maletas que soporta el vehiculo.
+   * @param transmission Tipo de transmicion.
+   * @param vehicleImage Image del vehiculo.
+   * @param style Estylo del vehiculo.
+   * @return booleano que indica el resultado de la operacion.
+   */
+  public boolean addVehicle(Branch branch, String vehiclePlate, Date fabricationDate,
+      String color, byte capacity, String brand, byte doors, String vinNumber,
+          float mpg, float price, byte suitcaseCapacity, boolean transmission, Image vehicleImage,VehicleStyle style) {
+    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
+      if (branch.getVehicles().get(vehicle).getVehiclePlate().equals(vehiclePlate)) {
+        return false;
+      }
+    }
+    Vehicle newVehicle = new Vehicle(vehiclePlate,fabricationDate, color, capacity, brand, doors,
+        vinNumber, mpg, price, suitcaseCapacity, transmission);
+    newVehicle.setVehicleImage(vehicleImage);
+    newVehicle.setStyle(style);
+    branch.add(newVehicle);
+    return true;
+  }
+  
 }
