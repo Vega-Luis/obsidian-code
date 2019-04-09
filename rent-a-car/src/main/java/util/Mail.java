@@ -87,6 +87,13 @@ public class Mail {
     return message;
   }
   
+  /**
+   * Método para enviar un correo con un archivo adjunto
+   * @param url Dirección en memoria local del archivo
+   * @return objeto tipo MimeMessage que contiene los datos del correo
+   * @throws AddressException
+   * @throws MessagingException
+   */
   private MimeMessage createMail(String url) throws AddressException, MessagingException {
     MimeMessage message = new MimeMessage(session);
     message.setFrom(new InternetAddress(from));
@@ -118,6 +125,12 @@ public class Mail {
     return true;
   }
   
+  /**
+   * Método para enviar un correo con un archivo adjunto
+   * @param url Dirección en memoria local del archivo
+   * @return
+   * @throws MessagingException
+   */
   public boolean sendMail(String url) throws MessagingException {
     setMailServer();
     MimeMessage message = createMail(url);

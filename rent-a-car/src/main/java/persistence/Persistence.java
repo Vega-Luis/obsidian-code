@@ -271,6 +271,11 @@ public class Persistence implements Constants{
     return vehicleData;
   }
   
+  /**
+   * Metodo para actualizar los vehiculos de las sedes luego de hacer modificaciones
+   * @param branches sedes registradas 
+   * @throws Exception
+   */
   public void updateBranchVehicles(ArrayList<Branch> branches) throws Exception {
     JSONArray branchesVehicles = new JSONArray();
     for(int i = 0; i < branches.size(); i++) {
@@ -280,6 +285,12 @@ public class Persistence implements Constants{
     Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
   }
   
+  /**
+   * Metodo para obtener los datos de los vehiculos de las sedes 
+   * @param vehicles vehiculos de una sede
+   * @return ArrayList que guarda Arrays con datos de vehiculos en cadenas
+   * @throws Exception
+   */
   private ArrayList<ArrayList<String>> getBranchVehicles(ArrayList<Vehicle> vehicles) throws Exception {
     ArrayList<String> vehicleData = new ArrayList<String>();
     ArrayList<ArrayList<String>> branchVehicles = new ArrayList<ArrayList<String>>();
@@ -290,6 +301,12 @@ public class Persistence implements Constants{
     return branchVehicles;
   }
   
+  /**
+   * Metodo para obtener los datos de una sede y darle persistencia a sus vehiculos
+   * @param branch sede
+   * @return ArrayList conformado por cadenas de los datos de la sede
+   * @throws Exception
+   */
   private ArrayList<String> getBranchData(Branch branch) throws Exception{
     ArrayList<String> branchData = new ArrayList<String>();
     ArrayList<ArrayList<String>> branchVehicles = getBranchVehicles(branch.getVehicles());
@@ -314,6 +331,11 @@ public class Persistence implements Constants{
     return branchData;
   }
   
+  /**
+   * Metodo para darle persistencia a una sede
+   * @param branch sede
+   * @throws Exception
+   */
   public void saveBranch(Branch branch) throws Exception {
     ArrayList<String> branchData = getBranchData(branch);
     try {
@@ -328,6 +350,13 @@ public class Persistence implements Constants{
       }
   }
   
+  /**
+   * Metodo para parsear los datos en String de un vehiculo y a partir de estos formar un 
+   * objeto tipo Vehiculo
+   * @param vehicleData informacion con la que se formara un vehiculo
+   * @return objeto vehiculo
+   * @throws Exception
+   */
   private Vehicle loadVehicle(ArrayList<String> vehicleData) throws Exception {
     String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
     Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
@@ -364,6 +393,11 @@ public class Persistence implements Constants{
     return vehicle;
   }
   
+  /**
+   * Metodo para cargar todas las sedes que se haya guardado
+   * @return ArrayList que contiene todas las sedes registradas
+   * @throws Exception
+   */
   public ArrayList<Branch> loadBranches() throws Exception{
     JSONParser parser = new JSONParser();
     JSONArray branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
@@ -393,6 +427,11 @@ public class Persistence implements Constants{
     return branches;
   }
   
+  /**
+   * Metodo darle persistencia a una compania
+   * @param company compania
+   * @throws Exception
+   */
   public void saveCompany(Company company) throws Exception {
     ArrayList<String> companyData = new ArrayList<String>();
     companyData.add(company.getBussinesName());
@@ -410,6 +449,13 @@ public class Persistence implements Constants{
       }
   }
   
+  /**
+   * Metodo para cargar las companias registradas
+   * @return ArrayList que contiene las companias guardadas
+   * @throws FileNotFoundException
+   * @throws IOException
+   * @throws ParseException
+   */
   public ArrayList<Company> loadCompanies() throws FileNotFoundException, IOException, ParseException {
     ArrayList<Company> companies = new ArrayList<Company>();
     ArrayList<String> companyData = new ArrayList<String>();
@@ -426,6 +472,19 @@ public class Persistence implements Constants{
     return companies;
   }
   
+  /**
+   * Metodo para registrar una reserva en un .json
+   * @param collectionBranch Sede origen del vehiculo de la reserva
+   * @param deliveryBranch Sede adonde se solicito el vehiculo
+   * @param service Servicios extras 
+   * @param client Cliente que solicito la reserva
+   * @param employee Empleado que registro la reserva
+   * @param vehicle Vehiculo reservado
+   * @param starDate Fecha de comienzo de la reserva
+   * @param endDate Fecha de fin de la reserva
+   * @param requesDate Fecha de solicitud de la reserva
+   * @throws Exception
+   */
   public void saveReserve(Branch collectionBranch, Branch deliveryBranch, Service service,
       Client client, Employee employee, Vehicle vehicle, Date starDate, Date endDate, 
       Date requesDate) throws Exception {
@@ -470,6 +529,11 @@ public class Persistence implements Constants{
       }
   }
   
+  /**
+   * Metodo para cargar las reservas registradas
+   * @return ArrayList con las reservas registradas
+   * @throws Exception
+   */
   public ArrayList<Reserve> loadReserves() throws Exception {
     ArrayList<Reserve> reserves = new ArrayList<Reserve>();
     ArrayList<String> reserveData = new ArrayList<String>();
