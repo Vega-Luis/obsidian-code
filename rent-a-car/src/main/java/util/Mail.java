@@ -1,15 +1,24 @@
 package util;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * Clase para enviar correos electronicos
@@ -78,6 +87,24 @@ public class Mail {
     return message;
   }
   
+  private MimeMessage createMail(String url) throws AddressException, MessagingException {
+    MimeMessage message = new MimeMessage(session);
+    message.setFrom(new InternetAddress(from));
+    message.addRecipient(Message.RecipientType.TO, new InternetAddress(userMail));
+    message.setSubject(subject);
+    BodyPart messageBodyPart = new MimeBodyPart();
+    messageBodyPart.setText(body);
+    Multipart multipart = new MimeMultipart();
+    multipart.addBodyPart(messageBodyPart);
+    messageBodyPart = new MimeBodyPart();
+    File file = new File(url);
+    DataSource source = new FileDataSource(file);
+    messageBodyPart.setDataHandler(new DataHandler(source));
+    messageBodyPart.setFileName(file.getName());
+    multipart.addBodyPart(messageBodyPart);
+    message.setContent(multipart);
+    return message;
+  }
   /**
    * Método para enviar el correo
    * @return
@@ -86,6 +113,14 @@ public class Mail {
   public boolean sendMail() throws MessagingException {
     setMailServer();
     MimeMessage message = createMail();
+    Transport.send(message);
+    System.out.println("EXITO");
+    return true;
+  }
+  
+  public boolean sendMail(String url) throws MessagingException {
+    setMailServer();
+    MimeMessage message = createMail(url);
     Transport.send(message);
     System.out.println("EXITO");
     return true;
