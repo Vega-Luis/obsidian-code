@@ -1,7 +1,10 @@
 package persistence;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+/**
+ * Interfaz formada por constantes que se usaran en la persistencia
+ * @author Marcosmh0199
+ * @version v19.4.9
+ */
 
 public interface Constants {
   //Client constants
