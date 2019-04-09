@@ -4,6 +4,7 @@ import bussineslogic.Client;
 import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
+import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import bussineslogic.Address;
 import bussineslogic.Branch;
@@ -415,5 +416,11 @@ public class Persistence implements Constants{
       companies.add(company);
     }
     return companies;
+  }
+  
+  public void saveReserve(Branch collectionBranch, Branch deliveryBranch, Service service,
+      Client client, Employee employee, Vehicle vehicle, Date starDate, Date endDate, 
+      Date requesDate) {
+    
   }
 }

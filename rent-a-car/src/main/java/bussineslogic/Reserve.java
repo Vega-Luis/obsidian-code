@@ -32,7 +32,8 @@ public class Reserve {
    * @param endDate   Es la fecha en la que concluye la reserva.
    * @param requesDate   Es la fecha en la que se solicito la reserva.
    */
-  public void Reserve(Branch collectionBranch, Branch deliveryBranch, Service service, Client client, Employee employee, Vehicle vehicle, Date starDate, Date endDate, Date requesDate) {
+  public Reserve(Branch collectionBranch, Branch deliveryBranch, Service service, Client client,
+      Employee employee, Vehicle vehicle, Date starDate, Date endDate, Date requesDate) {
     this.startDate = starDate;
     this.endDate = endDate;
     this.requestDate = requesDate;
