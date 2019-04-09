@@ -14,6 +14,8 @@ import bussineslogic.Client;
 import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
+import bussineslogic.Reserve;
+import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import util.Chyperer;
 
@@ -75,12 +77,12 @@ public class Main {
     
     //persistence.saveBranch(branch1);
     //persistence.saveBranch(branch2);
-    ArrayList<Branch> branches = persistence.loadBranches();
-    persistence.updateBranchVehicles(branches);
+    //ArrayList<Branch> branches = persistence.loadBranches();
+    //persistence.updateBranchVehicles(branches);
 
-    branches = persistence.loadBranches();
-    System.out.println(branches.get(1).getVehicles().size());
-    System.out.println(branches.get(1).getVehicles().get(0).getMaintenances().get(0).getCompany().getBussinesName());
+    //branches = persistence.loadBranches();
+    //System.out.println(branches.get(1).getVehicles().size());
+    //System.out.println(branches.get(1).getVehicles().get(0).getMaintenances().get(0).getCompany().getBussinesName());
     
     //persistence.saveCompany(company);
     //persistence.saveCompany(company);
@@ -90,8 +92,10 @@ public class Main {
     for(int i = 0; i < companies.size(); i++) {
       //System.out.println(companies.get(i).getBussinesName());
     }
-    
-    System.out.println(encrypt.decrypt("sxI4PHSamfwGCAZo0P9ieHKfCq02T7D1DWAZkLxis3c="));
+    Service service = new Service(true, true, false, true, false);
+    //persistence.saveReserve(branch1, branch2, service, client2, employee2, vehicle2, date1, date1, date1);
+    //System.out.println(encrypt.decrypt("sxI4PHSamfwGCAZo0P9ieHKfCq02T7D1DWAZkLxis3c="));
+    ArrayList<Reserve> reserves = persistence.loadReserves();
   }
 
 }

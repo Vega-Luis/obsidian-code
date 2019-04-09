@@ -4,6 +4,7 @@ import bussineslogic.Client;
 import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
+import bussineslogic.Reserve;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import bussineslogic.Address;
@@ -326,6 +327,43 @@ public class Persistence implements Constants{
       Files.write(Paths.get("C:\\JSONFiles\\Branches.json"), branches.toJSONString().getBytes());
       }
   }
+  
+  private Vehicle loadVehicle(ArrayList<String> vehicleData) throws Exception {
+    String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
+    Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+        vehicleData.get(FABRICATIONDATE)));
+    String color = encrypt.decrypt(vehicleData.get(COLOR));
+    byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
+    String brand = encrypt.decrypt(vehicleData.get(BRAND));
+    byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
+    String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
+    float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
+    float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
+    byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
+    boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
+    Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
+        vinNumber, mpg, price, suitCapacity, transmision);
+    vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
+    for(int k = 12; k < vehicleData.size(); k = k+9) {
+      boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
+      String id = encrypt.decrypt(vehicleData.get(k+1));
+      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+          vehicleData.get(k+2)));
+      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
+          vehicleData.get(k+3)));
+      float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(k+4)));
+      String detail = encrypt.decrypt(vehicleData.get(k+5));
+      String businessName = encrypt.decrypt(vehicleData.get(k+6));
+      String legalNumber = encrypt.decrypt(vehicleData.get(k+7));
+      String telephone = encrypt.decrypt(vehicleData.get(k+8));
+      Company company = new Company(businessName, legalNumber, telephone);
+      vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
+          detail,company));
+      
+    }
+    return vehicle;
+  }
+  
   public ArrayList<Branch> loadBranches() throws Exception{
     JSONParser parser = new JSONParser();
     JSONArray branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
@@ -333,6 +371,7 @@ public class Persistence implements Constants{
     ArrayList<Branch> branches = new ArrayList<Branch>();
     ArrayList<String> branchData = new ArrayList<String>();
     ArrayList<String> vehicleData = new ArrayList<String>();
+    Vehicle vehicle = null;
     ArrayList<ArrayList<String>> vehiclesData = new ArrayList<ArrayList<String>> ();
     for(int i = 0; i < branchesArray.size(); i++) {
       branchData = (ArrayList<String>) branchesArray.get(i);
@@ -347,41 +386,10 @@ public class Persistence implements Constants{
       vehiclesData = (ArrayList<ArrayList<String>>) vehiclesArray.get(i);
       for(int j = 0; j < vehiclesData.size(); j++) {
         vehicleData = vehiclesData.get(j);
-        String vehiclePlate = encrypt.decrypt(vehicleData.get(VEHICLEPLATE));
-        Date fabricationDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-            vehicleData.get(FABRICATIONDATE)));
-        String color = encrypt.decrypt(vehicleData.get(COLOR));
-        byte capacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(CAPACITY)));
-        String brand = encrypt.decrypt(vehicleData.get(BRAND));
-        byte doors = Byte.parseByte(encrypt.decrypt(vehicleData.get(DOORS)));
-        String vinNumber = encrypt.decrypt(vehicleData.get(VINNUMBER));
-        float mpg = Float.parseFloat(encrypt.decrypt(vehicleData.get(MPG)));
-        float price = Float.parseFloat(encrypt.decrypt(vehicleData.get(PRICE)));
-        byte suitCapacity = Byte.parseByte(encrypt.decrypt(vehicleData.get(SUITCAPACITY)));
-        boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
-        Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
-            vinNumber, mpg, price, suitCapacity, transmision);
-        vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-        for(int k = 12; k < vehicleData.size(); k = k+9) {
-          //System.out.println(encrypt.decrypt(vehicleData.get(i)));
-          boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
-          String id = encrypt.decrypt(vehicleData.get(k+1));
-          Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-              vehicleData.get(k+2)));
-          Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
-              vehicleData.get(k+3)));
-          float maintenancePrice = Float.parseFloat(encrypt.decrypt(vehicleData.get(k+4)));
-          String detail = encrypt.decrypt(vehicleData.get(k+5));
-          String businessName = encrypt.decrypt(vehicleData.get(k+6));
-          String legalNumber = encrypt.decrypt(vehicleData.get(k+7));
-          String telephone = encrypt.decrypt(vehicleData.get(k+8));
-          Company company = new Company(businessName, legalNumber, telephone);
-          vehicle.getMaintenances().add(new Maintenance(type, id, startDate, endDate, maintenancePrice,
-              detail,company));
+        vehicle = loadVehicle(vehicleData);
         }
         branches.get(i).add(vehicle);
       }
-    }
     return branches;
   }
   
@@ -420,7 +428,80 @@ public class Persistence implements Constants{
   
   public void saveReserve(Branch collectionBranch, Branch deliveryBranch, Service service,
       Client client, Employee employee, Vehicle vehicle, Date starDate, Date endDate, 
-      Date requesDate) {
-    
+      Date requesDate) throws Exception {
+    ArrayList<String> reserveData = new ArrayList<String>();
+    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
+    reserveData.add(collectionBranch.getName());
+    reserveData.add(collectionBranch.getAddress().getProvince());
+    reserveData.add(collectionBranch.getAddress().getCanton());
+    reserveData.add(collectionBranch.getAddress().getDistrict());
+    reserveData.add(collectionBranch.getAddress().getSings());
+    reserveData.add(deliveryBranch.getName());
+    reserveData.add(deliveryBranch.getAddress().getProvince());
+    reserveData.add(deliveryBranch.getAddress().getCanton());
+    reserveData.add(deliveryBranch.getAddress().getDistrict());
+    reserveData.add(deliveryBranch.getAddress().getSings());
+    for(int i = 0; i < 8; i++) {
+      reserveData.add(getClientData(client).get(i));
+    }
+    for(int i = 0; i < 4; i++) {
+      reserveData.add(getEmployeeData(employee).get(i));
+    }
+    reserveData.add(Boolean.toString(service.getChildSeat()));
+    reserveData.add(Boolean.toString(service.getEnsurance()));
+    reserveData.add(Boolean.toString(service.getGps()));
+    reserveData.add(Boolean.toString(service.getRouteAssistance()));
+    reserveData.add(Boolean.toString(service.getWifi()));
+    for(int i = 0; i < getVehicleData(vehicle).size(); i++) {
+      reserveData.add(getVehicleData(vehicle).get(i));
+    }
+    reserveData.add(formatDate.format(starDate));
+    reserveData.add(formatDate.format(endDate));
+    reserveData.add(formatDate.format(requesDate));
+    try {
+      JSONParser parser = new JSONParser();
+      JSONArray reserves = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+      reserves.add(reserveData);
+      Files.write(Paths.get("C:\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
+    }catch(Exception d) {
+      JSONArray reserves = new JSONArray();
+      reserves.add(reserveData);
+      Files.write(Paths.get("C:\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
+      }
+  }
+  
+  public ArrayList<Reserve> loadReserves() throws Exception {
+    ArrayList<Reserve> reserves = new ArrayList<Reserve>();
+    ArrayList<String> reserveData = new ArrayList<String>();
+    JSONParser parser = new JSONParser();
+    JSONArray reservesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+    for(int i = 0; i < reservesArray.size(); i++) {
+      ArrayList<String> vehicleData = new ArrayList<String>();
+      reserveData = (ArrayList<String>) reservesArray.get(i);
+      Branch collectionBranch = new Branch(reserveData.get(0), new Address(reserveData.get(1),
+          reserveData.get(2),reserveData.get(3),reserveData.get(4)));
+      Branch deliveryBranch = new Branch(reserveData.get(5), new Address(reserveData.get(6),
+          reserveData.get(7),reserveData.get(8),reserveData.get(9)));
+      Client client = new Client(encrypt.decrypt(reserveData.get(10)),encrypt.decrypt(reserveData.get(11)),
+          encrypt.decrypt(reserveData.get(12)),encrypt.decrypt(reserveData.get(13)),new Address(
+              encrypt.decrypt(reserveData.get(14)),encrypt.decrypt(reserveData.get(15)),
+              encrypt.decrypt(reserveData.get(16)),encrypt.decrypt(reserveData.get(17))));
+      
+      Employee employee = new Employee(reserveData.get(19),reserveData.get(18),
+          reserveData.get(20),reserveData.get(21),"","");
+      Service service = new Service(Boolean.parseBoolean(reserveData.get(22)),Boolean.parseBoolean
+          (reserveData.get(23)),Boolean.parseBoolean(reserveData.get(24)),Boolean.parseBoolean
+          (reserveData.get(25)),Boolean.parseBoolean(reserveData.get(26)));
+      for(int j = 27; j < reserveData.size()-3; j++) {
+        vehicleData.add(reserveData.get(j));
+      }
+      Vehicle vehicle = loadVehicle(vehicleData);
+      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(48));
+      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(49));
+      Date requestDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(50));
+      reserves.add(new Reserve(deliveryBranch, deliveryBranch, service, client, employee, vehicle, 
+          requestDate, requestDate, requestDate));
+    }
+    return reserves;
   }
 }
