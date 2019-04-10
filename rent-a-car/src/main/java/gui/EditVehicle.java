@@ -9,6 +9,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -59,7 +60,7 @@ public class EditVehicle extends JFrame {
    */
   public EditVehicle(final Management manager) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 649, 489);
+    setBounds(100, 100, 736, 498);
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
     setContentPane(contentPane);
@@ -147,7 +148,7 @@ public class EditVehicle extends JFrame {
     txtMillasGalon = new JTextField();
     txtMillasGalon.setColumns(10);
     
-    JComboBox comboBoxTransmission = new JComboBox();
+    final JComboBox comboBoxTransmission = new JComboBox();
     comboBoxTransmission.setModel(new DefaultComboBoxModel(new String[] {"Automatica", "Manual"}));
     
     
@@ -189,14 +190,35 @@ public class EditVehicle extends JFrame {
             dateChooserAno.getDate());
         manager.modifyMpg((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(), 
             Float.parseFloat(txtMillasGalon.getText()));
+        manager.modifyPrice((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            Float.parseFloat(txtPrecio.getText()));
+        manager.modifySuitcaseCapacity((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            Byte.parseByte(txtMaletas.getText()));
+        if(comboBoxTransmission.getSelectedItem() == "Automatico") {
+          manager.modifyTransmission((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+              true);
+        } else {
+          manager.modifyTransmission((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+              false);
+        }
         
+        manager.modifyVinNumber((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            txtCapacidad.getText());
+        
+        JOptionPane.showMessageDialog(null, "El vehiculo fue modificado", "Success", JOptionPane.INFORMATION_MESSAGE);
+        setVisible(false);
       }
+      
+      
     });
     btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
-    JButton btnActualizar = new JButton("Actualizar");
+    
+    JButton btnActualizar = new JButton("Actualizar placas");
+    btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 15));
     btnActualizar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {                  //Evento del boton actualizar
+        
         Branch rama = (Branch)comboBoxSede.getSelectedItem();
         DefaultComboBoxModel<Vehicle> modelPlacas = new DefaultComboBoxModel<Vehicle>();   //Poner los vehiculos con el toString con placas.
         for(Vehicle carro : rama.getVehicles()) {
@@ -207,12 +229,32 @@ public class EditVehicle extends JFrame {
     });
     
     
+    JButton btnNewButton = new JButton("Actualizar datos de la placa");
+    btnNewButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        Vehicle miVehiculo = (Vehicle) comboBoxPlacas.getSelectedItem();
+        dateChooserAno.setDate(miVehiculo.getFabricationDate());
+        txtColor.setText(miVehiculo.getColor());
+        txtCapacidad.setText("" + miVehiculo.getCapacity());
+        txtMarca.setText(miVehiculo.getBrand());
+        txtKilometraje.setText("" + miVehiculo.getKilometers());
+        txtPuertas.setText("" + miVehiculo.getDoors());
+        txtNumVin.setText(miVehiculo.getVinNumber());
+        txtMillasGalon.setText("" + miVehiculo.getMpg());
+        txtPrecio.setText("" + miVehiculo.getPrice());
+        txtMaletas.setText("" + miVehiculo.getSuitcaseCapacity());
+      }
+    });
+    btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
         .addGroup(gl_contentPane.createSequentialGroup()
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblEditarDatosVehiculos, GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+            .addComponent(lblEditarDatosVehiculos, GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
             .addGroup(gl_contentPane.createSequentialGroup()
               .addContainerGap()
               .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -232,38 +274,46 @@ public class EditVehicle extends JFrame {
                 .addComponent(lblEstado))
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                .addComponent(txtPuertas, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-                .addComponent(txtNumVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(txtMillasGalon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(txtMaletas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                  .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                   .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                    .addComponent(comboBoxEstado, 0, 155, Short.MAX_VALUE)
-                    .addComponent(comboBoxEstilo, Alignment.TRAILING, 0, 155, Short.MAX_VALUE))
-                  .addGap(122)
-                  .addComponent(btnEditar)
-                  .addGap(15))
-                .addGroup(gl_contentPane.createSequentialGroup()
-                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                    .addComponent(txtKilometraje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(gl_contentPane.createSequentialGroup()
-                      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                        .addComponent(txtMarca, 155, 155, 155)
-                        .addComponent(txtCapacidad, 155, 155, 155)
-                        .addComponent(txtColor, 155, 155, 155)
-                        .addComponent(comboBoxPlacas, Alignment.TRAILING, 0, 155, Short.MAX_VALUE)
-                        .addComponent(dateChooserAno, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                        .addComponent(comboBoxTransmission, 0, 155, Short.MAX_VALUE))
-                      .addGap(24)
-                      .addComponent(lblSede)))
-                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                    .addGroup(gl_contentPane.createSequentialGroup()
-                      .addGap(43)
-                      .addComponent(btnActualizar))
-                    .addGroup(gl_contentPane.createSequentialGroup()
-                      .addPreferredGap(ComponentPlacement.RELATED)
-                      .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))))))
+                    .addComponent(txtMillasGalon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                      .addComponent(txtPuertas, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+                      .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                          .addComponent(txtNumVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                          .addGap(178)
+                          .addComponent(btnNewButton)
+                          .addGap(24))
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                            .addComponent(comboBoxEstado, 0, 163, Short.MAX_VALUE)
+                            .addComponent(comboBoxEstilo, Alignment.TRAILING, 0, 163, Short.MAX_VALUE))
+                          .addGap(122)
+                          .addComponent(btnEditar)
+                          .addGap(15))
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                            .addComponent(txtKilometraje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addGroup(gl_contentPane.createSequentialGroup()
+                              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                .addComponent(txtMarca, 155, 155, 155)
+                                .addComponent(txtCapacidad, 155, 155, 155)
+                                .addComponent(txtColor, 155, 155, 155)
+                                .addComponent(comboBoxPlacas, Alignment.TRAILING, 0, 155, Short.MAX_VALUE)
+                                .addComponent(dateChooserAno, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                .addComponent(comboBoxTransmission, 0, 155, Short.MAX_VALUE))
+                              .addGap(24)
+                              .addComponent(lblSede)))
+                          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                            .addGroup(gl_contentPane.createSequentialGroup()
+                              .addGap(43)
+                              .addComponent(btnActualizar))
+                            .addGroup(gl_contentPane.createSequentialGroup()
+                              .addPreferredGap(ComponentPlacement.RELATED)
+                              .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))))))))))
           .addGap(71))
     );
     gl_contentPane.setVerticalGroup(
@@ -306,15 +356,18 @@ public class EditVehicle extends JFrame {
           .addPreferredGap(ComponentPlacement.RELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblNumeroVin)
-            .addComponent(txtNumVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(txtNumVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnNewButton))
           .addPreferredGap(ComponentPlacement.RELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblMillasGalon)
             .addComponent(txtMillasGalon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
           .addPreferredGap(ComponentPlacement.RELATED)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
             .addComponent(lblPrecio)
-            .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+              .addPreferredGap(ComponentPlacement.UNRELATED)))
           .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
             .addGroup(gl_contentPane.createSequentialGroup()
               .addPreferredGap(ComponentPlacement.RELATED)
@@ -333,7 +386,7 @@ public class EditVehicle extends JFrame {
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblEstado)
                 .addComponent(comboBoxEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-              .addContainerGap(15, Short.MAX_VALUE))
+              .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(gl_contentPane.createSequentialGroup()
               .addPreferredGap(ComponentPlacement.RELATED)
               .addComponent(btnEditar)

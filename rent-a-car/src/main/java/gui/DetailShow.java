@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 public class DetailShow extends JFrame {
 
@@ -69,10 +70,6 @@ public class DetailShow extends JFrame {
     JLabel lblServicios = new JLabel("Servicios:");
     lblServicios.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
-    JScrollPane scrollPaneServicios = new JScrollPane();
-    JTextArea textAreaServicios = new JTextArea();
-    scrollPaneServicios.setViewportView(textAreaServicios);
-    
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {              //Evento del boton
@@ -82,6 +79,12 @@ public class DetailShow extends JFrame {
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
+    JRadioButton rdbtnWifi = new JRadioButton("Wifi");
+    
+    JRadioButton rdbtnGps = new JRadioButton("GPS");
+    
+    JRadioButton rdbtnAsistenciaEnCarretera = new JRadioButton("Asistencia en carretera");
+    
     
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
@@ -89,28 +92,29 @@ public class DetailShow extends JFrame {
         .addComponent(lblDetallesDeReserva, GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
         .addGroup(gl_contentPane.createSequentialGroup()
           .addContainerGap()
-          .addComponent(lblIdentificacionCliente)
-          .addContainerGap(505, Short.MAX_VALUE))
-        .addGroup(gl_contentPane.createSequentialGroup()
-          .addContainerGap()
-          .addComponent(lblNombreCliente)
-          .addContainerGap(546, Short.MAX_VALUE))
-        .addGroup(gl_contentPane.createSequentialGroup()
-          .addContainerGap()
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+            .addComponent(lblIdentificacionCliente)
+            .addComponent(lblNombreCliente)
             .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
             .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+          .addGap(88)
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addGap(109)
-              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                .addComponent(scrollPaneServicios, GroupLayout.PREFERRED_SIZE, 263, GroupLayout.PREFERRED_SIZE)
-                .addComponent(lblServicios))
-              .addGap(61))
-            .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-              .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(btnAceptar)
-              .addGap(146))))
+              .addComponent(rdbtnAsistenciaEnCarretera)
+              .addContainerGap())
+            .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+              .addGroup(gl_contentPane.createSequentialGroup()
+                .addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addComponent(btnAceptar)
+                .addGap(146))
+              .addGroup(gl_contentPane.createSequentialGroup()
+                .addComponent(rdbtnGps)
+                .addContainerGap())
+              .addGroup(gl_contentPane.createSequentialGroup()
+                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                  .addComponent(rdbtnWifi)
+                  .addComponent(lblServicios))
+                .addContainerGap(274, Short.MAX_VALUE)))))
     );
     gl_contentPane.setVerticalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -119,19 +123,24 @@ public class DetailShow extends JFrame {
           .addGap(18)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(lblIdentificacionCliente)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblIdentificacionCliente)
+                .addComponent(lblServicios))
               .addPreferredGap(ComponentPlacement.RELATED)
-              .addComponent(lblNombreCliente)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblNombreCliente)
+                .addComponent(rdbtnWifi))
               .addPreferredGap(ComponentPlacement.UNRELATED)
-              .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(ComponentPlacement.RELATED)
-              .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-            .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(lblServicios)
-              .addPreferredGap(ComponentPlacement.RELATED)
-              .addComponent(scrollPaneServicios, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-              .addGap(36)
-              .addComponent(btnAceptar)))
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(ComponentPlacement.RELATED)
+                  .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(rdbtnGps)
+                  .addPreferredGap(ComponentPlacement.RELATED)
+                  .addComponent(rdbtnAsistenciaEnCarretera))))
+            .addComponent(btnAceptar))
           .addContainerGap(14, Short.MAX_VALUE))
     );
     contentPane.setLayout(gl_contentPane);

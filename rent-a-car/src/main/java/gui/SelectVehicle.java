@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import bussineslogic.Branch;
 import bussineslogic.Client;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleState;
 import controller.Management;
 import javax.swing.JScrollPane;
 import javax.swing.GroupLayout;
@@ -38,7 +39,7 @@ public class SelectVehicle extends JFrame {
    * Create the frame.
    */
   public SelectVehicle(Management manager, Client cliente, DestinyDelivery datosEntregaRecibo) {
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 640, 233);
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,9 +57,11 @@ public class SelectVehicle extends JFrame {
    // miPanel1.setBounds(0, 0, 657, 176);
     
     for(Vehicle carro: datosEntregaRecibo.getSedeRecogida().getVehicles()){
-      JPanel newPanel = new InfoVehicle(carro);
+      if(carro.getState() != VehicleState.MANTENANCE || carro.getState() != VehicleState.INACTIVE) {
+      JPanel newPanel = new InfoVehicle(carro, manager, cliente, datosEntregaRecibo);
       newPanel.setBounds(0, 0, 657, 176);
       panel.add(newPanel);
+      }
     }
     
     //panel.add(miPanel);

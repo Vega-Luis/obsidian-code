@@ -195,6 +195,7 @@ public class RegisterVehicle extends JFrame {
 	              
 	              JOptionPane.showMessageDialog(null, "Se registro el nuevo vehiculo", "Successfull", JOptionPane.INFORMATION_MESSAGE);
 	              setVisible(false);
+	              
 	              } else {
 	                JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
 	              }
@@ -207,6 +208,7 @@ public class RegisterVehicle extends JFrame {
                   
                   JOptionPane.showMessageDialog(null, "Se registro el nuevo vehiculo", "Successfull", JOptionPane.INFORMATION_MESSAGE);
                   setVisible(false);
+                  
                   } else {
                     JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
                   }
