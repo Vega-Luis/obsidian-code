@@ -91,5 +91,9 @@ public class Branch {
       }
     }
     return false;
-  }  
+  }
+  
+  public String toString() {
+    return name;
+  }
 }

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.SwingConstants;
@@ -15,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-
+import controller.Management;
 import controller.RefactorThisNameC;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNombreUsuario;
 	private JPasswordField txtContrasena;
+	private Management manager = new Management();
 
 	/**
 	 * Launch the application.
@@ -81,13 +83,13 @@ public class Login extends JFrame {
 				String NombreUsuario = txtNombreUsuario.getText();
 				String contrasena = txtContrasena.getText();
 
-				
-				// Codigo de inicio de secion deberia abrir ventana de menu--------------------
-				
-				setVisible(false);   //cierra la ventana login
-				
-				Menu miMenu = new Menu();       //abre la ventana del menu
-				miMenu.setVisible(true);
+				if(manager.login(contrasena, NombreUsuario)) {
+				  Menu miMenu = new Menu(manager);
+				  miMenu.setVisible(true);
+				  setVisible(false);
+				} else {
+				  JOptionPane.showMessageDialog(null, "El usuario o contraseña especificado no existe.", "Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		btnIniciarSecin.setFont(new Font("Tahoma", Font.PLAIN, 15));

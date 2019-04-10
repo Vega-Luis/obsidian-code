@@ -65,6 +65,10 @@ public class Management {
     }
   }
   
+  public ArrayList<Branch> getBraches(){
+    return branches;
+  }
+  
   private void setCompanies() {
     try {
       this.companies = this.persistence.loadCompanies();
@@ -76,6 +80,10 @@ public class Management {
     } catch (ParseException e) {
       e.printStackTrace();
     }
+  }
+  
+  public ArrayList<Company> getCompanies(){
+    return companies;
   }
   
   /**

@@ -21,12 +21,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import bussineslogic.Maintenance;
+import bussineslogic.Vehicle;
+import controller.Management;
+import bussineslogic.Branch;
 import bussineslogic.Company;
 
 public class MaintenanceRegister extends JFrame {
 
   private JPanel contentPane;
-  private JTextField txtIDVehiculo;
   private JTextField txtCosto;
 
   /**
@@ -36,7 +38,8 @@ public class MaintenanceRegister extends JFrame {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          MaintenanceRegister frame = new MaintenanceRegister();
+          Management man = new Management();
+          MaintenanceRegister frame = new MaintenanceRegister(man);
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
@@ -48,7 +51,7 @@ public class MaintenanceRegister extends JFrame {
   /**
    * Create the frame.
    */
-  public MaintenanceRegister() {
+  public MaintenanceRegister(final Management manager) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 596, 406);
     contentPane = new JPanel();
@@ -80,9 +83,6 @@ public class MaintenanceRegister extends JFrame {
     JLabel lblCompania = new JLabel("Compañia:");
     lblCompania.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
-    txtIDVehiculo = new JTextField();
-    txtIDVehiculo.setColumns(10);
-    
     final JDateChooser dateChooserInicio = new JDateChooser();
     
     final JDateChooser dateChooserFin = new JDateChooser();
@@ -92,10 +92,11 @@ public class MaintenanceRegister extends JFrame {
     
     JScrollPane scrollPane = new JScrollPane();
     
-    
-    
     final JComboBox comboBoxCompanys = new JComboBox();
     DefaultComboBoxModel<Company> modelCompany = new DefaultComboBoxModel<Company>();    ///CREAR EL MODEL DE COMPANYS
+    for(Company compania: manager.getCompanies()) {
+      modelCompany.addElement(compania);
+    }
     comboBoxCompanys.setModel(modelCompany);
     
     
@@ -105,33 +106,55 @@ public class MaintenanceRegister extends JFrame {
     final JComboBox comboBoxTipo = new JComboBox();
     comboBoxTipo.setModel(new DefaultComboBoxModel(new String[] {"Preventivo", "Correctivo"}));
     
+    final JComboBox comboBoxPlacas = new JComboBox();
+    
+    JLabel lblSede = new JLabel("Sede:");
+    lblSede.setFont(new Font("Tahoma", Font.PLAIN, 17));
+    
+    final JComboBox comboBoxSedes = new JComboBox();
+    DefaultComboBoxModel<Branch> modelSedes = new DefaultComboBoxModel<Branch>();
+    for(Branch rama: manager.getBraches()) {
+      modelSedes.addElement(rama);
+    }
+    comboBoxSedes.setModel(modelSedes);
+    
     JButton btnRegistrarMantenimiento = new JButton("Registrar mantenimiento");
     btnRegistrarMantenimiento.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {               //Evento del boton  AGREGAR A UN VEHICULO Y ASIGANR COMPANYS
         
         if(comboBoxTipo.getSelectedItem() == "Preventivo") {
-          Maintenance mantenimiento = new Maintenance(true, txtIDVehiculo.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate(),
-              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(), (Company)comboBoxCompanys.getSelectedItem());
-          
+          if(manager.addMaintenance(type, idVehiculo, startDate, endDate, price, detail, company)) {
+            
+          }
         }
         else {
-          Maintenance mantenimiento = new Maintenance(true, txtIDVehiculo.getText(), dateChooserInicio.getDate(), dateChooserFin.getDate(),
-              Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(), (Company)comboBoxCompanys.getSelectedItem());
-          
           
         }
       }
     });
     btnRegistrarMantenimiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    
+    
+    JButton btnActualizar = new JButton("Actualizar placas");
+    btnActualizar.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        
+        Branch miRama = (Branch)comboBoxSedes.getSelectedItem();
+        DefaultComboBoxModel<Vehicle> modelPlacas = new DefaultComboBoxModel<Vehicle>();
+        for(Vehicle carro: miRama.getVehicles()) {
+          modelPlacas.addElement(carro);
+        }
+        comboBoxPlacas.setModel(modelPlacas);
+      }
+    });
+    btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
         .addComponent(lblRegistroMantenimiento, GroupLayout.PREFERRED_SIZE, 570, GroupLayout.PREFERRED_SIZE)
-        .addGroup(gl_contentPane.createSequentialGroup()
-          .addGap(10)
-          .addComponent(lblFechaInicio)
-          .addGap(74)
-          .addComponent(dateChooserInicio, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
         .addGroup(gl_contentPane.createSequentialGroup()
           .addGap(10)
           .addComponent(lblFechaFinalizacion)
@@ -150,24 +173,33 @@ public class MaintenanceRegister extends JFrame {
         .addGroup(gl_contentPane.createSequentialGroup()
           .addGap(10)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addComponent(lblCompania)
+              .addContainerGap(481, Short.MAX_VALUE))
+            .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+              .addComponent(comboBoxCompanys, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+              .addPreferredGap(ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                .addComponent(lblSede)
+                .addComponent(btnRegistrarMantenimiento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboBoxSedes, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActualizar, Alignment.TRAILING))
+              .addGap(40))))
+        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+          .addGap(10)
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addComponent(lblIdVehiculo)
             .addComponent(lblTipo))
           .addGap(4)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-            .addComponent(comboBoxTipo, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(txtIDVehiculo, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
-          .addGap(287))
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+            .addComponent(comboBoxTipo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(comboBoxPlacas, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
+          .addContainerGap(303, Short.MAX_VALUE))
         .addGroup(gl_contentPane.createSequentialGroup()
           .addGap(10)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(comboBoxCompanys, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
-              .addComponent(btnRegistrarMantenimiento)
-              .addGap(40))
-            .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(lblCompania)
-              .addContainerGap(481, Short.MAX_VALUE))))
+          .addComponent(lblFechaInicio)
+          .addGap(74)
+          .addComponent(dateChooserInicio, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
     );
     gl_contentPane.setVerticalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -176,35 +208,43 @@ public class MaintenanceRegister extends JFrame {
           .addGap(11)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(lblTipo)
-            .addComponent(comboBoxTipo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-          .addGap(11)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblIdVehiculo)
-            .addComponent(txtIDVehiculo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-          .addGap(10)
+            .addComponent(comboBoxTipo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblSede))
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addGap(1)
-              .addComponent(lblFechaInicio))
-            .addComponent(dateChooserInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-          .addGap(11)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblFechaFinalizacion)
+              .addGap(11)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblIdVehiculo)
+                .addComponent(comboBoxPlacas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addGap(10)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addGap(1)
+                  .addComponent(lblFechaInicio))
+                .addComponent(dateChooserInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addGap(11)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblFechaFinalizacion)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addGap(1)
+                  .addComponent(dateChooserFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+              .addGap(11)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblCosto)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addGap(3)
+                  .addComponent(txtCosto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+              .addGap(11)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblDetalle)
+                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+              .addGap(4)
+              .addComponent(lblCompania))
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addGap(1)
-              .addComponent(dateChooserFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-          .addGap(11)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblCosto)
-            .addGroup(gl_contentPane.createSequentialGroup()
-              .addGap(3)
-              .addComponent(txtCosto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-          .addGap(11)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblDetalle)
-            .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
-          .addGap(4)
-          .addComponent(lblCompania)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(comboBoxSedes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+              .addPreferredGap(ComponentPlacement.UNRELATED)
+              .addComponent(btnActualizar)))
           .addGap(6)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
             .addComponent(comboBoxCompanys, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)

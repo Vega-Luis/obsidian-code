@@ -8,22 +8,30 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 
 import bussineslogic.VehicleStyle;
+import controller.Management;
 import bussineslogic.VehicleState;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import bussineslogic.Vehicle;
 import bussineslogic.Branch;
+import javax.swing.JFileChooser;
 
 public class RegisterVehicle extends JFrame {
 
@@ -46,8 +54,9 @@ public class RegisterVehicle extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegisterVehicle frame = new RegisterVehicle();
-					frame.setVisible(true);
+				  Management man = new Management();
+				  RegisterVehicle frame = new RegisterVehicle(man);
+				  frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -58,9 +67,9 @@ public class RegisterVehicle extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegisterVehicle() {
+	public RegisterVehicle(final Management manager) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 651, 483);
+		setBounds(100, 100, 921, 494);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -116,23 +125,17 @@ public class RegisterVehicle extends JFrame {
 		JLabel lblEstilo = new JLabel("Estilo:");
 		lblEstilo.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		JComboBox comboBoxEstilo = new JComboBox();
+		final JComboBox comboBoxEstilo = new JComboBox();
 		DefaultComboBoxModel<VehicleStyle> moldelEstilo = new DefaultComboBoxModel<VehicleStyle>();
 		for(VehicleStyle estilo: VehicleStyle.values()) {
 		  moldelEstilo.addElement(estilo);
 		  
 		}
 		comboBoxEstilo.setModel(moldelEstilo);
-		
-		JLabel lblEstado = new JLabel("Estado:");
-		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JComboBox comboBoxEstado = new JComboBox();
 		DefaultComboBoxModel<VehicleState> modelEstado = new DefaultComboBoxModel<VehicleState>();
 		for(VehicleState estado: VehicleState.values()) {
 		  modelEstado.addElement(estado);
 		}
-		comboBoxEstado.setModel(modelEstado);
 		
 		txtMarca = new JTextField();
 		txtMarca.setColumns(10);
@@ -161,36 +164,68 @@ public class RegisterVehicle extends JFrame {
 		JLabel lblSede = new JLabel("Sede:");
 		lblSede.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		JComboBox comboBoxSede = new JComboBox();
+		
+		final JComboBox comboBoxSede = new JComboBox();
 		DefaultComboBoxModel<Branch> modelSede = new DefaultComboBoxModel<Branch>();    //Agregar las sedes a la jugada
+		for(Branch rama: manager.getBraches()) {
+		  modelSede.addElement(rama);
+		}
+		comboBoxSede.setModel(modelSede);
+		
+		txtPlaca = new JTextField();
+        txtPlaca.setColumns(10);
+        
+        final JFileChooser fileChooserImagen = new JFileChooser();
+        
+        JLabel lblImagen = new JLabel("Imagen:");
+        lblImagen.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
 		
 		JButton btnRegistrarVehiculo = new JButton("Registrar vehiculo");
 		btnRegistrarVehiculo.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent arg0) {             //Evento boton  FALTA EL ESTILO Y EL ESTADO Y LA SEDE
-		    
-		    if(comboBoxTrasmision.getSelectedItem() == "Manual") {
-		      Vehicle vehiculo = new Vehicle(txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(), Byte.parseByte(txtCapacidad.getText()),
-		          txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(), Float.parseFloat(txtMillasPorGalon.getText()),
-		          Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()), false);
-		      
-		    }
-		    else {
-		      Vehicle vehiculo = new Vehicle(txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(), Byte.parseByte(txtCapacidad.getText()),
-                  txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(), Float.parseFloat(txtMillasPorGalon.getText()),
-                  Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()), true);
-		      
-		      
-		    }
+		    BufferedImage imagen;
+	        try {
+	          imagen = ImageIO.read(new File(fileChooserImagen.getSelectedFile().getPath()));   //Lee la imagen del fileChooser.
+	          if(comboBoxTrasmision.getSelectedItem() == "Manual") {
+	            if(manager.addVehicle((Branch)comboBoxSede.getSelectedItem(), txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(),
+	                Byte.parseByte(txtCapacidad.getText()), txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(),
+	                Float.parseFloat(txtMillasPorGalon.getText()), Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()),
+	                false, imagen, (VehicleStyle) comboBoxEstilo.getSelectedItem())) {
+	              
+	              JOptionPane.showMessageDialog(null, "Se registro el nuevo vehiculo", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+	              setVisible(false);
+	              } else {
+	                JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
+	              }
+	           
+	          } else {
+	            if(manager.addVehicle((Branch)comboBoxSede.getSelectedItem(), txtPlaca.getText(), dateChooser.getDate(), txtColor.getText(),
+                    Byte.parseByte(txtCapacidad.getText()), txtMarca.getText(), Byte.parseByte(txtPuertas.getText()), txtNumeroVin.getText(),
+                    Float.parseFloat(txtMillasPorGalon.getText()), Float.parseFloat(txtPrecio.getText()), Byte.parseByte(txtMaletas.getText()),
+                    true, imagen, (VehicleStyle) comboBoxEstilo.getSelectedItem())) {
+                  
+                  JOptionPane.showMessageDialog(null, "Se registro el nuevo vehiculo", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+                  setVisible(false);
+                  } else {
+                    JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
+                  }
+	          }
+	          
+	        } catch (IOException e) {
+	          // TODO Auto-generated catch block
+	          e.printStackTrace();
+	        }
 		  }
 		});
 		btnRegistrarVehiculo.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		txtPlaca = new JTextField();
-		txtPlaca.setColumns(10);
+		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		    .addComponent(lblRegistroDeVehiculo, GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)
 		    .addGroup(gl_contentPane.createSequentialGroup()
 		      .addContainerGap()
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -222,49 +257,55 @@ public class RegisterVehicle extends JFrame {
 		                .addComponent(txtNumeroVin)
 		                .addComponent(txtKilometraje)
 		                .addComponent(txtPuertas)
-		                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-		                  .addComponent(txtMillasPorGalon, Alignment.LEADING)
-		                  .addComponent(txtPrecio, Alignment.LEADING)))))
+		                .addComponent(txtMillasPorGalon)
+		                .addComponent(txtPrecio))))
 		          .addGroup(gl_contentPane.createSequentialGroup()
 		            .addComponent(lblTransmision)
 		            .addGap(79)
 		            .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 		              .addComponent(comboBoxTrasmision, 0, 178, Short.MAX_VALUE)
-		              .addComponent(comboBoxEstilo, Alignment.LEADING, 0, 178, Short.MAX_VALUE)
-		              .addComponent(comboBoxEstado, Alignment.LEADING, 0, 178, Short.MAX_VALUE))))
-		        .addComponent(lblEstilo)
-		        .addComponent(lblEstado))
-		      .addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+		              .addComponent(comboBoxEstilo, Alignment.LEADING, 0, 178, Short.MAX_VALUE))))
+		        .addComponent(lblEstilo))
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-		        .addComponent(lblSede)
-		        .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
-		        .addComponent(btnRegistrarVehiculo))
-		      .addContainerGap())
-		    .addComponent(lblRegistroDeVehiculo, GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(87)
+		          .addComponent(btnRegistrarVehiculo))
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(77)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		            .addComponent(fileChooserImagen, GroupLayout.PREFERRED_SIZE, 416, GroupLayout.PREFERRED_SIZE)
+		            .addComponent(lblSede)
+		            .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
+		            .addComponent(lblImagen))))
+		      .addGap(111))
 		);
 		gl_contentPane.setVerticalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.LEADING)
 		    .addGroup(gl_contentPane.createSequentialGroup()
 		      .addComponent(lblRegistroDeVehiculo)
-		      .addPreferredGap(ComponentPlacement.UNRELATED)
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		        .addGroup(gl_contentPane.createSequentialGroup()
-		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		            .addComponent(lblPlaca)
-		            .addComponent(lblSede)
-		            .addComponent(txtPlaca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		          .addPreferredGap(ComponentPlacement.RELATED)
-		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-		            .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		            .addComponent(lblFechaDeFabricacion)))
-		        .addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		            .addGroup(gl_contentPane.createSequentialGroup()
+		              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		                .addComponent(lblPlaca)
+		                .addComponent(txtPlaca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		              .addPreferredGap(ComponentPlacement.RELATED)
+		              .addComponent(lblFechaDeFabricacion))
+		            .addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		          .addPreferredGap(ComponentPlacement.RELATED)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		            .addComponent(lblColor)
-		            .addComponent(txtColor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		            .addComponent(txtColor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		            .addComponent(lblImagen)))
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addComponent(lblSede)
 		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		      .addPreferredGap(ComponentPlacement.RELATED)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_contentPane.createSequentialGroup()
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		            .addComponent(lblCapacidad)
 		            .addComponent(txtCapacidad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -303,16 +344,12 @@ public class RegisterVehicle extends JFrame {
 		          .addPreferredGap(ComponentPlacement.RELATED)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		            .addComponent(lblEstilo)
-		            .addComponent(comboBoxEstilo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		          .addPreferredGap(ComponentPlacement.RELATED)
-		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		            .addComponent(lblEstado)
-		            .addComponent(comboBoxEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		          .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		            .addComponent(comboBoxEstilo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		        .addGroup(gl_contentPane.createSequentialGroup()
-		          .addPreferredGap(ComponentPlacement.RELATED)
-		          .addComponent(btnRegistrarVehiculo)
-		          .addGap(41))))
+		          .addComponent(fileChooserImagen, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE)
+		          .addPreferredGap(ComponentPlacement.UNRELATED)
+		          .addComponent(btnRegistrarVehiculo)))
+		      .addContainerGap(32, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

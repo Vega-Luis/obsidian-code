@@ -19,6 +19,8 @@ import bussineslogic.Vehicle;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import bussineslogic.VehicleState;
+import bussineslogic.VehicleStyle;
 
 public class EditVehicle extends JFrame {
 
@@ -32,10 +34,6 @@ public class EditVehicle extends JFrame {
   private JTextField txtMaletas;
   private JTextField txtPrecio;
   private JTextField txtMillasGalon;
-  private JTextField txtTransmision;
-  private JTextField txtEstilo;
-  private JTextField txtEstado;
-  private JTextField textField_12;
 
   /**
    * Launch the application.
@@ -147,17 +145,25 @@ public class EditVehicle extends JFrame {
     txtMillasGalon = new JTextField();
     txtMillasGalon.setColumns(10);
     
-    txtTransmision = new JTextField();
-    txtTransmision.setColumns(10);
+    JComboBox comboBoxTransmission = new JComboBox();
+    comboBoxTransmission.setModel(new DefaultComboBoxModel(new String[] {"Automatica", "Manual"}));
     
-    txtEstilo = new JTextField();
-    txtEstilo.setColumns(10);
+    JComboBox comboBoxEstilo = new JComboBox();
+    DefaultComboBoxModel<VehicleStyle> modelEstilos = new DefaultComboBoxModel<VehicleStyle>();
+    for(VehicleStyle estilo: VehicleStyle.values()) {
+      modelEstilos.addElement(estilo);
+    }
+    comboBoxEstilo.setModel(modelEstilos);
     
-    txtEstado = new JTextField();
-    txtEstado.setColumns(10);
+    JComboBox comboBoxEstado = new JComboBox();
+    DefaultComboBoxModel<VehicleState> modelEstados = new DefaultComboBoxModel<VehicleState>();
+    for(VehicleState estado : VehicleState.values()) {
+      modelEstados.addElement(estado);
+    }
+    comboBoxEstado.setModel(modelEstados);
     
-    textField_12 = new JTextField();
-    textField_12.setColumns(10);
+    JComboBox comboBoxSede = new JComboBox();
+    
     
     JButton btnEditar = new JButton("Editar");
     btnEditar.addActionListener(new ActionListener() {
@@ -175,6 +181,8 @@ public class EditVehicle extends JFrame {
         
       }
     });
+    
+    
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -199,40 +207,39 @@ public class EditVehicle extends JFrame {
                 .addComponent(lblEstilo)
                 .addComponent(lblEstado))
               .addPreferredGap(ComponentPlacement.RELATED)
-              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-                .addComponent(txtTransmision, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                 .addComponent(txtPuertas, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
                 .addComponent(txtNumVin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(txtMillasGalon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(txtMaletas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGroup(gl_contentPane.createSequentialGroup()
+                .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
                   .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                    .addComponent(txtEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEstilo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                  .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxEstado, 0, 155, Short.MAX_VALUE)
+                    .addComponent(comboBoxEstilo, Alignment.TRAILING, 0, 155, Short.MAX_VALUE))
+                  .addGap(122)
                   .addComponent(btnEditar)
                   .addGap(15))
                 .addGroup(gl_contentPane.createSequentialGroup()
-                  .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                    .addComponent(txtKilometraje, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-                      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-                        .addComponent(txtMarca)
-                        .addComponent(txtCapacidad)
-                        .addComponent(txtColor)
-                        .addComponent(comboBoxPlacas, Alignment.TRAILING, 0, 157, Short.MAX_VALUE)
-                        .addComponent(dateChooserAno, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                    .addComponent(txtKilometraje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addGroup(gl_contentPane.createSequentialGroup()
+                      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                        .addComponent(txtMarca, 155, 155, 155)
+                        .addComponent(txtCapacidad, 155, 155, 155)
+                        .addComponent(txtColor, 155, 155, 155)
+                        .addComponent(comboBoxPlacas, Alignment.TRAILING, 0, 155, Short.MAX_VALUE)
+                        .addComponent(dateChooserAno, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                        .addComponent(comboBoxTransmission, 0, 155, Short.MAX_VALUE))
                       .addGap(24)
                       .addComponent(lblSede)))
-                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                    .addGroup(gl_contentPane.createSequentialGroup()
+                      .addGap(43)
+                      .addComponent(btnActualizar))
                     .addGroup(gl_contentPane.createSequentialGroup()
                       .addPreferredGap(ComponentPlacement.RELATED)
-                      .addComponent(textField_12, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                      .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                      .addComponent(btnActualizar)
-                      .addGap(26)))))))
+                      .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))))))
           .addGap(71))
     );
     gl_contentPane.setVerticalGroup(
@@ -250,7 +257,7 @@ public class EditVehicle extends JFrame {
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblFechaFabricacion)
                 .addComponent(lblSede)
-                .addComponent(textField_12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(comboBoxSede, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblColor)
@@ -293,16 +300,16 @@ public class EditVehicle extends JFrame {
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblTransmision)
-                .addComponent(txtTransmision, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(comboBoxTransmission, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblEstilo)
-                .addComponent(txtEstilo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(comboBoxEstilo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblEstado)
-                .addComponent(txtEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-              .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(comboBoxEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(gl_contentPane.createSequentialGroup()
               .addPreferredGap(ComponentPlacement.RELATED)
               .addComponent(btnEditar)

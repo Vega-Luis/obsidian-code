@@ -187,6 +187,8 @@ public class Vehicle {
     this.vehicleImage = vehicleImage;
   }
   
-  
+  public String tString() {
+    return vehiclePlate;
+  }
 
 }

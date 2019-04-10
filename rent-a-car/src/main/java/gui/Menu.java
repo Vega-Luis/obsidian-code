@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class Menu extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -39,12 +40,12 @@ public class Menu extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Creacion del frame.
 	 */
-	public Menu() {
+	public Menu(final Management manager) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 479);
 		contentPane = new JPanel();
@@ -59,8 +60,9 @@ public class Menu extends JFrame {
 		btnAgregarVehiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton agregar vehiculo a flotilla.
 			  //Deberia abrir una ventana para agregar vehiculos.
-			  RegisterVehicle registroVehiculo = new RegisterVehicle();
+			  RegisterVehicle registroVehiculo = new RegisterVehicle(manager);
 			  registroVehiculo.setVisible(true);
+			  
 			}
 		});
 		btnAgregarVehiculo.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -69,7 +71,7 @@ public class Menu extends JFrame {
 		btnRegistrarEmpresaNueva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de agregar una nueva empresa de servicios.
 			  //Deberia abrir una ventana para agregar nuevas empresas de servicio.
-			  RegisterCompany registroEmpresa = new RegisterCompany();
+			  RegisterCompany registroEmpresa = new RegisterCompany(manager);
 	          registroEmpresa.setVisible(true);
 			}
 		});
@@ -80,7 +82,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de agregar nuevo mantenimiento.
 			  //Se deberia abrir una ventana para registrar un nuevo mantenimiento.
 			  
-			  MaintenanceRegister registroMantenimiento = new MaintenanceRegister();
+			  MaintenanceRegister registroMantenimiento = new MaintenanceRegister(manager);
 			  registroMantenimiento.setVisible(true);
 			}
 		});
@@ -113,20 +115,28 @@ public class Menu extends JFrame {
 		JButton btnRegistrarCliente = new JButton("Registrar nuevo cliente");
 		btnRegistrarCliente.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e) {                //Evento del boton de registro de cliente
-		    ClientRegister registroCliente = new ClientRegister();
+		    ClientRegister registroCliente = new ClientRegister(manager);
 		    registroCliente.setVisible(true);
 		  }
 		});
+		
 		btnRegistrarCliente.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JButton btnRegistrarEmpleado = new JButton("Registrar empleado");
 		btnRegistrarEmpleado.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent arg0) {
-		    EmployeetRegister registroEmpleado = new EmployeetRegister();
+		    EmployeetRegister registroEmpleado = new EmployeetRegister(manager);
 		    registroEmpleado.setVisible(true);
 		  }
 		});
 		btnRegistrarEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		JButton btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent arg0) {                 //Evento de save manager
+		    
+		  }
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -147,7 +157,10 @@ public class Menu extends JFrame {
 		            .addComponent(btnRegistrarEmpleado)
 		            .addComponent(btnDetalleDeReserva)
 		            .addComponent(btnEditarVehiculo)
-		            .addComponent(btnRegistrarEmpresaNueva))))
+		            .addComponent(btnRegistrarEmpresaNueva)))
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(236)
+		          .addComponent(btnGuardarCambios)))
 		      .addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -170,7 +183,9 @@ public class Menu extends JFrame {
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		        .addComponent(btnRegistrarCliente)
 		        .addComponent(btnRegistrarEmpleado))
-		      .addContainerGap(112, Short.MAX_VALUE))
+		      .addGap(70)
+		      .addComponent(btnGuardarCambios)
+		      .addContainerGap(19, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

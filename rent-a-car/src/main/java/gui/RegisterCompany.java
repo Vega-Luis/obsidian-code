@@ -5,10 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -27,23 +29,24 @@ public class RegisterCompany extends JFrame {
   /**
    * Launch the application.
    */
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          RegisterCompany frame = new RegisterCompany();
+          Management man = new Management();
+          RegisterCompany frame = new RegisterCompany(man);
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     });
-  }
+  }*/
 
   /**
    * Create the frame.
    */
-  public RegisterCompany() {
+  public RegisterCompany(final Management manager) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 493, 278);
     contentPane = new JPanel();
@@ -76,6 +79,13 @@ public class RegisterCompany extends JFrame {
     btnRegistrarEmpresa.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {           //Evento del boton
         //deberia agregar una nueva empresa en controller
+        if(manager.addCompany(txtNombre.getText(), txtCedulaJuridica.getText(), txtTelefono.getText())) {
+          JOptionPane.showMessageDialog(null, "Se registro la nueva empresa", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+          setVisible(false);
+        } else {  
+        
+          JOptionPane.showMessageDialog(null, "Ya existe esa empresa en el registro", "Error", JOptionPane.WARNING_MESSAGE);
+        }
       }
     });
     btnRegistrarEmpresa.setFont(new Font("Tahoma", Font.PLAIN, 15));
