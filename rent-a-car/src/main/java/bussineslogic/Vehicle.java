@@ -1,7 +1,6 @@
 package bussineslogic;
 
 import java.util.Date;
-import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 
