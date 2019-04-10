@@ -1,5 +1,6 @@
 package gui;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JPanel;
 import bussineslogic.Branch;
@@ -42,5 +43,13 @@ public class DestinyDelivery {
     this.fechaRecogida = fechaRecogida;
   }
   
-
+  public String toStringFechaEntrega() {
+    SimpleDateFormat mascara = new SimpleDateFormat("dd/MM/yy");
+    return mascara.format(fechaEntrega);
+  }
+  
+  public String toStringFechaRecogida() {
+    SimpleDateFormat mascara = new SimpleDateFormat("dd/MM/yy");
+    return mascara.format(fechaRecogida);
+  }
 }

@@ -135,8 +135,9 @@ public class Menu extends JFrame {
 		});
 		btnRegistrarEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JButton btnGuardarCambios = new JButton("Guardar cambios");
-		btnGuardarCambios.addActionListener(new ActionListener() {
+		JButton btnRecorrido = new JButton("Mostrar ultimo recorrido");
+		btnRecorrido.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnRecorrido.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent arg0) {                 //Evento de save manager
 		    
 		  }
@@ -163,8 +164,8 @@ public class Menu extends JFrame {
 		            .addComponent(btnEditarVehiculo)
 		            .addComponent(btnRegistrarEmpresaNueva)))
 		        .addGroup(gl_contentPane.createSequentialGroup()
-		          .addGap(236)
-		          .addComponent(btnGuardarCambios)))
+		          .addGap(194)
+		          .addComponent(btnRecorrido)))
 		      .addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -187,9 +188,9 @@ public class Menu extends JFrame {
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		        .addComponent(btnRegistrarCliente)
 		        .addComponent(btnRegistrarEmpleado))
-		      .addGap(70)
-		      .addComponent(btnGuardarCambios)
-		      .addContainerGap(19, Short.MAX_VALUE))
+		      .addPreferredGap(ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+		      .addComponent(btnRecorrido)
+		      .addGap(27))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

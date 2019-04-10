@@ -9,6 +9,7 @@ import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -54,7 +55,7 @@ public class EmployeetRegister extends JFrame {
 	/**
 	 * Creacion del frame.
 	 */
-	public EmployeetRegister(Management manager) {
+	public EmployeetRegister(final Management manager) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 637, 386);
 		contentPane = new JPanel();
@@ -94,23 +95,30 @@ public class EmployeetRegister extends JFrame {
 		txtCorreo = new JTextField();
 		txtCorreo.setColumns(10);
 		
+		JLabel lblContrasena = new JLabel("Contraseña:");
+        lblContrasena.setForeground(Color.RED);
+        lblContrasena.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        
+        txtContrasena = new JTextField();
+        txtContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        txtContrasena.setText("Su contraseña y usuario le sera enviada por correo");
+        txtContrasena.setEditable(false);
+        txtContrasena.setColumns(10);
+		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {       // Evento del boton de registro
-			  //
+			  if(manager.addEmployee(txtNombreCompleto.getText(), txtCedula.getText(), txtTelefono.getText(), txtCorreo.getText())) {
+			    JOptionPane.showMessageDialog(null, "Se registro el nuevo empleado", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+			    setVisible(false);
+			  } else {
+			    JOptionPane.showMessageDialog(null, "Ese emplado ya esta registrado", "Error", JOptionPane.WARNING_MESSAGE);
+			  }
 			}
 		});
 		btnRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JLabel lblContrasena = new JLabel("Contraseña:");
-		lblContrasena.setForeground(Color.RED);
-		lblContrasena.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		txtContrasena = new JTextField();
-		txtContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtContrasena.setText("Su contraseña y usuario le sera enviada por correo");
-		txtContrasena.setEditable(false);
-		txtContrasena.setColumns(10);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(

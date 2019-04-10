@@ -1,5 +1,5 @@
 package util;
-
+/*
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,13 +10,14 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.PlaceDetailsRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
-
+*/
 public class Maps {
-  GeoApiContext context;
+  /*GeoApiContext context;
   Gson gson;
   String placeId; 
   String data = ""; 
   String KEY ="AIzaSyBwK1MLub_zScXWpK_UOK1AklxpGVyxW7Y";
+  
   public void ConexionPlace(String placeName) throws ApiException, InterruptedException, IOException {
     this.context = new GeoApiContext.Builder().apiKey(KEY).build();//Obtiene en results los lugares qe coincidan con la busqueda
     GeocodingResult[] results =  GeocodingApi.geocode(context, placeName).await();
@@ -65,5 +66,5 @@ public class Maps {
     }catch(Exception e) {
       return "";
     }
-  }
+  }*/
 }

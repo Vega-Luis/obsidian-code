@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import bussineslogic.Client;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
@@ -20,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -29,6 +32,9 @@ public class DetailShow extends JFrame {
   private JPanel contentPane;
   private JTextField txtIdCliente;
   private JTextField txtNombreCliente;
+  private JTextField txtTipoCambio;
+  private JTextField txtSedeRecogida;
+  private JTextField txtSedeEntrega;
 
   /**
    * Launch the application.
@@ -48,10 +54,18 @@ public class DetailShow extends JFrame {
 
   /**
    * Create the frame.
+   * @throws Exception 
+   * @throws IOException 
+   * @throws SAXException 
+   * @throws ParserConfigurationException 
+   * @throws NumberFormatException 
    */
-  public DetailShow(Management manager, Client cliente, DestinyDelivery datos, Vehicle vehicle, Service servicio) {                                 //Adaptarlo a que reciba un cliente, un vehiculo y un services
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 727, 381);
+  public DetailShow(Management manager, Client cliente, DestinyDelivery datos, Vehicle vehicle, Service servicio) 
+                      throws NumberFormatException, ParserConfigurationException, SAXException, IOException, Exception {
+    //Adaptarlo a que reciba un cliente, un vehiculo y un services
+    
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    setBounds(100, 100, 810, 381);
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
     setContentPane(contentPane);
@@ -67,7 +81,7 @@ public class DetailShow extends JFrame {
     lblNombreCliente.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
     JLabel labelImagenVehiculo = new JLabel("");                                    //Label de la imagen
-    labelImagenVehiculo.setIcon(new ImageIcon(cliente.getLicenses().get(0).getImage()));
+    labelImagenVehiculo.setIcon(new ImageIcon(vehicle.getVehicleImage()));
     
     JRadioButton rdbtnWifi = new JRadioButton("Wifi");
     rdbtnWifi.setEnabled(false);
@@ -95,10 +109,12 @@ public class DetailShow extends JFrame {
     rdbtnCoberturaPorDaos.setFont(new Font("Tahoma", Font.PLAIN, 13));
     
     txtIdCliente = new JTextField();
+    txtIdCliente.setEditable(false);
     txtIdCliente.setText(cliente.getId());
     txtIdCliente.setColumns(10);
     
     txtNombreCliente = new JTextField();
+    txtNombreCliente.setEditable(false);
     txtNombreCliente.setText(cliente.getName());
     txtNombreCliente.setColumns(10);
     
@@ -112,6 +128,30 @@ public class DetailShow extends JFrame {
     JLabel lblServicios = new JLabel("Servicios:");
     lblServicios.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
+    JLabel lblTipoDeCambio = new JLabel("Tipo de cambio vigente a dolares:");
+    lblTipoDeCambio.setFont(new Font("Tahoma", Font.PLAIN, 16));
+    
+    txtTipoCambio = new JTextField();
+    txtTipoCambio.setEditable(false);
+    txtTipoCambio.setText("" + manager.getBuy());
+    txtTipoCambio.setColumns(10);
+    
+    JLabel lblSedeRecogida = new JLabel("Sede de recogida:");
+    lblSedeRecogida.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    txtSedeRecogida = new JTextField();
+    txtSedeRecogida.setEditable(false);
+    txtSedeRecogida.setText(datos.getSedeRecogida().getName());
+    txtSedeRecogida.setColumns(10);
+    
+    JLabel lblSedeEntrega = new JLabel("Sede de entrega:");
+    lblSedeEntrega.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    txtSedeEntrega = new JTextField();
+    txtSedeEntrega.setEditable(false);
+    txtSedeEntrega.setText(datos.getSedeEntrega().getName());
+    txtSedeEntrega.setColumns(10);
+    
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {              //Evento del boton
@@ -121,13 +161,10 @@ public class DetailShow extends JFrame {
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    
-    
-    
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
-        .addComponent(lblDetallesDeReserva, GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+        .addComponent(lblDetallesDeReserva, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
         .addGroup(gl_contentPane.createSequentialGroup()
           .addContainerGap()
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -141,39 +178,51 @@ public class DetailShow extends JFrame {
               .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
                 .addComponent(txtNombreCliente)
                 .addComponent(txtIdCliente, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
-          .addPreferredGap(ComponentPlacement.RELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(rdbtnCoberturaPorDaos)
-              .addContainerGap())
-            .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-              .addGroup(gl_contentPane.createSequentialGroup()
-                .addComponent(rdbtnAsientoParaNios)
-                .addContainerGap())
+              .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(btnAceptar)
+                  .addContainerGap())
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(rdbtnCoberturaPorDaos)
+                  .addContainerGap())
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(rdbtnAsientoParaNios)
+                  .addContainerGap())
                 .addGroup(gl_contentPane.createSequentialGroup()
                   .addComponent(rdbtnAsistenciaEnCarretera)
                   .addContainerGap())
-                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                  .addGroup(gl_contentPane.createSequentialGroup()
-                    .addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-                    .addComponent(btnAceptar)
-                    .addGap(146))
-                  .addGroup(gl_contentPane.createSequentialGroup()
-                    .addComponent(rdbtnGps)
-                    .addContainerGap())
-                  .addGroup(gl_contentPane.createSequentialGroup()
-                    .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                      .addComponent(rdbtnWifi)
-                      .addComponent(lblServicios))
-                    .addContainerGap(274, Short.MAX_VALUE)))))))
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(rdbtnGps)
+                  .addContainerGap())
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                    .addComponent(lblServicios)
+                    .addComponent(rdbtnWifi))
+                  .addPreferredGap(ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                  .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                    .addComponent(lblTipoDeCambio)
+                    .addComponent(txtTipoCambio, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE))
+                  .addGap(20))))
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addGap(136)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblSedeRecogida)
+                .addComponent(lblSedeEntrega))
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                .addComponent(txtSedeEntrega)
+                .addComponent(txtSedeRecogida, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+              .addGap(48))))
     );
     gl_contentPane.setVerticalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
         .addGroup(gl_contentPane.createSequentialGroup()
           .addComponent(lblDetallesDeReserva)
           .addGap(18)
-          .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addGroup(gl_contentPane.createSequentialGroup()
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblIdentificacionCliente)
@@ -183,23 +232,37 @@ public class DetailShow extends JFrame {
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblNombreCliente)
                 .addComponent(rdbtnWifi)
-                .addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addComponent(lblTipoDeCambio)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(txtTipoCambio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+          .addPreferredGap(ComponentPlacement.UNRELATED)
+          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+              .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addComponent(rdbtnGps)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(rdbtnAsistenciaEnCarretera)
               .addPreferredGap(ComponentPlacement.UNRELATED)
-              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                .addGroup(gl_contentPane.createSequentialGroup()
-                  .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(ComponentPlacement.RELATED)
-                  .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-                .addGroup(gl_contentPane.createSequentialGroup()
-                  .addComponent(rdbtnGps)
-                  .addPreferredGap(ComponentPlacement.RELATED)
-                  .addComponent(rdbtnAsistenciaEnCarretera)
-                  .addPreferredGap(ComponentPlacement.UNRELATED)
-                  .addComponent(rdbtnAsientoParaNios)
-                  .addPreferredGap(ComponentPlacement.UNRELATED)
-                  .addComponent(rdbtnCoberturaPorDaos))))
-            .addComponent(btnAceptar))
-          .addContainerGap(12, Short.MAX_VALUE))
+              .addComponent(rdbtnAsientoParaNios)
+              .addPreferredGap(ComponentPlacement.UNRELATED)
+              .addComponent(rdbtnCoberturaPorDaos)
+              .addPreferredGap(ComponentPlacement.UNRELATED)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblSedeRecogida)
+                .addComponent(txtSedeRecogida, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblSedeEntrega)
+                .addComponent(txtSedeEntrega, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+              .addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+              .addComponent(btnAceptar)
+              .addGap(23))))
     );
     contentPane.setLayout(gl_contentPane);
   }
