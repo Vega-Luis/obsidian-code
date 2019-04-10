@@ -18,8 +18,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import javax.xml.parsers.ParserConfigurationException;
 import org.json.simple.parser.ParseException;
+import org.xml.sax.SAXException;
 import persistence.Persistence;
+import webservicecapture.ExchangeRate;
 
 /**
  * Esta clase esta encargada de controlar la interaccon entre la logica de negocios
@@ -471,4 +474,32 @@ public class Management {
     });
     return filterVehicles;
 }
+  
+  /**
+   * Retorna el tipo de cambio para la veta.
+   * @return Tipo de cambio para la venta.
+   * @throws NumberFormatException
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @throws Exception
+   */
+  public double getSell() throws NumberFormatException,
+      ParserConfigurationException, SAXException, IOException, Exception {
+    
+    return ExchangeRate.getSell();
+  }
+  
+  /**
+   * Retorna el tipo de cambio para la compra.
+   * @return El valor de la compra.
+   * @throws NumberFormatException
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @throws Exception
+   */
+  public double getBuy() throws NumberFormatException, ParserConfigurationException, SAXException, IOException, Exception {
+    return ExchangeRate.getBuy();
+  }
 }
