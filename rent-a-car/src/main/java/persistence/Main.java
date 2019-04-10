@@ -46,8 +46,8 @@ public class Main {
     client2.addLicense(client.getId(),date1,date1, picture);
     Persistence persistence = new Persistence();
     
-    //persistence.saveClient(client);
-    //persistence.saveClient(client2);
+    persistence.saveClient(client);
+    persistence.saveClient(client2);
     
     clients= persistence.loadClients();
     for(int i = 0; i < clients.size(); i++) {
