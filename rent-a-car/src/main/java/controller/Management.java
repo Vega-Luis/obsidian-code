@@ -132,6 +132,16 @@ public class Management {
     }
     return NOT_ADDED;
   }
+  
+  public Client checkClient(String idCliente) {
+    for (int puntero = 0; puntero < clients.size(); puntero++) {
+      if (clients.get(puntero).getId().equals(idCliente)) {
+        return clients.get(puntero);
+      }
+    }
+    return null;
+  }
+  
   /**
    * Permite registrar un  nuevo cliente.
    * @param name Nombre del cliente.

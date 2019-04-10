@@ -188,7 +188,27 @@ public class Vehicle {
     this.vehicleImage = vehicleImage;
   }
   
-  public String tString() {
+  public String DataSelection() {
+    String msg = "";
+    if(getStyle() != null) {
+      msg += getStyle().name() + '\n';
+    } else {
+      msg += "Se desconoce el estilo\n";
+    }
+    
+    msg += getBrand() + '\n';
+    
+    if(transmission == true) {
+      msg += "Transmision automatica\n";
+    }
+    else {
+      msg += "Transmision manual\n";
+    }
+    
+    return msg;
+  }
+  
+  public String toString() {
     return vehiclePlate;
   }
 

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import bussineslogic.Client;
+import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -15,6 +16,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ShowClient extends JFrame {
 
@@ -27,23 +30,24 @@ public class ShowClient extends JFrame {
   /**
    * Launch the application.
    */
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          ShowClient frame = new ShowClient();
+          Management man = new Management();
+          ShowClient frame = new ShowClient(man, man.getClient(0));
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     });
-  }
+  }*/
 
   /**
    * Create the frame.
    */
-  public ShowClient() {                                 //Adaptarlo a que reciba un cliente
+  public ShowClient(final Management manager, final Client cliente) {                                 //Adaptarlo a que reciba un cliente
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 447, 361);
     contentPane = new JPanel();
@@ -72,31 +76,39 @@ public class ShowClient extends JFrame {
     
     
     txtNombre = new JTextField();
-    txtNombre.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtNombre.setText(cliente.getName());
     txtNombre.setEditable(false);
     txtNombre.setColumns(10);
     
     txtTelefono = new JTextField();
-    txtTelefono.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtTelefono.setText(cliente.getTelephone());
     txtTelefono.setEditable(false);
     txtTelefono.setColumns(10);
     
     txtCedula = new JTextField();
-    txtCedula.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtCedula.setText(cliente.getId());
     txtCedula.setEditable(false);
     txtCedula.setColumns(10);
     
     txtCorreo = new JTextField();
-    txtCorreo.setText("CAMBIAR CON LOS DATOS DEL CLIENTE SELECT");
+    txtCorreo.setText(cliente.getMail());
     txtCorreo.setEditable(false);
     txtCorreo.setColumns(10);
     
     JLabel lblImagen = new JLabel("");
+    lblImagen.setIcon(new ImageIcon(cliente.getLicenses().get(0).getImage()));
     lblImagen.setHorizontalTextPosition(SwingConstants.LEADING);
     lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
     
         
     JButton btnAceptar = new JButton("Aceptar");
+    btnAceptar.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        SelecDestinyBegin initfin = new SelecDestinyBegin(manager, cliente);
+        initfin.setVisible(true);
+        setVisible(false);
+      }
+    });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
     gl_contentPane.setHorizontalGroup(
