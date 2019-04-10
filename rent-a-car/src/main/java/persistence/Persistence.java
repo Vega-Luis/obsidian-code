@@ -221,48 +221,6 @@ public class Persistence implements Constants{
   }
   
   /**
-   * Método para extraer los datos de un vehiculo y adaptarlos para ser guardados en un .json
-   * @param vehicle vehiculo del cual se extraeran los datos
-   * @return Array que contiene los datos del vehiculo en strings
-   * @throws Exception
-   */
-  private ArrayList<String> getVehicleData(Vehicle vehicle) throws Exception{
-    ArrayList<String> vehicleData = new ArrayList<String>();
-    ArrayList<String> maintenanceData = new ArrayList<String>();
-    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
-    vehicleData.add(vehicle.getVehiclePlate());
-    vehicleData.add(formatDate.format(vehicle.getFabricationDate()));
-    vehicleData.add(vehicle.getColor());
-    vehicleData.add(Byte.toString(vehicle.getCapacity()));
-    vehicleData.add(vehicle.getBrand());
-    vehicleData.add(Byte.toString(vehicle.getDoors()));
-    vehicleData.add(vehicle.getVinNumber());
-    vehicleData.add(Float.toString(vehicle.getMpg()));
-    vehicleData.add(Float.toString(vehicle.getPrice()));
-    vehicleData.add(Byte.toString(vehicle.getSuitcaseCapacity()));
-    vehicleData.add(Boolean.toString(vehicle.isTransmission()));
-    vehicleData.add(convertImgToString(vehicle.getVehicleImage()));
-    for(int i = 0; i < vehicle.getMaintenances().size(); i++) {
-      maintenanceData.add(Boolean.toString(vehicle.getMaintenances().get(i).getType()));
-      maintenanceData.add(vehicle.getMaintenances().get(i).getId());
-      maintenanceData.add(formatDate.format(vehicle.getMaintenances().get(i).getStartDate()));
-      maintenanceData.add(formatDate.format(vehicle.getMaintenances().get(i).getEndDate()));
-      maintenanceData.add(Float.toString(vehicle.getMaintenances().get(i).getPrice()));
-      maintenanceData.add(vehicle.getMaintenances().get(i).getDetail());
-      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getBussinesName());
-      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getLegalNumber());
-      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getTelephone());      
-    }
-    for(int i = 0; i < maintenanceData.size(); i++) {
-      vehicleData.add(maintenanceData.get(i));
-    }
-    for(int i = 0; i < vehicleData.size(); i++) {
-      vehicleData.set(i, encrypt.encrypt(vehicleData.get(i)));
-    }
-    return vehicleData;
-  }
-  
-  /**
    * Metodo para actualizar los vehiculos de las sedes luego de hacer modificaciones
    * @param branches sedes registradas 
    * @throws Exception
@@ -342,6 +300,50 @@ public class Persistence implements Constants{
   }
   
   /**
+   * Método para extraer los datos de un vehiculo y adaptarlos para ser guardados en un .json
+   * @param vehicle vehiculo del cual se extraeran los datos
+   * @return Array que contiene los datos del vehiculo en strings
+   * @throws Exception
+   */
+  private ArrayList<String> getVehicleData(Vehicle vehicle) throws Exception{
+    ArrayList<String> vehicleData = new ArrayList<String>();
+    ArrayList<String> maintenanceData = new ArrayList<String>();
+    SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yy");
+    vehicleData.add(vehicle.getVehiclePlate());
+    vehicleData.add(formatDate.format(vehicle.getFabricationDate()));
+    vehicleData.add(vehicle.getColor());
+    vehicleData.add(Byte.toString(vehicle.getCapacity()));
+    vehicleData.add(vehicle.getBrand());
+    vehicleData.add(Byte.toString(vehicle.getDoors()));
+    vehicleData.add(vehicle.getVinNumber());
+    vehicleData.add(Float.toString(vehicle.getMpg()));
+    vehicleData.add(Float.toString(vehicle.getPrice()));
+    vehicleData.add(Byte.toString(vehicle.getSuitcaseCapacity()));
+    vehicleData.add(Boolean.toString(vehicle.isTransmission()));
+    vehicleData.add(convertImgToString(vehicle.getVehicleImage()));
+    vehicleData.add(vehicle.getState().name());
+    vehicleData.add(vehicle.getStyle().name());
+    for(int i = 0; i < vehicle.getMaintenances().size(); i++) {
+      maintenanceData.add(Boolean.toString(vehicle.getMaintenances().get(i).getType()));
+      maintenanceData.add(vehicle.getMaintenances().get(i).getId());
+      maintenanceData.add(formatDate.format(vehicle.getMaintenances().get(i).getStartDate()));
+      maintenanceData.add(formatDate.format(vehicle.getMaintenances().get(i).getEndDate()));
+      maintenanceData.add(Float.toString(vehicle.getMaintenances().get(i).getPrice()));
+      maintenanceData.add(vehicle.getMaintenances().get(i).getDetail());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getBussinesName());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getLegalNumber());
+      maintenanceData.add(vehicle.getMaintenances().get(i).getCompany().getTelephone());      
+    }
+    for(int i = 0; i < maintenanceData.size(); i++) {
+      vehicleData.add(maintenanceData.get(i));
+    }
+    for(int i = 0; i < vehicleData.size(); i++) {
+      vehicleData.set(i, encrypt.encrypt(vehicleData.get(i)));
+    }
+    return vehicleData;
+  }
+  
+  /**
    * Metodo para parsear los datos en String de un vehiculo y a partir de estos formar un 
    * objeto tipo Vehiculo
    * @param vehicleData informacion con la que se formara un vehiculo
@@ -364,7 +366,7 @@ public class Persistence implements Constants{
     Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
         vinNumber, mpg, price, suitCapacity, transmision);
     vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
-    for(int k = 12; k < vehicleData.size(); k = k+9) {
+    for(int k = 14; k < vehicleData.size(); k = k+9) {
       boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
       String id = encrypt.decrypt(vehicleData.get(k+1));
       Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(encrypt.decrypt(
@@ -550,10 +552,11 @@ public class Persistence implements Constants{
       for(int j = 27; j < reserveData.size()-3; j++) {
         vehicleData.add(reserveData.get(j));
       }
+      
       Vehicle vehicle = loadVehicle(vehicleData);
-      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(48));
-      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(49));
-      Date requestDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(50));
+      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(50));
+      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(51));
+      Date requestDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(52));
       reserves.add(new Reserve(deliveryBranch, deliveryBranch, service, client, employee, vehicle, 
           requestDate, requestDate, requestDate));
     }

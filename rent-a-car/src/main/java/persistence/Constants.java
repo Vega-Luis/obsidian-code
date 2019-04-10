@@ -39,11 +39,8 @@ public interface Constants {
   final byte SUITCAPACITY = 9;
   final byte TRANSMISION = 10;
   final byte IMAGE = 11;
-  final byte VEHICLEBRANCHNAME = 12;
-  final byte VEHICLEBRANCHPROVINCE = 13;
-  final byte VEHICLEBRANCHCANTON = 14;
-  final byte VEHICLEBRANCHDISTRICT = 15;
-  final byte VEHICLEBRANCHSINGS = 16;
+  final byte STATE = 12;
+  final byte STYLE = 13;
   
   //Branch constants
   final byte BRANCHNAME = 0;
