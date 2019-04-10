@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import util.Chyperer;
 
 public class ReserveDetail extends JFrame {
 
@@ -36,6 +37,8 @@ public class ReserveDetail extends JFrame {
   private JTextField txtIdCliente;
   private JTextField txtSedeRecogida;
   private JTextField txtSedeEntrega;
+  private JTextField txtEmpleado;
+  private Chyperer cifrador = new Chyperer("123456789ABCDEFG");
 
   /**
    * Launch the application.
@@ -96,6 +99,7 @@ public class ReserveDetail extends JFrame {
     lblVehiculo.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
     final JTextArea textAreaVehiculo = new JTextArea();
+    textAreaVehiculo.setEditable(false);
     
     final JLabel lblImagenVehiculo = new JLabel("");
     
@@ -126,12 +130,15 @@ public class ReserveDetail extends JFrame {
     lblSedeEntrega.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
     txtFechaRegistro = new JTextField();
+    txtFechaRegistro.setEditable(false);
     txtFechaRegistro.setColumns(10);
     
     txtFechaFinal = new JTextField();
+    txtFechaFinal.setEditable(false);
     txtFechaFinal.setColumns(10);
     
     txtFechaInicio = new JTextField();
+    txtFechaInicio.setEditable(false);
     txtFechaInicio.setColumns(10);
     
     final JComboBox comboBoxReservas = new JComboBox();
@@ -142,16 +149,27 @@ public class ReserveDetail extends JFrame {
     comboBoxReservas.setModel(modelReservas);
     
     txtNombreCliente = new JTextField();
+    txtNombreCliente.setEditable(false);
     txtNombreCliente.setColumns(10);
     
     txtIdCliente = new JTextField();
+    txtIdCliente.setEditable(false);
     txtIdCliente.setColumns(10);
     
     txtSedeRecogida = new JTextField();
+    txtSedeRecogida.setEditable(false);
     txtSedeRecogida.setColumns(10);
     
     txtSedeEntrega = new JTextField();
+    txtSedeEntrega.setEditable(false);
     txtSedeEntrega.setColumns(10);
+    
+    JLabel lblEmpleadoQueHizo = new JLabel("Empleado que hizo la reserva:");
+    lblEmpleadoQueHizo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+    
+    txtEmpleado = new JTextField();
+    txtEmpleado.setEditable(false);
+    txtEmpleado.setColumns(10);
     
     JButton btnActualizarDatosDe = new JButton("Actualizar datos de reserva");
     btnActualizarDatosDe.addActionListener(new ActionListener() {
@@ -171,9 +189,17 @@ public class ReserveDetail extends JFrame {
         rdbtnCoberturaPorDao.setSelected(miReserve.getService().getEnsurance());
         txtSedeRecogida.setText(miReserve.getCollectionBranc().getName());
         txtSedeEntrega.setText(miReserve.getDeliveryBranch().getName());
+        try {
+          txtEmpleado.setText(cifrador.decrypt(miReserve.getEmployee().getName()));
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
     });
     btnActualizarDatosDe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+    
+    
     
     
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -204,9 +230,8 @@ public class ReserveDetail extends JFrame {
                 .addComponent(txtFechaFinal)
                 .addComponent(txtFechaRegistro, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                 .addComponent(txtIdCliente)))
-            .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-              .addComponent(lblImagenVehiculo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(textAreaVehiculo, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)))
+            .addComponent(lblImagenVehiculo, GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+            .addComponent(textAreaVehiculo, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE))
           .addPreferredGap(ComponentPlacement.RELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
             .addGroup(gl_contentPane.createSequentialGroup()
@@ -222,7 +247,9 @@ public class ReserveDetail extends JFrame {
                 .addComponent(rdbtnCoberturaPorDao)
                 .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
                   .addComponent(txtSedeEntrega, Alignment.LEADING)
-                  .addComponent(txtSedeRecogida, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
+                  .addComponent(txtSedeRecogida, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                  .addComponent(lblEmpleadoQueHizo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(txtEmpleado, Alignment.LEADING)))
               .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(gl_contentPane.createSequentialGroup()
               .addComponent(btnActualizarDatosDe)
@@ -286,7 +313,11 @@ public class ReserveDetail extends JFrame {
               .addComponent(lblSedeEntrega)
               .addPreferredGap(ComponentPlacement.RELATED)
               .addComponent(txtSedeEntrega, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+              .addGap(18)
+              .addComponent(lblEmpleadoQueHizo)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(txtEmpleado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+              .addPreferredGap(ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
               .addComponent(btnActualizarDatosDe)
               .addGap(80))))
     );
