@@ -57,7 +57,7 @@ public class EditVehicle extends JFrame {
   /**
    * Create the frame.
    */
-  public EditVehicle(Management manager) {
+  public EditVehicle(final Management manager) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 649, 489);
     contentPane = new JPanel();
@@ -118,7 +118,7 @@ public class EditVehicle extends JFrame {
     
     Vehicle miVehiculo = (Vehicle)comboBoxPlacas.getSelectedItem();
     
-    JDateChooser dateChooserAno = new JDateChooser();
+    final JDateChooser dateChooserAno = new JDateChooser();
                                                         //Agregar datos al allar la placa
     txtColor = new JTextField();
     txtColor.setColumns(10);
@@ -177,7 +177,18 @@ public class EditVehicle extends JFrame {
     JButton btnEditar = new JButton("Editar");
     btnEditar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {                   //Evento de boton editar
-        
+        manager.modifyBrand((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            txtMarca.getText());
+        manager.modifyCapacity((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            Byte.parseByte(txtCapacidad.getText()));
+        manager.modifyColor((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            txtColor.getText());
+        manager.modifyDoors((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            Byte.parseByte(txtPuertas.getText()));
+        manager.modifyFabricationDate((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+            dateChooserAno.getDate());
+        manager.modifyMpg((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(), 
+            Float.parseFloat(txtMillasGalon.getText()));
         
       }
     });
