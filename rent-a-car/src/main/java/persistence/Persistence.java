@@ -35,16 +35,22 @@ import util.Chyperer;
  * Clase para la persistencia de datos, implementa una interfaz con constantes para mejorar la
  * comprensión de la misma
  * @author Marcosmh0199
- * @version v19.4.8
+ * @version v19.4.10
  */
 public class Persistence implements Constants{
   
-  Chyperer encrypt = new Chyperer("123456789ABCDEFG");
+  private Chyperer encrypt = new Chyperer("123456789ABCDEFG");
   
+  /**
+   * Constructor de la clase
+   */
   public Persistence() {
     createDirectory();
   }
   
+  /**
+   * Método para crear el directorio donde se van a guardar los archivos
+   */
   private void createDirectory() {
     if(Files.exists(Paths.get("C:\\JSONFiles"))){
       File dir = new File("C:\\JSONFiles");
@@ -81,6 +87,12 @@ public class Persistence implements Constants{
     return image;
   }
   
+  /**
+   * Método para obtener la información de un cliente
+   * @param client cliente del cual se obtendrá la informacion
+   * @return ArrayList con la información
+   * @throws Exception
+   */
   private ArrayList<String> getClientData(Client client) throws Exception{
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<String> clientLicenses = new ArrayList<String>();
@@ -134,7 +146,10 @@ public class Persistence implements Constants{
    */
   public ArrayList<Client> loadClients() throws Exception {  
     JSONParser parser = new JSONParser();
-    JSONArray clientsArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
+    JSONArray clientsArray = new JSONArray();
+    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+      clientsArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
+    }
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<Client> clients = new ArrayList<Client>();
     for(int i = 0; i < clientsArray.size(); i++) {
@@ -205,7 +220,10 @@ public class Persistence implements Constants{
    */
   public ArrayList<Employee> loadEmployees() throws Exception {
     JSONParser parser = new JSONParser();
-    JSONArray employeesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
+    JSONArray employeesArray = new JSONArray();
+    if(Files.exists(Paths.get("C:\\JSONFiles\\employees.json"))) {
+      employeesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
+    }
     ArrayList<String> employeeData= new ArrayList<String>();
     ArrayList<Employee> employees = new ArrayList<Employee>();
     for(int i = 0; i < employeesArray.size(); i++) {
@@ -302,6 +320,46 @@ public class Persistence implements Constants{
   }
   
   /**
+   * Metodo para cargar todas las sedes que se haya guardado
+   * @return ArrayList que contiene todas las sedes registradas
+   * @throws Exception
+   */
+  public ArrayList<Branch> loadBranches() throws Exception{
+    JSONParser parser = new JSONParser();
+    JSONArray branchesArray = new JSONArray();
+    JSONArray vehiclesArray = new JSONArray();
+    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+      branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
+    }
+    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+      vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
+    }
+    ArrayList<Branch> branches = new ArrayList<Branch>();
+    ArrayList<String> branchData = new ArrayList<String>();
+    ArrayList<String> vehicleData = new ArrayList<String>();
+    Vehicle vehicle = null;
+    ArrayList<ArrayList<String>> vehiclesData = new ArrayList<ArrayList<String>> ();
+    for(int i = 0; i < branchesArray.size(); i++) {
+      branchData = (ArrayList<String>) branchesArray.get(i);
+      String branchName = encrypt.decrypt(branchData.get(BRANCHNAME));
+      String province = encrypt.decrypt(branchData.get(BRANCHPROVINCE));
+      String canton = encrypt.decrypt(branchData.get(BRANCHCANTON));
+      String district = encrypt.decrypt(branchData.get(BRANCHDISTRICT));
+      String sings = encrypt.decrypt(branchData.get(BRANCHSINGS));
+      branches.add(new Branch(branchName,new Address(province,canton,district,sings)));
+    }
+    for(int i = 0; i < vehiclesArray.size(); i++) {
+      vehiclesData = (ArrayList<ArrayList<String>>) vehiclesArray.get(i);
+      for(int j = 0; j < vehiclesData.size(); j++) {
+        vehicleData = vehiclesData.get(j);
+        vehicle = loadVehicle(vehicleData);
+        }
+        branches.get(i).add(vehicle);
+      }
+    return branches;
+  }
+  
+  /**
    * Método para extraer los datos de un vehiculo y adaptarlos para ser guardados en un .json
    * @param vehicle vehiculo del cual se extraeran los datos
    * @return Array que contiene los datos del vehiculo en strings
@@ -391,40 +449,6 @@ public class Persistence implements Constants{
   }
   
   /**
-   * Metodo para cargar todas las sedes que se haya guardado
-   * @return ArrayList que contiene todas las sedes registradas
-   * @throws Exception
-   */
-  public ArrayList<Branch> loadBranches() throws Exception{
-    JSONParser parser = new JSONParser();
-    JSONArray branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
-    JSONArray vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
-    ArrayList<Branch> branches = new ArrayList<Branch>();
-    ArrayList<String> branchData = new ArrayList<String>();
-    ArrayList<String> vehicleData = new ArrayList<String>();
-    Vehicle vehicle = null;
-    ArrayList<ArrayList<String>> vehiclesData = new ArrayList<ArrayList<String>> ();
-    for(int i = 0; i < branchesArray.size(); i++) {
-      branchData = (ArrayList<String>) branchesArray.get(i);
-      String branchName = encrypt.decrypt(branchData.get(BRANCHNAME));
-      String province = encrypt.decrypt(branchData.get(BRANCHPROVINCE));
-      String canton = encrypt.decrypt(branchData.get(BRANCHCANTON));
-      String district = encrypt.decrypt(branchData.get(BRANCHDISTRICT));
-      String sings = encrypt.decrypt(branchData.get(BRANCHSINGS));
-      branches.add(new Branch(branchName,new Address(province,canton,district,sings)));
-    }
-    for(int i = 0; i < vehiclesArray.size(); i++) {
-      vehiclesData = (ArrayList<ArrayList<String>>) vehiclesArray.get(i);
-      for(int j = 0; j < vehiclesData.size(); j++) {
-        vehicleData = vehiclesData.get(j);
-        vehicle = loadVehicle(vehicleData);
-        }
-        branches.get(i).add(vehicle);
-      }
-    return branches;
-  }
-  
-  /**
    * Metodo darle persistencia a una compania
    * @param company compania
    * @throws Exception
@@ -457,7 +481,10 @@ public class Persistence implements Constants{
     ArrayList<Company> companies = new ArrayList<Company>();
     ArrayList<String> companyData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
-    JSONArray companiesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+    JSONArray companiesArray = new JSONArray();
+    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+      companiesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+    }
     for(int i = 0; i < companiesArray.size(); i++) {
       companyData = (ArrayList<String>) companiesArray.get(i);
       String businessName = companyData.get(BUSINESSNAME);
@@ -535,7 +562,10 @@ public class Persistence implements Constants{
     ArrayList<Reserve> reserves = new ArrayList<Reserve>();
     ArrayList<String> reserveData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
-    JSONArray reservesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+    JSONArray reservesArray = new JSONArray();
+    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+      reservesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+    }
     for(int i = 0; i < reservesArray.size(); i++) {
       ArrayList<String> vehicleData = new ArrayList<String>();
       reserveData = (ArrayList<String>) reservesArray.get(i);

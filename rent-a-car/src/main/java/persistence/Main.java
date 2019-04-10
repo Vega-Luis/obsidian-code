@@ -62,7 +62,7 @@ public class Main {
     
     ArrayList<Employee> employees = persistence.loadEmployees();
     for(int i = 0; i < employees.size(); i++) {
-      //System.out.println(employees.get(i)+"\n\n");
+      System.out.println(employees.get(i)+"\n\n");
     }
     Branch branch1 = new Branch("Cartago",address);
     Branch branch2 = new Branch("PEREZ",address);
