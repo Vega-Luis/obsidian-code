@@ -57,6 +57,8 @@ public class Vehicle {
     this.suitcaseCapacity = suitcaseCapacity;
     this.transmission = transmission;
     this.maintenances = new ArrayList<Maintenance>();
+    this.state = VehicleState.ACTIVE;
+    this.style = VehicleStyle.SUV;
   }
 
   public String getVehiclePlate() {
