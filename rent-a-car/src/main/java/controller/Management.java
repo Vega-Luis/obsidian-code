@@ -6,12 +6,17 @@ import bussineslogic.Client;
 import bussineslogic.Company;
 import bussineslogic.Employee;
 import bussineslogic.Maintenance;
+import bussineslogic.Reserve;
+import bussineslogic.Service;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleState;
 import bussineslogic.VehicleStyle;
 import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import org.json.simple.parser.ParseException;
 import persistence.Persistence;
@@ -27,6 +32,7 @@ public class Management {
   private ArrayList<Employee> employees;
   private ArrayList<Branch> branches;
   private ArrayList<Company> companies;
+  private ArrayList<Reserve> reserves;
   private Persistence persistence;
   private final int NOT_ADDED = 0;
 
@@ -36,6 +42,7 @@ public class Management {
     this.setEmployees();
     this.setBranches();
     this.setCompanies();
+    this.setReserves();
   }
   
   private void setClients() {
@@ -78,6 +85,15 @@ public class Management {
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  private void setReserves() {
+    try {
+      this.reserves = persistence.loadReserves();
+    } catch (Exception e) {
+      this.reserves = new ArrayList<Reserve>();
       e.printStackTrace();
     }
   }
@@ -164,23 +180,6 @@ public class Management {
     }
   }
   
-  
-  
-  /**
-   * Crea un nuevo mantenimiento.
-   * @param type  Es el tipo de mantenimiento si es true preventivo.
-   * @param idVehiculo   Es el id del vehiculo del mantenimiento.
-   * @param startDate   Es la fecha en la que se inicio el mantenimiento. 
-   * @param endDate    Es la fecha en que finalizo el mantenimiento.
-   * @param price    Es los que costo el mantenimiento.
-   * @param detail   Son los detalles acerca del mantenimiento.
-   * @return Un nuevo mantenimiento para un vehiculo.
-   */
-  public Maintenance addMaintenance(boolean type, String idVehiculo, Date startDate, Date endDate,
-      Float price, String detail, Company company) {
-    return new Maintenance(type,idVehiculo,startDate,endDate, price, detail, company);
-  }
-  
   /**
    * Retorna el cliente que se encuentra en una posicion del array de clientes.
    * @param client Posicion en que se encuentra el cliente.
@@ -209,7 +208,8 @@ public class Management {
    */
   public boolean addVehicle(Branch branch, String vehiclePlate, Date fabricationDate,
       String color, byte capacity, String brand, byte doors, String vinNumber,
-          float mpg, float price, byte suitcaseCapacity, boolean transmission, Image vehicleImage,VehicleStyle style) {
+          float mpg, float price, byte suitcaseCapacity, boolean transmission, Image vehicleImage, VehicleStyle style) {
+    
     for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
       if (branch.getVehicles().get(vehicle).getVehiclePlate().equals(vehiclePlate)) {
         return false;
@@ -260,7 +260,7 @@ public class Management {
   public boolean addMaintenance(Branch branch, boolean type, String vehiclePlate, Date startDate,
       Date endDate, Float price, String detail, Company company) {
 
-    if (branch.getVehicle(vehiclePlate) != null ) {
+    if (branch.getVehicle(vehiclePlate) != null) {
       Maintenance newMaintenance = new Maintenance(type, detail, endDate, endDate, price, detail, company);
       branch.getVehicle(vehiclePlate).getMaintenances().add(newMaintenance);
       return true;
@@ -388,4 +388,77 @@ public class Management {
       branch.getVehicle(vehiclePlate).setTransmission(transmission);
     }
   } 
+  
+  /**
+   * Guarda en la persistencia todos los cambios hechos en le management.
+   */
+  public void saveAll() {
+    try {
+      persistence.updateBranchVehicles(branches);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
+  public boolean reserve(Branch collectionBranch, Branch deliveryBranch, Service service, Client client,
+      Employee employee, Vehicle vehicle, Date starDate, Date endDate, Date requesDate) {
+    
+    Reserve newReserve = new Reserve(collectionBranch, deliveryBranch, service, client, employee,
+        vehicle,starDate, endDate, requesDate);
+    this.reserves.add(newReserve);
+    collectionBranch.getVehicle(vehicle.getVehiclePlate()).setState(VehicleState.INACTIVE);
+    return true;
+  }
+  
+  /**
+   * Filtra los vehiculos por el estilo.
+   * @param vehicleStyle Estilo del vehiculo.
+   * @return Lista con los vehiculos que tiene el mismo estilo.
+   */
+  public ArrayList<Vehicle> vehicleStyleFilter(Branch branch, VehicleStyle vehicleStyle) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
+      if (branch.getVehicles().get(vehicle).getStyle().equals(vehicleStyle)) {
+        filterVehicles.add(branch.getVehicles().get(vehicle));
+      }
+    }
+    return filterVehicles;
+  }
+  
+  /**
+   * Filtra los vehiculos por capacidad
+   * @param capacity Cantidad de personas que soporta.
+   * @return Todos lo vehiculos que cumplen con el parametro del filtro.
+   */
+  public ArrayList<Vehicle> vehicleCapacityFilter(Branch branch, byte capacity) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
+      if (branch.getVehicles().get(vehicle).getCapacity() == capacity) {
+        filterVehicles.add(branch.getVehicles().get(vehicle));
+      }
+    }
+    return filterVehicles;
+  }
+
+  /**
+   * Filtra los vehiculos por precio.
+   * @param max Precion maximo solicitado.
+   * @param min Precion minimo solicitado.
+   * @return Todos los vehiculos que se encuentran dentro del rango.
+   */
+  public ArrayList<Vehicle> vehiclePriceFilter(Branch branch, float max, float min) {
+    ArrayList<Vehicle> filterVehicles = new ArrayList<Vehicle>();
+    for (int vehicle = 0; vehicle < branch.getVehicles().size(); vehicle++) {
+      if (min <= branch.getVehicles().get(vehicle).getPrice() || branch.getVehicles().get(vehicle).getPrice( ) <= max) {
+        filterVehicles.add(branch.getVehicles().get(vehicle));
+      }
+    }
+    //Requires revision
+    Collections.sort(filterVehicles, new Comparator<Vehicle>() {
+      public int compare(Vehicle o1, Vehicle o2) {
+      return Float.compare(o1.getPrice(), o2.getPrice());
+      }
+    });
+    return filterVehicles;
+}
 }
