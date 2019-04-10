@@ -17,6 +17,8 @@ import bussineslogic.Maintenance;
 import bussineslogic.Reserve;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleState;
+import bussineslogic.VehicleStyle;
 import util.Chyperer;
 
 /**
@@ -67,6 +69,10 @@ public class Main {
     Company company = new Company("HOLA", "COMO","ESTA");
     Vehicle vehicle = new Vehicle("12345", date1, "ROJO", (byte)4, "Nissan", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
     Vehicle vehicle2 = new Vehicle("12345", date1, "VERDE", (byte)4, "Toyota", (byte)2, "6789", (float)0, (float)230000.23, (byte)4, false);
+    vehicle.setStyle(VehicleStyle.COMPACT);
+    vehicle.setState(VehicleState.ACTIVE);
+    vehicle2.setState(VehicleState.ACTIVE);
+    vehicle2.setStyle(VehicleStyle.CONVERTIBLE);
     vehicle.setVehicleImage(picture);
     vehicle2.setVehicleImage(picture);
     vehicle.getMaintenances().add(new Maintenance(true,vehicle.getVehiclePlate(),date1,date1, (float)5000, "Test", company));
@@ -102,7 +108,7 @@ public class Main {
       //System.out.println(companies.get(i).getBussinesName());
     }
     Service service = new Service(true, true, false, true, false);
-    //persistence.saveReserve(branch1, branch2, service, client2, employee2, vehicle2, date1, date1, date1);
+    persistence.saveReserve(branch1, branch2, service, client2, employee2, vehicle2, date1, date1, date1);
     //System.out.println(encrypt.decrypt("sxI4PHSamfwGCAZo0P9ieHKfCq02T7D1DWAZkLxis3c="));
     ArrayList<Reserve> reserves = persistence.loadReserves();
   }
