@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -123,12 +124,26 @@ public class MaintenanceRegister extends JFrame {
       public void actionPerformed(ActionEvent arg0) {               //Evento del boton  AGREGAR A UN VEHICULO Y ASIGANR COMPANYS
         
         if(comboBoxTipo.getSelectedItem() == "Preventivo") {
-          //if(manager.addMaintenance(type, idVehiculo, startDate, endDate, price, detail, company)) {
+          if(manager.addMaintenance((Branch)comboBoxSedes.getSelectedItem(), true, ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+              dateChooserInicio.getDate(), dateChooserFin.getDate(), Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(),
+              (Company)comboBoxCompanys.getSelectedItem())) {
             
-          //}
+            JOptionPane.showMessageDialog(null, "Se registro el nuevo mantenimiento", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+          } else {
+            JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
+          }
         }
         else {
-          
+          if(manager.addMaintenance((Branch)comboBoxSedes.getSelectedItem(), false, ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
+              dateChooserInicio.getDate(), dateChooserFin.getDate(), Float.parseFloat(txtCosto.getText()), textAreaDetalle.getText(),
+              (Company)comboBoxCompanys.getSelectedItem())) {
+            
+            JOptionPane.showMessageDialog(null, "Se registro el nuevo mantenimiento", "Successfull", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+          } else {
+            JOptionPane.showMessageDialog(null, "Ya existe ese vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
+          }
         }
       }
     });
