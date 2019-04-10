@@ -50,15 +50,6 @@ public class Persistence implements Constants{
     }
   }
   
-  public void updateVehicleData(ArrayList<Vehicle> vehicles) throws Exception {
-    JSONArray jsonVehicles = new JSONArray();
-    for(int i = 0; i < vehicles.size(); i++) {
-      ArrayList<String> vehicleData = getVehicleData(vehicles.get(i));
-      jsonVehicles.add(vehicleData);
-    }
-    Files.write(Paths.get("C:\\JSONFiles\\vehicles.json"), jsonVehicles.toJSONString().getBytes());
-  }
-  
   /**
    * Método para convertir una imagen a un string codificado en base64
    * @param image imagen que será convertida

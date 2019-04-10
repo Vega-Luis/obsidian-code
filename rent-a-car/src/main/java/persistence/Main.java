@@ -73,12 +73,21 @@ public class Main {
     vehicle2.getMaintenances().add(new Maintenance(true,vehicle.getVehiclePlate(),date1,date1, (float)5000, "Test", company));
     
     branch1.add(vehicle);
+    branch1.add(vehicle2);
     branch2.add(vehicle2);
+    branch2.add(vehicle);
+    
+    ArrayList<Branch> branches = new ArrayList<Branch>();
+    branches.add(branch1);
+    branches.add(branch2);
+    
+    persistence.updateBranchVehicles(branches);
     
     //persistence.saveBranch(branch1);
     //persistence.saveBranch(branch2);
     //ArrayList<Branch> branches = persistence.loadBranches();
     //persistence.updateBranchVehicles(branches);
+    
 
     //branches = persistence.loadBranches();
     //System.out.println(branches.get(1).getVehicles().size());
