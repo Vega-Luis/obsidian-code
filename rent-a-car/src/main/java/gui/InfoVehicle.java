@@ -30,10 +30,6 @@ public class InfoVehicle extends JPanel {
   public InfoVehicle(final Vehicle vehicle, final Management manager, final Client cliente, final DestinyDelivery datos, final Employee empleado) {
     setBorder(new LineBorder(new Color(0, 0, 0)));
     
-    JLabel lblImage = new JLabel("");
-    lblImage.setIcon(new ImageIcon(vehicle.getVehicleImage()));
-    lblImage.setHorizontalAlignment(SwingConstants.CENTER);
-    
     JTextArea textAreaDatos = new JTextArea();
     textAreaDatos.setText(vehicle.DataSelection());
     
@@ -54,14 +50,22 @@ public class InfoVehicle extends JPanel {
     JLabel lblPrecio = new JLabel("Precio");
     lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
+    JButton btnNewButton = new JButton("");
+    btnNewButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        VehicleDetail detalle = new VehicleDetail(vehicle, datos);
+        detalle.setVisible(true);
+      }
+    });
+    btnNewButton.setIcon(new ImageIcon(vehicle.getVehicleImage()));
+    
     
     GroupLayout groupLayout = new GroupLayout(this);
     groupLayout.setHorizontalGroup(
       groupLayout.createParallelGroup(Alignment.LEADING)
         .addGroup(groupLayout.createSequentialGroup()
-          .addGap(2)
-          .addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
-          .addPreferredGap(ComponentPlacement.UNRELATED)
+          .addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
+          .addPreferredGap(ComponentPlacement.RELATED)
           .addComponent(textAreaDatos, GroupLayout.PREFERRED_SIZE, 237, GroupLayout.PREFERRED_SIZE)
           .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
             .addGroup(groupLayout.createSequentialGroup()
@@ -86,11 +90,11 @@ public class InfoVehicle extends JPanel {
               .addComponent(txtPrecio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
               .addPreferredGap(ComponentPlacement.UNRELATED)
               .addComponent(btnSeleccionar))
-            .addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
             .addGroup(groupLayout.createSequentialGroup()
               .addGap(40)
               .addComponent(textAreaDatos, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)))
-          .addContainerGap(5, Short.MAX_VALUE))
+          .addContainerGap(43, Short.MAX_VALUE))
+        .addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
     );
     setLayout(groupLayout);
 
