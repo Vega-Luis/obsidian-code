@@ -220,6 +220,11 @@ public class Management {
     newVehicle.setVehicleImage(vehicleImage);
     newVehicle.setStyle(style);
     branch.add(newVehicle);
+    try {
+      persistence.updateBranchVehicles(branches);
+    } catch (Exception e) {
+      return false;
+    }
     return true;
   }
   
