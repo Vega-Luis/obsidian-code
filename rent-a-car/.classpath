@@ -23,10 +23,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Anthony/Desktop/Antony/TEC/2019/POO/Proyectos/Proyecto 1/Codigo/obsidian-code/rent-a-car/lib/jxbrowser-6.23.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Anthony/Desktop/Antony/TEC/2019/POO/Proyectos/Proyecto 1/Codigo/obsidian-code/rent-a-car/lib/jxbrowser-win32-6.23.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Anthony/Desktop/Antony/TEC/2019/POO/Proyectos/Proyecto 1/Codigo/obsidian-code/rent-a-car/lib/jxbrowser-win64-6.23.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Anthony/Desktop/Antony/TEC/2019/POO/Proyectos/Proyecto 1/Codigo/obsidian-code/rent-a-car/lib/license.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Anthony/Desktop/Antony/TEC/2019/POO/Proyectos/Proyecto 1/Codigo/obsidian-code/rent-a-car/lib/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcosmh0199/Documents/TEC/2019/PrimerSemestre/POO/Proyectos/Proyecto1-Rent a Car/lib/jxbrowser-6.23.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcosmh0199/Documents/TEC/2019/PrimerSemestre/POO/Proyectos/Proyecto1-Rent a Car/lib/jxbrowser-win32-6.23.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcosmh0199/Documents/TEC/2019/PrimerSemestre/POO/Proyectos/Proyecto1-Rent a Car/lib/jxbrowser-win64-6.23.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcosmh0199/Documents/TEC/2019/PrimerSemestre/POO/Proyectos/Proyecto1-Rent a Car/lib/license.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcosmh0199/Documents/TEC/2019/PrimerSemestre/POO/Proyectos/Proyecto1-Rent a Car/lib/miglayout15-swing.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * Interfaz que contiene constantes de latitudes y longitudes de lugares
+ * @author Marcosmh0199
+ * @version v19.04.10
+ */
 public interface PlacesLocations {
 
   String TECLATITUDE = "9.857247";
