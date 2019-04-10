@@ -194,7 +194,7 @@ public class EditVehicle extends JFrame {
             Float.parseFloat(txtPrecio.getText()));
         manager.modifySuitcaseCapacity((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
             Byte.parseByte(txtMaletas.getText()));
-        if(comboBoxTransmission.getSelectedItem() == "Automatico") {
+        if((String)comboBoxTransmission.getSelectedItem() == "Automatico") {
           manager.modifyTransmission((Branch)comboBoxSede.getSelectedItem(), ((Vehicle)comboBoxPlacas.getSelectedItem()).getVehiclePlate(),
               true);
         } else {
@@ -244,6 +244,11 @@ public class EditVehicle extends JFrame {
         txtMillasGalon.setText("" + miVehiculo.getMpg());
         txtPrecio.setText("" + (long)miVehiculo.getPrice());
         txtMaletas.setText("" + miVehiculo.getSuitcaseCapacity());
+        if(miVehiculo.isTransmission()) {
+          comboBoxTransmission.setSelectedIndex(0);
+        }else {
+          comboBoxTransmission.setSelectedIndex(1);
+        }
       }
     });
     btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));

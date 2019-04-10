@@ -39,7 +39,7 @@ public class InfoVehicle extends JPanel {
     
     txtPrecio = new JTextField();
     txtPrecio.setEditable(false);
-    txtPrecio.setText("" + vehicle.getPrice());
+    txtPrecio.setText("" + (long)vehicle.getPrice());
     txtPrecio.setColumns(10);
     
     JButton btnSeleccionar = new JButton("Seleccionar");
