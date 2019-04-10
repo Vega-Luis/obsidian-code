@@ -113,6 +113,8 @@ public class Menu extends JFrame {
 		btnDetalleDeReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			  //Se deberia abrir una ventana para consultar la informacion de una reserva
+			  ReserveDetail detalleReserva = new ReserveDetail(manager);
+			  detalleReserva.setVisible(true);
 			}
 		});
 		btnDetalleDeReserva.setFont(new Font("Tahoma", Font.PLAIN, 15));

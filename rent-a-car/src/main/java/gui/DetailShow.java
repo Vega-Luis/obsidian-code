@@ -164,6 +164,8 @@ public class DetailShow extends JFrame {
         Date fechaActual = setFechaActual();
         manager.reserve(datos.getSedeRecogida(), datos.getSedeEntrega(), servicio, cliente, empleado, vehicle, datos.getFechaRecogida(),
             datos.getFechaEntrega(), fechaActual);
+        
+        setVisible(false);
       }
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));

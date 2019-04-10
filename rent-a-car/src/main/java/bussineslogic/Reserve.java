@@ -1,5 +1,6 @@
 package bussineslogic;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -79,5 +80,9 @@ public class Reserve {
 
   public Branch getDeliveryBranch() {
     return deliveryBranch;
+  }
+  
+  public String toString() {
+    return client.getName();
   }
 }
