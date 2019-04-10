@@ -59,7 +59,7 @@ public class EditVehicle extends JFrame {
    * Create the frame.
    */
   public EditVehicle(final Management manager) {
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 736, 498);
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -242,7 +242,7 @@ public class EditVehicle extends JFrame {
         txtPuertas.setText("" + miVehiculo.getDoors());
         txtNumVin.setText(miVehiculo.getVinNumber());
         txtMillasGalon.setText("" + miVehiculo.getMpg());
-        txtPrecio.setText("" + miVehiculo.getPrice());
+        txtPrecio.setText("" + (long)miVehiculo.getPrice());
         txtMaletas.setText("" + miVehiculo.getSuitcaseCapacity());
       }
     });

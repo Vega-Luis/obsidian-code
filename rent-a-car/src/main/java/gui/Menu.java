@@ -92,6 +92,8 @@ public class Menu extends JFrame {
 		btnEditarVehiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton editar vehiculo.
 			  //Se deberia agregar una ventana para editar la info de un vehiculo.
+			  EditVehicle editor = new EditVehicle(manager);
+			  editor.setVisible(true);
 			}
 		});
 		btnEditarVehiculo.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -100,6 +102,8 @@ public class Menu extends JFrame {
 		btnRealizarReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de reserva.
 			  //Se deberia abrir una ventana para realizar el proceso de reserva
+			  SelectClient inicioreserva = new SelectClient(manager);
+			  inicioreserva.setVisible(true);
 			}
 		});
 		btnRealizarReserva.setFont(new Font("Tahoma", Font.PLAIN, 15));
