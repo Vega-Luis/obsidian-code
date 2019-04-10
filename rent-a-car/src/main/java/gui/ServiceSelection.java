@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import bussineslogic.Client;
+import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import controller.Management;
 import javax.swing.GroupLayout;
@@ -42,7 +43,7 @@ public class ServiceSelection extends JFrame {
   /**
    * Create the frame.
    */
-  public ServiceSelection(Management manager, Client cliente, DestinyDelivery datos, Vehicle vahicle) {
+  public ServiceSelection(final Management manager, final Client cliente, final DestinyDelivery datos, final Vehicle vahicle) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 403, 300);
     contentPane = new JPanel();
@@ -53,25 +54,29 @@ public class ServiceSelection extends JFrame {
     lblServicios.setFont(new Font("Tahoma", Font.PLAIN, 19));
     lblServicios.setHorizontalAlignment(SwingConstants.CENTER);
     
-    JRadioButton rdbtnWifi = new JRadioButton("Wifi");
+    final JRadioButton rdbtnWifi = new JRadioButton("Wifi");
     rdbtnWifi.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    JRadioButton rdbtnAsistenteRuta = new JRadioButton("Asistencia en carretera");
+    final JRadioButton rdbtnAsistenteRuta = new JRadioButton("Asistencia en carretera");
     rdbtnAsistenteRuta.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    JRadioButton rdbtnGps = new JRadioButton("GPS");
+    final JRadioButton rdbtnGps = new JRadioButton("GPS");
     rdbtnGps.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    JRadioButton rdbtnAsientoParaNio = new JRadioButton("Asiento para niño");
+    final JRadioButton rdbtnAsientoParaNio = new JRadioButton("Asiento para niño");
     rdbtnAsientoParaNio.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    JRadioButton rdbtnCoberturaPorDao = new JRadioButton("Cobertura por daño de terceros");
+    final JRadioButton rdbtnCoberturaPorDao = new JRadioButton("Cobertura por daño de terceros");
     rdbtnCoberturaPorDao.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        
+        Service servicio = new Service(rdbtnWifi.isSelected(), rdbtnAsistenteRuta.isSelected(), rdbtnGps.isSelected(), rdbtnAsientoParaNio.isSelected(),
+            rdbtnCoberturaPorDao.isSelected());
+        DetailShow detalles = new DetailShow(manager, cliente, datos, vahicle, servicio);
+        detalles.setVisible(true);
+        setVisible(false);
       }
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));

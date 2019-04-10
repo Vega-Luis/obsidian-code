@@ -5,8 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import bussineslogic.Client;
+import bussineslogic.Service;
+import bussineslogic.Vehicle;
+import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -17,15 +22,18 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 public class DetailShow extends JFrame {
 
   private JPanel contentPane;
+  private JTextField txtIdCliente;
+  private JTextField txtNombreCliente;
 
   /**
    * Launch the application.
    */
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -36,12 +44,12 @@ public class DetailShow extends JFrame {
         }
       }
     });
-  }
+  }*/
 
   /**
    * Create the frame.
    */
-  public DetailShow() {                                 //Adaptarlo a que reciba un cliente, un vehiculo y un services
+  public DetailShow(Management manager, Client cliente, DestinyDelivery datos, Vehicle vehicle, Service servicio) {                                 //Adaptarlo a que reciba un cliente, un vehiculo y un services
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 727, 381);
     contentPane = new JPanel();
@@ -58,13 +66,47 @@ public class DetailShow extends JFrame {
     JLabel lblNombreCliente = new JLabel("Nombre del cliente:");
     lblNombreCliente.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
-    JLabel labelImagenVehiculo = new JLabel("");
+    JLabel labelImagenVehiculo = new JLabel("");                                    //Label de la imagen
+    labelImagenVehiculo.setIcon(new ImageIcon(cliente.getLicenses().get(0).getImage()));
     
+    JRadioButton rdbtnWifi = new JRadioButton("Wifi");
+    rdbtnWifi.setEnabled(false);
+    rdbtnWifi.setSelected(servicio.getWifi());
+    rdbtnWifi.setFont(new Font("Tahoma", Font.PLAIN, 13));
     
+    JRadioButton rdbtnGps = new JRadioButton("GPS");
+    rdbtnGps.setEnabled(false);
+    rdbtnGps.setSelected(servicio.getGps());
+    rdbtnGps.setFont(new Font("Tahoma", Font.PLAIN, 13));
+    
+    JRadioButton rdbtnAsistenciaEnCarretera = new JRadioButton("Asistencia en carretera");
+    rdbtnAsistenciaEnCarretera.setEnabled(false);
+    rdbtnAsistenciaEnCarretera.setSelected(servicio.getRouteAssistance());
+    rdbtnAsistenciaEnCarretera.setFont(new Font("Tahoma", Font.PLAIN, 13));
+    
+    JRadioButton rdbtnAsientoParaNios = new JRadioButton("Asiento para niños");
+    rdbtnAsientoParaNios.setEnabled(false);
+    rdbtnAsientoParaNios.setSelected(servicio.getChildSeat());
+    rdbtnAsientoParaNios.setFont(new Font("Tahoma", Font.PLAIN, 13));
+    
+    JRadioButton rdbtnCoberturaPorDaos = new JRadioButton("Cobertura por daños de terceros");
+    rdbtnCoberturaPorDaos.setEnabled(false);
+    rdbtnCoberturaPorDaos.setSelected(servicio.getEnsurance());
+    rdbtnCoberturaPorDaos.setFont(new Font("Tahoma", Font.PLAIN, 13));
+    
+    txtIdCliente = new JTextField();
+    txtIdCliente.setText(cliente.getId());
+    txtIdCliente.setColumns(10);
+    
+    txtNombreCliente = new JTextField();
+    txtNombreCliente.setText(cliente.getName());
+    txtNombreCliente.setColumns(10);
     
     
     JScrollPane scrollPaneVehiculo = new JScrollPane();
     JTextArea textAreaVehiculo = new JTextArea();
+    textAreaVehiculo.setEditable(false);
+    textAreaVehiculo.setText(vehicle.DataSelection());
     scrollPaneVehiculo.setViewportView(textAreaVehiculo);
     
     JLabel lblServicios = new JLabel("Servicios:");
@@ -79,11 +121,7 @@ public class DetailShow extends JFrame {
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
     
-    JRadioButton rdbtnWifi = new JRadioButton("Wifi");
     
-    JRadioButton rdbtnGps = new JRadioButton("GPS");
-    
-    JRadioButton rdbtnAsistenciaEnCarretera = new JRadioButton("Asistencia en carretera");
     
     
     GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -93,28 +131,42 @@ public class DetailShow extends JFrame {
         .addGroup(gl_contentPane.createSequentialGroup()
           .addContainerGap()
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblIdentificacionCliente)
-            .addComponent(lblNombreCliente)
             .addComponent(labelImagenVehiculo, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-            .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE))
-          .addGap(88)
+            .addComponent(scrollPaneVehiculo, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)
+            .addGroup(gl_contentPane.createSequentialGroup()
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblIdentificacionCliente)
+                .addComponent(lblNombreCliente))
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                .addComponent(txtNombreCliente)
+                .addComponent(txtIdCliente, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
+          .addPreferredGap(ComponentPlacement.RELATED)
           .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
             .addGroup(gl_contentPane.createSequentialGroup()
-              .addComponent(rdbtnAsistenciaEnCarretera)
+              .addComponent(rdbtnCoberturaPorDaos)
               .addContainerGap())
             .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
               .addGroup(gl_contentPane.createSequentialGroup()
-                .addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-                .addComponent(btnAceptar)
-                .addGap(146))
-              .addGroup(gl_contentPane.createSequentialGroup()
-                .addComponent(rdbtnGps)
+                .addComponent(rdbtnAsientoParaNios)
                 .addContainerGap())
-              .addGroup(gl_contentPane.createSequentialGroup()
+              .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                .addGroup(gl_contentPane.createSequentialGroup()
+                  .addComponent(rdbtnAsistenciaEnCarretera)
+                  .addContainerGap())
                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                  .addComponent(rdbtnWifi)
-                  .addComponent(lblServicios))
-                .addContainerGap(274, Short.MAX_VALUE)))))
+                  .addGroup(gl_contentPane.createSequentialGroup()
+                    .addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                    .addComponent(btnAceptar)
+                    .addGap(146))
+                  .addGroup(gl_contentPane.createSequentialGroup()
+                    .addComponent(rdbtnGps)
+                    .addContainerGap())
+                  .addGroup(gl_contentPane.createSequentialGroup()
+                    .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                      .addComponent(rdbtnWifi)
+                      .addComponent(lblServicios))
+                    .addContainerGap(274, Short.MAX_VALUE)))))))
     );
     gl_contentPane.setVerticalGroup(
       gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -125,11 +177,13 @@ public class DetailShow extends JFrame {
             .addGroup(gl_contentPane.createSequentialGroup()
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblIdentificacionCliente)
-                .addComponent(lblServicios))
+                .addComponent(lblServicios)
+                .addComponent(txtIdCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
               .addPreferredGap(ComponentPlacement.RELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblNombreCliente)
-                .addComponent(rdbtnWifi))
+                .addComponent(rdbtnWifi)
+                .addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
               .addPreferredGap(ComponentPlacement.UNRELATED)
               .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                 .addGroup(gl_contentPane.createSequentialGroup()
@@ -139,9 +193,13 @@ public class DetailShow extends JFrame {
                 .addGroup(gl_contentPane.createSequentialGroup()
                   .addComponent(rdbtnGps)
                   .addPreferredGap(ComponentPlacement.RELATED)
-                  .addComponent(rdbtnAsistenciaEnCarretera))))
+                  .addComponent(rdbtnAsistenciaEnCarretera)
+                  .addPreferredGap(ComponentPlacement.UNRELATED)
+                  .addComponent(rdbtnAsientoParaNios)
+                  .addPreferredGap(ComponentPlacement.UNRELATED)
+                  .addComponent(rdbtnCoberturaPorDaos))))
             .addComponent(btnAceptar))
-          .addContainerGap(14, Short.MAX_VALUE))
+          .addContainerGap(12, Short.MAX_VALUE))
     );
     contentPane.setLayout(gl_contentPane);
   }
