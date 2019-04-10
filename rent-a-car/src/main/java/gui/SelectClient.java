@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -30,7 +31,8 @@ public class SelectClient extends JFrame {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          SelectClient frame = new SelectClient();
+          Management man = new Management();
+          SelectClient frame = new SelectClient(man);
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
@@ -42,7 +44,7 @@ public class SelectClient extends JFrame {
   /**
    * Create the frame.
    */
-  public SelectClient() {
+  public SelectClient(final Management manager) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 452, 157);
     contentPane = new JPanel();
@@ -62,9 +64,11 @@ public class SelectClient extends JFrame {
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {           //Evento del boton   hay que verificarp el cliente
-        if(false) {
-          ShowClient verCliente = new ShowClient();
+        if(manager.checkClient(txtIdentificacion.getText()) != null) {
+          
+          ShowClient verCliente = new ShowClient(manager, manager.checkClient(txtIdentificacion.getText()));
           verCliente.setVisible(true);
+          setVisible(false);
         }
         
         else {

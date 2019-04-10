@@ -123,9 +123,9 @@ public class MaintenanceRegister extends JFrame {
       public void actionPerformed(ActionEvent arg0) {               //Evento del boton  AGREGAR A UN VEHICULO Y ASIGANR COMPANYS
         
         if(comboBoxTipo.getSelectedItem() == "Preventivo") {
-          if(manager.addMaintenance(type, idVehiculo, startDate, endDate, price, detail, company)) {
+          //if(manager.addMaintenance(type, idVehiculo, startDate, endDate, price, detail, company)) {
             
-          }
+          //}
         }
         else {
           
