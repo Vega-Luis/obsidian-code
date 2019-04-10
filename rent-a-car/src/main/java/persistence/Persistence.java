@@ -328,10 +328,10 @@ public class Persistence implements Constants{
     JSONParser parser = new JSONParser();
     JSONArray branchesArray = new JSONArray();
     JSONArray vehiclesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+    if(Files.exists(Paths.get("C:\\JSONFiles\\Branches.json"))) {
       branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
     }
-    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+    if(Files.exists(Paths.get("C:\\JSONFiles\\branchesVehicles.json"))) {
       vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
     }
     ArrayList<Branch> branches = new ArrayList<Branch>();
@@ -482,7 +482,7 @@ public class Persistence implements Constants{
     ArrayList<String> companyData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
     JSONArray companiesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+    if(Files.exists(Paths.get("C:\\JSONFiles\\Companies.json"))) {
       companiesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
     }
     for(int i = 0; i < companiesArray.size(); i++) {
@@ -563,7 +563,7 @@ public class Persistence implements Constants{
     ArrayList<String> reserveData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
     JSONArray reservesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
+    if(Files.exists(Paths.get("C:\\JSONFiles\\Reserves.json"))) {
       reservesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
     }
     for(int i = 0; i < reservesArray.size(); i++) {
