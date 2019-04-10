@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import bussineslogic.Employee;
 import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -27,7 +28,7 @@ public class SelectClient extends JFrame {
   /**
    * Launch the application.
    */
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -39,12 +40,12 @@ public class SelectClient extends JFrame {
         }
       }
     });
-  }
+  }*/
 
   /**
    * Create the frame.
    */
-  public SelectClient(final Management manager) {
+  public SelectClient(final Management manager, final Employee empleado) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 452, 157);
     contentPane = new JPanel();
@@ -66,7 +67,7 @@ public class SelectClient extends JFrame {
       public void actionPerformed(ActionEvent arg0) {           //Evento del boton   hay que verificarp el cliente
         if(manager.checkClient(txtIdentificacion.getText()) != null) {
           
-          ShowClient verCliente = new ShowClient(manager, manager.checkClient(txtIdentificacion.getText()));
+          ShowClient verCliente = new ShowClient(manager, manager.checkClient(txtIdentificacion.getText()), empleado);
           verCliente.setVisible(true);
           setVisible(false);
         }

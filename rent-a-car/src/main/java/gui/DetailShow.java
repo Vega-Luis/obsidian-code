@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import controller.Management;
@@ -23,9 +24,11 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import java.util.Date;
 
 public class DetailShow extends JFrame {
 
@@ -60,7 +63,7 @@ public class DetailShow extends JFrame {
    * @throws ParserConfigurationException 
    * @throws NumberFormatException 
    */
-  public DetailShow(Management manager, Client cliente, DestinyDelivery datos, Vehicle vehicle, Service servicio) 
+  public DetailShow(final Management manager, final Client cliente, final DestinyDelivery datos, final Vehicle vehicle, final Service servicio, final Employee empleado) 
                       throws NumberFormatException, ParserConfigurationException, SAXException, IOException, Exception {
     //Adaptarlo a que reciba un cliente, un vehiculo y un services
     
@@ -152,11 +155,15 @@ public class DetailShow extends JFrame {
     txtSedeEntrega.setText(datos.getSedeEntrega().getName());
     txtSedeEntrega.setColumns(10);
     
+    
+    
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {              //Evento del boton
         //Debria utilizar todos los datos y agregar la nueva reserva e imprimirla.
-        
+        Date fechaActual = setFechaActual();
+        manager.reserve(datos.getSedeRecogida(), datos.getSedeEntrega(), servicio, cliente, empleado, vehicle, datos.getFechaRecogida(),
+            datos.getFechaEntrega(), fechaActual);
       }
     });
     btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -265,5 +272,11 @@ public class DetailShow extends JFrame {
               .addGap(23))))
     );
     contentPane.setLayout(gl_contentPane);
+  }
+  
+  public Date setFechaActual(){
+    Calendar calendario;
+    calendario = Calendar.getInstance();
+    return calendario.getTime();
   }
 }

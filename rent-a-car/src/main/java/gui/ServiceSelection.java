@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
 import controller.Management;
@@ -46,7 +47,7 @@ public class ServiceSelection extends JFrame {
   /**
    * Create the frame.
    */
-  public ServiceSelection(final Management manager, final Client cliente, final DestinyDelivery datos, final Vehicle vahicle) {
+  public ServiceSelection(final Management manager, final Client cliente, final DestinyDelivery datos, final Vehicle vahicle, final Employee empleado) {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 403, 300);
     contentPane = new JPanel();
@@ -81,7 +82,7 @@ public class ServiceSelection extends JFrame {
         DetailShow detalles = null;
         
         try {
-          detalles = new DetailShow(manager, cliente, datos, vahicle, servicio);
+          detalles = new DetailShow(manager, cliente, datos, vahicle, servicio, empleado);
         } catch (NumberFormatException e1) {
           // TODO Auto-generated catch block
           e1.printStackTrace();

@@ -16,6 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import com.toedter.calendar.JDateChooser;
 import bussineslogic.Branch;
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import controller.Management;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class SelecDestinyBegin extends JFrame {
   /**
    * Launch the application.
    */
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -41,12 +42,12 @@ public class SelecDestinyBegin extends JFrame {
         }
       }
     });
-  }
+  }*/
 
   /**
    * Create the frame.
    */
-  public SelecDestinyBegin(final Management manager, final Client cliente) {
+  public SelecDestinyBegin(final Management manager, final Client cliente, final Employee empleado) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 550, 258);
     contentPane = new JPanel();
@@ -94,7 +95,7 @@ public class SelecDestinyBegin extends JFrame {
         DestinyDelivery datos = new DestinyDelivery((Branch)comboBoxSedeRecogida.getSelectedItem(), (Branch)comboBoxSedeEntrega.getSelectedItem(),
             dateChooserEntrega.getDate(), dateChooserRecogida.getDate());
         
-        SelectVehicle menuSelccionVehiculo = new SelectVehicle(manager, cliente, datos);
+        SelectVehicle menuSelccionVehiculo = new SelectVehicle(manager, cliente, datos, empleado);
         menuSelccionVehiculo.setVisible(true);
         setVisible(false);
       }

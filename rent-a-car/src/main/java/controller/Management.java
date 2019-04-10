@@ -101,6 +101,10 @@ public class Management {
     }
   }
   
+  public ArrayList<Reserve> getReserves(){
+    return reserves;
+  }
+  
   public ArrayList<Company> getCompanies(){
     return companies;
   }
@@ -119,6 +123,16 @@ public class Management {
       }
     }
     return false;
+  }
+  
+  public Employee searchEmployee(String pasword, String userName) {
+    for (int employee = 0; employee < employees.size(); employee++) {
+      if (employees.get(employee).getUserName().equals(userName) 
+          && employees.get(employee).getPassword().equals(pasword)) {
+      return employees.get(employee);
+      }
+    }
+    return null;
   }
   
   /**

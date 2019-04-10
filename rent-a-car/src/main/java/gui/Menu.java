@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import bussineslogic.Employee;
 import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -45,7 +46,7 @@ public class Menu extends JFrame {
 	/**
 	 * Creacion del frame.
 	 */
-	public Menu(final Management manager) {
+	public Menu(final Management manager, final Employee empleado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 479);
 		contentPane = new JPanel();
@@ -102,7 +103,7 @@ public class Menu extends JFrame {
 		btnRealizarReserva.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {             //Evento del boton de reserva.
 			  //Se deberia abrir una ventana para realizar el proceso de reserva
-			  SelectClient inicioreserva = new SelectClient(manager);
+			  SelectClient inicioreserva = new SelectClient(manager, empleado);
 			  inicioreserva.setVisible(true);
 			}
 		});

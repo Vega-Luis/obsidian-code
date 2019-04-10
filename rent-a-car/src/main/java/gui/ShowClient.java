@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -47,7 +48,7 @@ public class ShowClient extends JFrame {
   /**
    * Create the frame.
    */
-  public ShowClient(final Management manager, final Client cliente) {                                 //Adaptarlo a que reciba un cliente
+  public ShowClient(final Management manager, final Client cliente, final Employee empleado) {                                 //Adaptarlo a que reciba un cliente
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 447, 361);
     contentPane = new JPanel();
@@ -104,7 +105,7 @@ public class ShowClient extends JFrame {
     JButton btnAceptar = new JButton("Aceptar");
     btnAceptar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        SelecDestinyBegin initfin = new SelecDestinyBegin(manager, cliente);
+        SelecDestinyBegin initfin = new SelecDestinyBegin(manager, cliente, empleado);
         initfin.setVisible(true);
         setVisible(false);
       }

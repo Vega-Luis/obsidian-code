@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import bussineslogic.Client;
+import bussineslogic.Employee;
 import bussineslogic.Vehicle;
 import controller.Management;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class InfoVehicle extends JPanel {
   /**
    * Create the panel.
    */
-  public InfoVehicle(final Vehicle vehicle, final Management manager, final Client cliente, final DestinyDelivery datos) {
+  public InfoVehicle(final Vehicle vehicle, final Management manager, final Client cliente, final DestinyDelivery datos, final Employee empleado) {
     setBorder(new LineBorder(new Color(0, 0, 0)));
     
     JLabel lblImage = new JLabel("");
@@ -45,7 +46,7 @@ public class InfoVehicle extends JPanel {
     btnSeleccionar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
-        ServiceSelection servicios = new ServiceSelection(manager, cliente, datos, vehicle);
+        ServiceSelection servicios = new ServiceSelection(manager, cliente, datos, vehicle, empleado);
         servicios.setVisible(true);
       }
     });

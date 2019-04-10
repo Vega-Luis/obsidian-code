@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import bussineslogic.Employee;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
@@ -84,7 +85,8 @@ public class Login extends JFrame {
 				String contrasena = txtContrasena.getText();
 
 				if(manager.login(contrasena, NombreUsuario)) {
-				  Menu miMenu = new Menu(manager);
+				  Employee miEmpleado = manager.searchEmployee(contrasena, NombreUsuario);
+				  Menu miMenu = new Menu(manager, miEmpleado);
 				  miMenu.setVisible(true);
 				  setVisible(false);
 				} else {
