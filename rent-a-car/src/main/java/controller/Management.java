@@ -180,6 +180,32 @@ public class Management {
   }
   
   /**
+   * Agrega un nuevo empleado al rent a car.
+   * @param name nombre del empleado
+   * @param id cédula del empleado
+   * @param telephone número telefónico del empleado
+   * @param mail correo-electrónico del empleado
+   * @return Booleano que indica el resultado de la operacion.
+   */
+  public boolean addEmployee(String name, String id, String telephone, String mail) {
+    for (int employee = 0; employee < employees.size(); employee++) {
+      if (employees.get(employee).getId().equals(id)) {
+        return false;
+      }
+    }
+    Employee newEmployee = new Employee(name, id, telephone, mail);
+    employees.add(newEmployee);
+    try {
+      this.persistence.saveEmployee(newEmployee);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+  
+  
+  /**
    * Agrega una licencia al cliente.
    * @param clientId Cedula del cliente dueño de la cédula.
    * @param licenceId Identificador de la licencia.

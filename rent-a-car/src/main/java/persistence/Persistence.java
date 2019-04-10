@@ -7,6 +7,8 @@ import bussineslogic.Maintenance;
 import bussineslogic.Reserve;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleState;
+import bussineslogic.VehicleStyle;
 import bussineslogic.Address;
 import bussineslogic.Branch;
 import java.awt.Image;
@@ -365,7 +367,9 @@ public class Persistence implements Constants{
     boolean transmision = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(TRANSMISION)));
     Vehicle vehicle = new Vehicle(vehiclePlate, fabricationDate, color, capacity, brand, doors, 
         vinNumber, mpg, price, suitCapacity, transmision);
-    vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(11))));
+    vehicle.setVehicleImage(convertStringToImage(encrypt.decrypt(vehicleData.get(IMAGE))));
+    vehicle.setState(VehicleState.valueOf(encrypt.decrypt(vehicleData.get(STATE))));
+    vehicle.setStyle(VehicleStyle.valueOf(encrypt.decrypt(vehicleData.get(STYLE))));
     for(int k = 14; k < vehicleData.size(); k = k+9) {
       boolean type = Boolean.parseBoolean(encrypt.decrypt(vehicleData.get(k)));
       String id = encrypt.decrypt(vehicleData.get(k+1));
