@@ -15,12 +15,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import bussineslogic.Branch;
 import bussineslogic.Vehicle;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import bussineslogic.VehicleState;
 import bussineslogic.VehicleStyle;
+import controller.Management;
 
 public class EditVehicle extends JFrame {
 
@@ -42,7 +44,8 @@ public class EditVehicle extends JFrame {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          EditVehicle frame = new EditVehicle();
+          Management man = new Management();
+          EditVehicle frame = new EditVehicle(man);
           frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
@@ -54,7 +57,7 @@ public class EditVehicle extends JFrame {
   /**
    * Create the frame.
    */
-  public EditVehicle() {
+  public EditVehicle(Management manager) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 649, 489);
     contentPane = new JPanel();
@@ -68,9 +71,8 @@ public class EditVehicle extends JFrame {
     JLabel lblPlaca = new JLabel("Placa:");
     lblPlaca.setFont(new Font("Tahoma", Font.PLAIN, 17));
     
-    JComboBox comboBoxPlacas = new JComboBox();
-    DefaultComboBoxModel<Vehicle> modelPlacas = new DefaultComboBoxModel<Vehicle>();   //Poner los vehiculos con el toString con placas.
-    comboBoxPlacas.setModel(modelPlacas);
+    final JComboBox comboBoxPlacas = new JComboBox();
+    
     
     JLabel lblFechaFabricacion = new JLabel("Fecha de fabricacion:");
     lblFechaFabricacion.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -148,12 +150,14 @@ public class EditVehicle extends JFrame {
     JComboBox comboBoxTransmission = new JComboBox();
     comboBoxTransmission.setModel(new DefaultComboBoxModel(new String[] {"Automatica", "Manual"}));
     
+    
     JComboBox comboBoxEstilo = new JComboBox();
     DefaultComboBoxModel<VehicleStyle> modelEstilos = new DefaultComboBoxModel<VehicleStyle>();
     for(VehicleStyle estilo: VehicleStyle.values()) {
       modelEstilos.addElement(estilo);
     }
     comboBoxEstilo.setModel(modelEstilos);
+    
     
     JComboBox comboBoxEstado = new JComboBox();
     DefaultComboBoxModel<VehicleState> modelEstados = new DefaultComboBoxModel<VehicleState>();
@@ -162,8 +166,13 @@ public class EditVehicle extends JFrame {
     }
     comboBoxEstado.setModel(modelEstados);
     
-    JComboBox comboBoxSede = new JComboBox();
     
+    final JComboBox comboBoxSede = new JComboBox();
+    DefaultComboBoxModel<Branch> modelSedes = new DefaultComboBoxModel<Branch>();
+    for(Branch rama : manager.getBraches()) {
+      modelSedes.addElement(rama);
+    }
+    comboBoxSede.setModel(modelSedes);
     
     JButton btnEditar = new JButton("Editar");
     btnEditar.addActionListener(new ActionListener() {
@@ -177,8 +186,12 @@ public class EditVehicle extends JFrame {
     JButton btnActualizar = new JButton("Actualizar");
     btnActualizar.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {                  //Evento del boton actualizar
-        
-        
+        Branch rama = (Branch)comboBoxSede.getSelectedItem();
+        DefaultComboBoxModel<Vehicle> modelPlacas = new DefaultComboBoxModel<Vehicle>();   //Poner los vehiculos con el toString con placas.
+        for(Vehicle carro : rama.getVehicles()) {
+          modelPlacas.addElement(carro);
+        }
+        comboBoxPlacas.setModel(modelPlacas);
       }
     });
     
