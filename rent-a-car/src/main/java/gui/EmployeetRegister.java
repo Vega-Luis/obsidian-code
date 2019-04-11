@@ -56,7 +56,7 @@ public class EmployeetRegister extends JFrame {
 	/**
 	 * Creacion del frame.
 	 */
-	public EmployeetRegister(final Management manager, Employee empleado) {
+	public EmployeetRegister(final Management manager, final Employee empleado) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 637, 386);
 		contentPane = new JPanel();
@@ -111,8 +111,9 @@ public class EmployeetRegister extends JFrame {
 			public void actionPerformed(ActionEvent e) {       // Evento del boton de registro
 			  if(manager.addEmployee(txtNombreCompleto.getText(), txtCedula.getText(), txtTelefono.getText(), txtCorreo.getText())) {
 			    JOptionPane.showMessageDialog(null, "Se registro el nuevo empleado", "Successfull", JOptionPane.INFORMATION_MESSAGE);
-			    //manager.searchEmployee(, userName)
-			    //manager.sendMail(empleado.getMail(), password, userMail, subject, body);
+			    Employee miNewEmployee = manager.searchEmployee(txtNombreCompleto.getText());
+			    String body = "Usuario: " + miNewEmployee.getUserName() + '\n' + "Contrasena: " + miNewEmployee.getPassword();
+			    manager.sendMail(empleado.getMail(), miNewEmployee.getPassword(), miNewEmployee.getMail(), "Contrasena y Correo", body);
 			    setVisible(false);
 			  } else {
 			    JOptionPane.showMessageDialog(null, "Ese emplado ya esta registrado", "Error", JOptionPane.WARNING_MESSAGE);
