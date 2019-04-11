@@ -9,6 +9,7 @@ import bussineslogic.Client;
 import bussineslogic.Employee;
 import bussineslogic.Service;
 import bussineslogic.Vehicle;
+import bussineslogic.VehicleState;
 import controller.Management;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -162,6 +163,7 @@ public class DetailShow extends JFrame {
         Date fechaActual = setFechaActual();
         manager.reserve(datos.getSedeRecogida(), datos.getSedeEntrega(), servicio, cliente, empleado, vehicle, datos.getFechaRecogida(),
             datos.getFechaEntrega(), fechaActual);
+        vehicle.setState(VehicleState.INACTIVE);
         
         setVisible(false);
       }
