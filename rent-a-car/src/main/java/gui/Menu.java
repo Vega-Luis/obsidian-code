@@ -45,12 +45,12 @@ public class Menu extends JFrame {
 	 * Creacion del frame.
 	 */
 	public Menu(final Management manager, final Employee empleado) {
+	  setTitle("Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 479);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
 		JLabel lblMenu = new JLabel("Menu");
 		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMenu.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -144,30 +144,38 @@ public class Menu extends JFrame {
 		    map.setVisible(true);
 		  }
 		});
+		
+		JButton btnSalir = new JButton("Guardar y Salir");
+		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSalir.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+		    manager.saveAll();
+		    System.exit(0);
+		  }
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.LEADING)
 		    .addGroup(gl_contentPane.createSequentialGroup()
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		        .addGroup(gl_contentPane.createSequentialGroup()
-		          .addGap(265)
-		          .addComponent(lblMenu))
-		        .addGroup(gl_contentPane.createSequentialGroup()
 		          .addGap(40)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		            .addComponent(btnAgregarVehiculo)
 		            .addComponent(btnNuevoMantenimiento)
 		            .addComponent(btnRealizarReserva)
-		            .addComponent(btnRegistrarCliente))
+		            .addComponent(btnRegistrarCliente)
+		            .addComponent(mostrarRecorrido))
 		          .addPreferredGap(ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
 		          .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		            .addComponent(btnSalir)
 		            .addComponent(btnRegistrarEmpleado)
 		            .addComponent(btnDetalleDeReserva)
 		            .addComponent(btnEditarVehiculo)
 		            .addComponent(btnRegistrarEmpresaNueva)))
 		        .addGroup(gl_contentPane.createSequentialGroup()
-		          .addGap(194)
-		          .addComponent(mostrarRecorrido)))
+		          .addGap(265)
+		          .addComponent(lblMenu)))
 		      .addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -190,9 +198,11 @@ public class Menu extends JFrame {
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 		        .addComponent(btnRegistrarCliente)
 		        .addComponent(btnRegistrarEmpleado))
-		      .addPreferredGap(ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-		      .addComponent(mostrarRecorrido)
-		      .addGap(27))
+		      .addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		        .addComponent(mostrarRecorrido)
+		        .addComponent(btnSalir))
+		      .addGap(31))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

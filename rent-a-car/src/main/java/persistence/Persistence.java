@@ -39,7 +39,7 @@ import util.Chyperer;
  */
 public class Persistence implements Constants{
   
-  private Chyperer encrypt = new Chyperer("0123456789ABCDEF");
+  private Chyperer encrypt = new Chyperer("123456789ABCDEFG");
   final String DIR = System.getProperty("user.home");
   /**
    * Constructor de la clase
@@ -586,11 +586,10 @@ public class Persistence implements Constants{
       for(int j = 27; j < reserveData.size()-3; j++) {
         vehicleData.add(reserveData.get(j));
       }
-      
       Vehicle vehicle = loadVehicle(vehicleData);
-      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(50));
-      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(51));
-      Date requestDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(52));
+      Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(reserveData.size()-3));
+      Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(reserveData.size()-2));
+      Date requestDate = new SimpleDateFormat("dd/MM/yyyy").parse(reserveData.get(reserveData.size()-1));
       reserves.add(new Reserve(deliveryBranch, deliveryBranch, service, client, employee, vehicle, 
           requestDate, requestDate, requestDate));
     }

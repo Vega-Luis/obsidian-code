@@ -316,7 +316,12 @@ public class Management {
         return false;
       }
     }
-    this.companies.add(new Company(bussinesName, legalNumber, telephone));
+    Company company = new Company(bussinesName, legalNumber, telephone);
+    this.companies.add(company);
+    try {
+      this.persistence.saveCompany(company);
+    } catch (Exception e) {
+    }
     return true;
   }
   
@@ -478,9 +483,15 @@ public class Management {
   public boolean reserve(Branch collectionBranch, Branch deliveryBranch, Service service, Client client,
       Employee employee, Vehicle vehicle, Date starDate, Date endDate, Date requesDate) {
     
+    
     Reserve newReserve = new Reserve(collectionBranch, deliveryBranch, service, client, employee,
         vehicle,starDate, endDate, requesDate);
     this.reserves.add(newReserve);
+    try {
+      persistence.saveReserve(collectionBranch, deliveryBranch, service, client, employee, vehicle,
+          starDate, endDate, requesDate);
+    } catch (Exception e) {
+    }
     collectionBranch.getVehicle(vehicle.getVehiclePlate()).setState(VehicleState.INACTIVE);
     return true;
   }
