@@ -14,7 +14,7 @@ import sun.misc.BASE64Encoder;
  * @version 01/04/2019
  */
 public class Chyperer {
-  private static final String ALGO = "AES";
+  private static final String AES = "AES";
   private byte[] keyValue;
   
   /**
@@ -35,7 +35,7 @@ public class Chyperer {
    */
   public String encrypt(String data) throws Exception {
     Key key = generateKey();
-    Cipher cipherer = Cipher.getInstance(ALGO);
+    Cipher cipherer = Cipher.getInstance(AES);
     cipherer.init(Cipher.ENCRYPT_MODE, key);
     byte[] encVal = cipherer.doFinal(data.getBytes());
     String encriptedValue = new BASE64Encoder().encode(encVal);
@@ -51,7 +51,7 @@ public class Chyperer {
    */
   public String decrypt(String encryptedData) throws Exception {
     Key key = generateKey();
-    Cipher cipherer = Cipher.getInstance(ALGO);
+    Cipher cipherer = Cipher.getInstance(AES);
     cipherer.init(Cipher.DECRYPT_MODE, key);
     byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedData);
     byte[] decValue = cipherer.doFinal(decordedValue);
@@ -66,7 +66,7 @@ public class Chyperer {
    * @throws Exception
    */
   public Key generateKey() throws Exception {
-    Key key = new SecretKeySpec(keyValue, ALGO);
+    Key key = new SecretKeySpec(keyValue, AES);
     return key;
   }
 }

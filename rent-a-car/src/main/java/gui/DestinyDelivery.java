@@ -1,8 +1,8 @@
 package gui;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
-import javax.swing.JPanel;
 import bussineslogic.Branch;
 
 public class DestinyDelivery {

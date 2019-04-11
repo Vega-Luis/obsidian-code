@@ -1,7 +1,6 @@
 package util;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;

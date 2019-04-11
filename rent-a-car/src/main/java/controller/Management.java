@@ -130,12 +130,12 @@ public class Management {
   
   /**
    * Busca empleado por empleado.
-   * @param userName Nombre del empleado.
+   * @param id Cedula del empleado.
    * @return empleado.
    */
-  public Employee searchEmployee(String userName) {
+  public Employee searchEmployee(String id) {
     for (int employee = 0; employee < employees.size(); employee++) {
-      if (employees.get(employee).getUserName().equals(userName)) {
+      if (employees.get(employee).getId().equals(id)) {
       return employees.get(employee);
       }
     }

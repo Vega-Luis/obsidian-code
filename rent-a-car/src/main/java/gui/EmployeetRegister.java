@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,8 +13,6 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -120,7 +116,7 @@ public class EmployeetRegister extends JFrame {
 			public void actionPerformed(ActionEvent e) {       // Evento del boton de registro
 			  if(manager.addEmployee(txtNombreCompleto.getText(), txtCedula.getText(), txtTelefono.getText(), txtCorreo.getText())) {
 			    JOptionPane.showMessageDialog(null, "Se registro el nuevo empleado", "Successfull", JOptionPane.INFORMATION_MESSAGE);
-			    Employee miNewEmployee = manager.searchEmployee(txtNombreCompleto.getText());
+			    Employee miNewEmployee = manager.searchEmployee(txtCedula.getText());
 			    String body = "Usuario: " + miNewEmployee.getUserName() + '\n' + "Contrasena: " + miNewEmployee.getPassword();
 			    manager.sendMail(empleado.getMail(), txtContrasenaEmpleado.getText(), miNewEmployee.getMail(), "Contrasena y Correo", body);
 			    setVisible(false);

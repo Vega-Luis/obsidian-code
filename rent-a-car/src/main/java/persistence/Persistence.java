@@ -39,7 +39,7 @@ import util.Chyperer;
  */
 public class Persistence implements Constants{
   
-  private Chyperer encrypt = new Chyperer("123456789ABCDEFG");
+  private Chyperer encrypt = new Chyperer("0123456789ABCDEF");
   final String DIR = System.getProperty("user.home");
   /**
    * Constructor de la clase
