@@ -36,6 +36,7 @@ public class EmployeetRegister extends JFrame {
 	private JTextField txtTelefono;
 	private JTextField txtCorreo;
 	private JTextField txtContrasena;
+	private JTextField txtContrasenaEmpleado;
 
 	/**
 	 * Para que se ejecute la ventana.
@@ -105,6 +106,14 @@ public class EmployeetRegister extends JFrame {
         txtContrasena.setText("Su contraseña y usuario le sera enviada por correo");
         txtContrasena.setEditable(false);
         txtContrasena.setColumns(10);
+        
+        JLabel lblContraseCorreo = new JLabel("Verificar contraseña del correo de  empleado:");
+        lblContraseCorreo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        txtContrasenaEmpleado = new JTextField();
+        txtContrasenaEmpleado.setColumns(10);
+        
+        
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
@@ -113,7 +122,7 @@ public class EmployeetRegister extends JFrame {
 			    JOptionPane.showMessageDialog(null, "Se registro el nuevo empleado", "Successfull", JOptionPane.INFORMATION_MESSAGE);
 			    Employee miNewEmployee = manager.searchEmployee(txtNombreCompleto.getText());
 			    String body = "Usuario: " + miNewEmployee.getUserName() + '\n' + "Contrasena: " + miNewEmployee.getPassword();
-			    manager.sendMail(empleado.getMail(), miNewEmployee.getPassword(), miNewEmployee.getMail(), "Contrasena y Correo", body);
+			    manager.sendMail(empleado.getMail(), txtContrasenaEmpleado.getText(), miNewEmployee.getMail(), "Contrasena y Correo", body);
 			    setVisible(false);
 			  } else {
 			    JOptionPane.showMessageDialog(null, "Ese emplado ya esta registrado", "Error", JOptionPane.WARNING_MESSAGE);
@@ -130,11 +139,15 @@ public class EmployeetRegister extends JFrame {
 		    .addGroup(gl_contentPane.createSequentialGroup()
 		      .addContainerGap()
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-		        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-		          .addGroup(gl_contentPane.createSequentialGroup()
+		        .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+		          .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+		            .addComponent(lblInfromacionGeneral)
+		            .addPreferredGap(ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+		            .addComponent(txtContrasenaEmpleado, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+		            .addGap(18))
+		          .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 		            .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		              .addComponent(label)
-		              .addComponent(lblInfromacionGeneral)
 		              .addGroup(gl_contentPane.createSequentialGroup()
 		                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		                  .addComponent(lblNombreCompleto)
@@ -149,38 +162,48 @@ public class EmployeetRegister extends JFrame {
 		                  .addComponent(txtNombreCompleto, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)))
 		              .addComponent(txtContrasena, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE))
 		            .addContainerGap(188, Short.MAX_VALUE))
-		          .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 		            .addComponent(lblContrasena)
 		            .addPreferredGap(ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
 		            .addComponent(btnRegistrarse)
-		            .addGap(90)))
+		            .addGap(90))
+		          .addGroup(gl_contentPane.createSequentialGroup()
+		            .addComponent(lblRegistro)
+		            .addGap(197)))
 		        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-		          .addComponent(lblRegistro)
-		          .addGap(197))))
+		          .addComponent(lblContraseCorreo)
+		          .addGap(62))))
 		);
 		gl_contentPane.setVerticalGroup(
 		  gl_contentPane.createParallelGroup(Alignment.LEADING)
 		    .addGroup(gl_contentPane.createSequentialGroup()
 		      .addContainerGap()
 		      .addComponent(lblRegistro)
-		      .addGap(27)
-		      .addComponent(lblInfromacionGeneral)
 		      .addPreferredGap(ComponentPlacement.RELATED)
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		        .addComponent(lblNombreCompleto)
-		        .addComponent(txtNombreCompleto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		      .addPreferredGap(ComponentPlacement.RELATED)
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		        .addComponent(lblCedula)
-		        .addComponent(txtCedula, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		      .addPreferredGap(ComponentPlacement.RELATED)
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		        .addComponent(lblTelefono)
-		        .addComponent(txtTelefono, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		      .addPreferredGap(ComponentPlacement.RELATED)
-		      .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-		        .addComponent(lblCorreo)
-		        .addComponent(txtCorreo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		      .addComponent(lblContraseCorreo)
+		      .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addGap(7)
+		          .addComponent(lblInfromacionGeneral)
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		            .addComponent(lblNombreCompleto)
+		            .addComponent(txtNombreCompleto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		            .addComponent(lblCedula)
+		            .addComponent(txtCedula, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		            .addComponent(lblTelefono)
+		            .addComponent(txtTelefono, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+		            .addComponent(lblCorreo)
+		            .addComponent(txtCorreo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		        .addGroup(gl_contentPane.createSequentialGroup()
+		          .addPreferredGap(ComponentPlacement.RELATED)
+		          .addComponent(txtContrasenaEmpleado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		      .addGap(51)
 		      .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 		        .addComponent(lblContrasena)
