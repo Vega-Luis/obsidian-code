@@ -131,6 +131,7 @@ public class EditVehicle extends JFrame {
     txtMarca.setColumns(10);
     
     txtKilometraje = new JTextField();
+    txtKilometraje.setEditable(false);
     txtKilometraje.setColumns(10);
     
     txtPuertas = new JTextField();
