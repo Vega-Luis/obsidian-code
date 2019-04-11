@@ -128,10 +128,14 @@ public class Management {
     return false;
   }
   
-  public Employee searchEmployee(String pasword, String userName) {
+  /**
+   * Busca empleado por empleado.
+   * @param userName Nombre del empleado.
+   * @return empleado.
+   */
+  public Employee searchEmployee(String userName) {
     for (int employee = 0; employee < employees.size(); employee++) {
-      if (employees.get(employee).getUserName().equals(userName) 
-          && employees.get(employee).getPassword().equals(pasword)) {
+      if (employees.get(employee).getUserName().equals(userName)) {
       return employees.get(employee);
       }
     }
