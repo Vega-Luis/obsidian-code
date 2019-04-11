@@ -45,7 +45,7 @@ public class Mail {
    * @throws AddressException
    * @throws MessagingException
    */
-  Mail(String from, String password, String userMail, String subject, String body) throws AddressException,
+  public Mail(String from, String password, String userMail, String subject, String body) throws AddressException,
   MessagingException {
     this.from = from;
     this.password = password;

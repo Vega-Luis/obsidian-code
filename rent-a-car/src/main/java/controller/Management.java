@@ -18,10 +18,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
 import persistence.Persistence;
+import util.Mail;
 import webservicecapture.ExchangeRate;
 
 /**
@@ -542,4 +545,24 @@ public class Management {
   public double getBuy() throws NumberFormatException, ParserConfigurationException, SAXException, IOException, Exception {
     return ExchangeRate.getBuy();
   }
+  
+  /**
+   * Envia correos a los empleados.
+   * @param from correo del emisor.
+   * @param password contraseña del correo del emisor.
+   * @param userMail correo destinatario.
+   * @param subject tema del correo.
+   * @param body cuerpo del correo.
+   */
+  public void sendMail(String from, String password, String userMail, String subject, String body) {
+    try {
+      Mail newMail = new Mail(from, password, userMail, subject, body);
+      newMail.sendMail();
+    } catch (AddressException e) {
+      e.printStackTrace();
+    } catch (MessagingException e) {
+      e.printStackTrace();
+    }
+  }
+  
 }
