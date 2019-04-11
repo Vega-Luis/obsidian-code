@@ -1,6 +1,5 @@
 package util;
 
-import java.util.ArrayList;
 
 /**
  * Interfaz que contiene constantes de Places
