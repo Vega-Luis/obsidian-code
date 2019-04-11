@@ -132,7 +132,7 @@ public class Menu extends JFrame {
 		JButton btnRegistrarEmpleado = new JButton("Registrar empleado");
 		btnRegistrarEmpleado.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent arg0) {
-		    EmployeetRegister registroEmpleado = new EmployeetRegister(manager);
+		    EmployeetRegister registroEmpleado = new EmployeetRegister(manager, empleado);
 		    registroEmpleado.setVisible(true);
 		  }
 		});
