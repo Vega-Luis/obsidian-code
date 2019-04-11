@@ -109,7 +109,7 @@ public class Main {
     }
     Service service = new Service(true, true, false, true, false);
     persistence.saveReserve(branch1, branch2, service, client2, employee2, vehicle2, date1, date1, date1);
-    //System.out.println(encrypt.decrypt("sxI4PHSamfwGCAZo0P9ieHKfCq02T7D1DWAZkLxis3c="));
+    System.out.println(encrypt.decrypt("fAGtXBqVB5/UrWlzCN+Lkw=="));
     ArrayList<Reserve> reserves = persistence.loadReserves();
   }
 
