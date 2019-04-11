@@ -141,6 +141,20 @@ public class Management {
     }
     return null;
   }
+  /**
+   * Busca empleado por empleado.
+   * @param userName Nombre del empleado.
+   * @return empleado.
+   */
+  public Employee searchEmployee(String pasword, String userName) {
+    for (int employee = 0; employee < employees.size(); employee++) {
+      if (employees.get(employee).getUserName().equals(userName)
+          && employees.get(employee).getPassword().equals(pasword)) {
+      return employees.get(employee);
+      }
+    }
+    return null;
+  }
   
   /**
    * Busca un cliente y retorna la posicion donde se encuentra.
