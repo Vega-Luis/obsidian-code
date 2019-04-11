@@ -40,7 +40,7 @@ import util.Chyperer;
 public class Persistence implements Constants{
   
   private Chyperer encrypt = new Chyperer("123456789ABCDEFG");
-  
+  final String DIR = System.getProperty("user.home");
   /**
    * Constructor de la clase
    */
@@ -52,8 +52,8 @@ public class Persistence implements Constants{
    * Método para crear el directorio donde se van a guardar los archivos
    */
   private void createDirectory() {
-    if(Files.exists(Paths.get("C:\\JSONFiles"))){
-      File dir = new File("C:\\JSONFiles");
+    if(!(Files.exists(Paths.get(DIR+"\\JSONFiles")))){
+      File dir = new File(DIR+"\\JSONFiles");
       dir.mkdir();
     }
   }
@@ -131,11 +131,11 @@ public class Persistence implements Constants{
       JSONParser parser = new JSONParser();
       JSONArray clients = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
       clients.add(clientData);
-      Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray clients = new JSONArray();
       clients.add(clientData);
-      Files.write(Paths.get("C:\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\clients.json"), clients.toJSONString().getBytes());
       }
   } 
   
@@ -147,8 +147,8 @@ public class Persistence implements Constants{
   public ArrayList<Client> loadClients() throws Exception {  
     JSONParser parser = new JSONParser();
     JSONArray clientsArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\clients.json"))) {
-      clientsArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\clients.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\clients.json"))) {
+      clientsArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\clients.json"));
     }
     ArrayList<String> clientData= new ArrayList<String>();
     ArrayList<Client> clients = new ArrayList<Client>();
@@ -204,13 +204,13 @@ public class Persistence implements Constants{
     ArrayList<String> employeeData = getEmployeeData(employee);
     try {
       JSONParser parser = new JSONParser();
-      JSONArray employees = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
+      JSONArray employees = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\employees.json"));
       employees.add(employeeData);
-      Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray employees = new JSONArray();
       employees.add(employeeData);
-      Files.write(Paths.get("C:\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\employees.json"), employees.toJSONString().getBytes());
       }
   }
   
@@ -221,8 +221,8 @@ public class Persistence implements Constants{
   public ArrayList<Employee> loadEmployees() throws Exception {
     JSONParser parser = new JSONParser();
     JSONArray employeesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\employees.json"))) {
-      employeesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\employees.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\employees.json"))) {
+      employeesArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\employees.json"));
     }
     ArrayList<String> employeeData= new ArrayList<String>();
     ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -251,7 +251,7 @@ public class Persistence implements Constants{
       ArrayList<ArrayList<String>> vehicles= getBranchVehicles(branches.get(i).getVehicles());
       branchesVehicles.add(vehicles);
     }
-    Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
+    Files.write(Paths.get(DIR+"\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
   }
   
   /**
@@ -281,13 +281,13 @@ public class Persistence implements Constants{
     ArrayList<ArrayList<String>> branchVehicles = getBranchVehicles(branch.getVehicles());
     try {
       JSONParser parser = new JSONParser();
-      JSONArray branchesVehicles = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
+      JSONArray branchesVehicles = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\branchesVehicles.json"));
       branchesVehicles.add(branchVehicles);
-      Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray branchesVehicles = new JSONArray();
       branchesVehicles.add(branchVehicles);
-      Files.write(Paths.get("C:\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\branchesVehicles.json"), branchesVehicles.toJSONString().getBytes());
       }
     branchData.add(branch.getName());
     branchData.add(branch.getAddress().getProvince());
@@ -309,13 +309,13 @@ public class Persistence implements Constants{
     ArrayList<String> branchData = getBranchData(branch);
     try {
       JSONParser parser = new JSONParser();
-      JSONArray branches = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
+      JSONArray branches = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Branches.json"));
       branches.add(branchData);
-      Files.write(Paths.get("C:\\JSONFiles\\Branches.json"), branches.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Branches.json"), branches.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray branches = new JSONArray();
       branches.add(branchData);
-      Files.write(Paths.get("C:\\JSONFiles\\Branches.json"), branches.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Branches.json"), branches.toJSONString().getBytes());
       }
   }
   
@@ -328,11 +328,11 @@ public class Persistence implements Constants{
     JSONParser parser = new JSONParser();
     JSONArray branchesArray = new JSONArray();
     JSONArray vehiclesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\Branches.json"))) {
-      branchesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Branches.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\Branches.json"))) {
+      branchesArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Branches.json"));
     }
-    if(Files.exists(Paths.get("C:\\JSONFiles\\branchesVehicles.json"))) {
-      vehiclesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\branchesVehicles.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\branchesVehicles.json"))) {
+      vehiclesArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\branchesVehicles.json"));
     }
     ArrayList<Branch> branches = new ArrayList<Branch>();
     ArrayList<String> branchData = new ArrayList<String>();
@@ -460,13 +460,13 @@ public class Persistence implements Constants{
     companyData.add(company.getTelephone());
     try {
       JSONParser parser = new JSONParser();
-      JSONArray companies = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+      JSONArray companies = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Companies.json"));
       companies.add(companyData);
-      Files.write(Paths.get("C:\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray companies = new JSONArray();
       companies.add(companyData);
-      Files.write(Paths.get("C:\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Companies.json"), companies.toJSONString().getBytes());
       }
   }
   
@@ -482,8 +482,8 @@ public class Persistence implements Constants{
     ArrayList<String> companyData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
     JSONArray companiesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\Companies.json"))) {
-      companiesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Companies.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\Companies.json"))) {
+      companiesArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Companies.json"));
     }
     for(int i = 0; i < companiesArray.size(); i++) {
       companyData = (ArrayList<String>) companiesArray.get(i);
@@ -543,13 +543,13 @@ public class Persistence implements Constants{
     reserveData.add(formatDate.format(requesDate));
     try {
       JSONParser parser = new JSONParser();
-      JSONArray reserves = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+      JSONArray reserves = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Reserves.json"));
       reserves.add(reserveData);
-      Files.write(Paths.get("C:\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
     }catch(Exception d) {
       JSONArray reserves = new JSONArray();
       reserves.add(reserveData);
-      Files.write(Paths.get("C:\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
+      Files.write(Paths.get(DIR+"\\JSONFiles\\Reserves.json"), reserves.toJSONString().getBytes());
       }
   }
   
@@ -563,8 +563,8 @@ public class Persistence implements Constants{
     ArrayList<String> reserveData = new ArrayList<String>();
     JSONParser parser = new JSONParser();
     JSONArray reservesArray = new JSONArray();
-    if(Files.exists(Paths.get("C:\\JSONFiles\\Reserves.json"))) {
-      reservesArray = (JSONArray) parser.parse(new FileReader("C:\\JSONFiles\\Reserves.json"));
+    if(Files.exists(Paths.get(DIR+"\\JSONFiles\\Reserves.json"))) {
+      reservesArray = (JSONArray) parser.parse(new FileReader(DIR+"\\JSONFiles\\Reserves.json"));
     }
     for(int i = 0; i < reservesArray.size(); i++) {
       ArrayList<String> vehicleData = new ArrayList<String>();
