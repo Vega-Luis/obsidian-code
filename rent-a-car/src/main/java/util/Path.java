@@ -31,7 +31,7 @@ public class Path implements IMapConstants{
         Browser browser = new Browser();
         BrowserView view = new BrowserView(browser);
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.add(view, BorderLayout.CENTER);
         frame.setSize(700, 500);
         frame.setLocationRelativeTo(null); 

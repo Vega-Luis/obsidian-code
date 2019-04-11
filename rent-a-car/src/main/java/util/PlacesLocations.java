@@ -1,31 +1,22 @@
 package util;
 
+import java.util.ArrayList;
+
 /**
- * Interfaz que contiene constantes de latitudes y longitudes de lugares
+ * Interfaz que contiene constantes de Places
  * @author Marcosmh0199
  * @version v19.04.10
  */
 public interface PlacesLocations {
 
-  String TECLONGITUDE = "9.8574963";
-  String TECLATITUDE = "-83.9124564";
-  String UCRLONGITUDE = "9.9341106";
-  String UCRLATITUDE = "-84.0526096";
-  String BASILICALONGITUDE = "9.8641558";
-  String BASILICALATITUDE = "-83.9133869";
-  String FRESHMARKETLONGITUDE = "9.8583504";
-  String FRESHMARKETLATITUDE = "-83.9170197";
-  String WALMARTLONGITUDE = "9.8575629";
-  String WALMARTLATITUDE = "-83.9062448";
-  String PARRILLITADEPEPELONGITUDE = "9.9953574";
-  String PARRILLITADEPEPELATITUDE = "-84.11313";
-  String MOLLEJONESLONGITUDE = "9.230209";
-  String MOLLEJONESLATITUDE = "-83.6409633";
-  String TURRIALBALONGITUDE = "9.906815";
-  String TURRIALBALATITUDE = "-83.680116";
-  String PEQUENOMUNDOLONGITUDE = "9.8714499";
-  String PEQUENOMUNDOLATITUDE = "-83.9453684";
-  String PITALALAJUELALONGITUDE = "10.4530473";
-  String PITALALAJUELATITUDE = "-84.2779318";
-  
+  Place TEC = new Place("TEC","9.8574963","-83.9124564");
+  Place UCR = new Place("UCR","9.9341106","-84.0526096");
+  Place BASILICA = new Place("Basilica","9.8641558","-83.9133869");
+  Place FRESHMARKET = new Place("Fresh Market","9.8583504","-83.9170197");
+  Place WALMART = new Place("Walmart","9.8575629","-83.9062448");
+  Place PARRILLITADEPEPE = new Place("Parrillita de Pepe","9.9953574","-84.11313");
+  Place MOLLEJONES = new Place("Mollejones","9.230209","-83.6409633");
+  Place TURRIALBA = new Place("Turrialba","9.906815","-83.680116");
+  Place PEQUENOMUNDO = new Place("Pequeno Mundo","9.8714499","-83.9453684");;
+  Place PITALALAJUELA = new Place("Pitala","10.4530473","-84.2779318"); 
 }
